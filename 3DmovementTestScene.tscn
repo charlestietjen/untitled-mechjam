@@ -22,8 +22,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.521675, 0 )
 shape = SubResource( 2 )
 
 [node name="PlayerController" parent="." instance=ExtResource( 1 )]
-transform = Transform( 0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 4.137, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.137, 0 )
 
-[node name="Camera" type="Camera" parent="PlayerController"]
-transform = Transform( -10, 0, -8.74228e-07, 0, 10, 0, 8.74228e-07, 0, -10, 0, 0, -82.8774 )
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.0894885, 4.137, -7.15473 )
 current = true

@@ -19,6 +19,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if velocity.x > 0:
+		rotation.y = lerp_angle(rotation.y, 90, 0.5)
+	elif velocity.x < 0:
+		rotation.y = lerp_angle(rotation.y, 180, 0.5)
 	inputVelocity.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
 	inputVelocity.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
 	inputVelocity = inputVelocity.normalized()
