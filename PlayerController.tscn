@@ -16,3 +16,11 @@ shape = SubResource( 1 )
 position = Vector2( 4.76837e-07, -9.53674e-07 )
 scale = Vector2( 10, 20 )
 mesh = SubResource( 2 )
+
+[node name="debugLabel" type="Label" parent="."]
+margin_left = -20.0
+margin_top = -36.0
+margin_right = 20.0
+margin_bottom = -22.0
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
