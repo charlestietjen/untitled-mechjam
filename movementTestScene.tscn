@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://PlayerController.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Entity/PlayerController.tscn" type="PackedScene" id=1]
 
 [sub_resource type="CapsuleMesh" id=2]
 
