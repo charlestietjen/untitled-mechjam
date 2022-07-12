@@ -4,7 +4,8 @@ extends KinematicBody2D
 # Declare member variables here. Examples:
 export var acceleration = 0.1
 export var maxSpeed = 60
-export var boostSpeed = 2
+export var boostSpeed = 2.5
+export var gravity = 30
 var targetSpeed
 var inputVelocity = Vector2()
 var velocity = Vector2()
