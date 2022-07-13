@@ -1,11 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://mesh/valkyrie0.2.gltf" type="PackedScene" id=1]
+[ext_resource path="res://mesh/mace.tscn" type="PackedScene" id=2]
 
-[sub_resource type="AnimationNodeAnimation" id=2]
+[sub_resource type="AnimationNodeAnimation" id=9]
 animation = "idle"
 
-[sub_resource type="AnimationNodeAnimation" id=3]
+[sub_resource type="AnimationNodeAnimation" id=10]
 animation = "move"
 
 [sub_resource type="AnimationNodeTransition" id=4]
@@ -17,9 +18,9 @@ input_1/auto_advance = false
 
 [sub_resource type="AnimationNodeBlendTree" id=1]
 graph_offset = Vector2( -589, 6 )
-nodes/idle/node = SubResource( 2 )
+nodes/idle/node = SubResource( 9 )
 nodes/idle/position = Vector2( -120, 20 )
-nodes/move/node = SubResource( 3 )
+nodes/move/node = SubResource( 10 )
 nodes/move/position = Vector2( -120, 160 )
 nodes/move_state/node = SubResource( 4 )
 nodes/move_state/position = Vector2( 80, 120 )
@@ -27,7 +28,17 @@ node_connections = [ "output", 0, "move_state", "move_state", 0, "idle", "move_s
 
 [node name="valkyrie" instance=ExtResource( 1 )]
 
-[node name="AnimationTree" type="AnimationTree" parent="." index="3"]
+[node name="BoneAttachment" type="BoneAttachment" parent="mechArmature/Skeleton" index="1"]
+transform = Transform( 0.121436, -0.883578, 0.452266, 0.982883, 0.043443, -0.179037, 0.138545, 0.466265, 0.873729, 0.459619, 0.447888, -0.109598 )
+bone_name = "lowerHand.L"
+
+[node name="mace" parent="mechArmature/Skeleton/BoneAttachment" index="0" instance=ExtResource( 2 )]
+transform = Transform( 0.999004, -0.0263287, -0.0360336, 0.0425503, 0.805399, 0.591205, 0.0134557, -0.592149, 0.805717, -0.335328, -0.262588, 0.29246 )
+
+[node name="weaponArmature" parent="." index="1"]
+visible = false
+
+[node name="AnimTree" type="AnimationTree" parent="." index="2"]
 tree_root = SubResource( 1 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
