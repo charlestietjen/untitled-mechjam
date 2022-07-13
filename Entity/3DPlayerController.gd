@@ -14,15 +14,18 @@ var velocity = Vector3(0,0,0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	$mesh/AnimationTree.active = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if velocity.x > 0:
+	if int(velocity.x) > 0:
+		$mesh/AnimationTree.set('parameters/move_state/current', 1)
 		rotation.y = lerp_angle(rotation.y, 90, 0.5)
-	elif velocity.x < 0:
+	elif int(velocity.x) < 0:
+		$mesh/AnimationTree.set('parameters/move_state/current', 1)
 		rotation.y = lerp_angle(rotation.y, 180, 0.5)
+	else:
+		$mesh/AnimationTree.set('parameters/move_state/current', 0)
 	inputVelocity.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
 	inputVelocity.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
 	inputVelocity = inputVelocity.normalized()
