@@ -12,4 +12,4 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	translation.x = move_toward(translation.x, player.translation.x, 30 * delta)
-	translation.y = move_toward(translation.y, player.translation.y, 30 * delta)
+	translation.y = move_toward(translation.y, player.translation.y + 2, 30 * delta)
