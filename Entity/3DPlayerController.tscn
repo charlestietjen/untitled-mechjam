@@ -1,8 +1,7 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=31 format=2]
 
-[ext_resource path="res://mesh/blueEnergy.tres" type="Material" id=1]
 [ext_resource path="res://Entity/3DPlayerController.gd" type="Script" id=2]
-[ext_resource path="res://mesh/mace.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entity/mace.tscn" type="PackedScene" id=3]
 [ext_resource path="res://mesh/Material.material" type="Material" id=4]
 [ext_resource path="res://mesh/attack2.anim" type="Animation" id=5]
 [ext_resource path="res://mesh/attack1.anim" type="Animation" id=6]
@@ -83,9 +82,85 @@ bind/17/bone = -1
 bind/17/pose = Transform( 1, 0, 0, 0, -0.940435, -0.339973, 0, 0.339973, -0.940435, 0.103791, 0.383162, -0.0941098 )
 
 [sub_resource type="BoxShape" id=33]
-extents = Vector3( 0.216396, 0.195402, 0.625328 )
+extents = Vector3( 0.323592, 0.305061, 0.723415 )
 
 [sub_resource type="PrismMesh" id=28]
+
+[sub_resource type="Shader" id=34]
+code = "/*
+	動的電撃シェーダー by あるる（きのもと 結衣）
+	Procedural Electric Current Shader by Yui Kinomoto @arlez80
+
+	MIT License
+*/
+shader_type spatial;
+render_mode unshaded, blend_add;
+
+uniform vec4 light_color : hint_color = vec4( 0.32, 0.5, 0.82, 0.5 );
+uniform vec4 arc_color : hint_color = vec4( 0.46, 0.68, 1.0, 1.0 );
+
+uniform vec2 seed = vec2( 0.0, 0.0 );
+uniform float speed = 5.1;
+uniform float random_scale = 4.6;
+uniform float electro_scale = 11.459;
+
+vec2 random( vec2 pos )
+{ 
+	return fract(
+		sin(
+			vec2(
+				dot(pos, vec2(12.9898,78.233))
+			,	dot(pos, vec2(-148.998,-65.233))
+			)
+		) * 43758.5453
+	);
+}
+
+float value_noise( vec2 pos )
+{
+	vec2 p = floor( pos );
+	vec2 f = fract( pos );
+
+	float v00 = random( p + vec2( 0.0, 0.0 ) ).x;
+	float v10 = random( p + vec2( 1.0, 0.0 ) ).x;
+	float v01 = random( p + vec2( 0.0, 1.0 ) ).x;
+	float v11 = random( p + vec2( 1.0, 1.0 ) ).x;
+
+	vec2 u = f * f * ( 3.0 - 2.0 * f );
+
+	return mix( mix( v00, v10, u.x ), mix( v01, v11, u.x ), u.y );
+}
+
+float noise_tex( vec2 p )
+{
+	return (
+		value_noise( p * 0.984864 ) * 0.5
+	+	value_noise( p * 2.543 ) * 0.25
+	+	value_noise( p * 9.543543 ) * 0.125
+	+	value_noise( p * 21.65436 ) * 0.0625
+	+	value_noise( p * 42.0 ) * 0.03125
+	+	value_noise( p * 87.135148 ) * 0.015625
+	+	value_noise( p * 340.66534654 ) * 0.0078125
+	);
+}
+
+void fragment( )
+{
+	vec2 uv = seed + vec2( UV.x + cos( TIME * 1321.21 + UV.y * 348.513 ) * 0.004, UV.y + sin( TIME * 421.21 + UV.x * 314.513 ) * 0.0016 );
+	float f = abs( cos( TIME * speed + noise_tex( uv * random_scale ) * electro_scale ) );
+
+	ALBEDO = mix( light_color, arc_color, 1.0 - clamp( ( f - 0.08 ) * 20.0, 0.0, 1.0 ) ).rgb;
+	ALPHA = 1.0 - clamp( ( f - 0.3 ) * 3.0, 0.0, 1.0 );
+}"
+
+[sub_resource type="ShaderMaterial" id=35]
+shader = SubResource( 34 )
+shader_param/light_color = Color( 0.32, 0.5, 0.82, 0.5 )
+shader_param/arc_color = Color( 0.46, 0.68, 1, 1 )
+shader_param/seed = Vector2( 0, 0 )
+shader_param/speed = 5.1
+shader_param/random_scale = 4.6
+shader_param/electro_scale = 11.459
 
 [sub_resource type="Animation" id=6]
 resource_name = "idle"
@@ -665,7 +740,7 @@ nodes/move/node = SubResource( 20 )
 nodes/move/position = Vector2( -300, 240 )
 nodes/move_state/node = SubResource( 18 )
 nodes/move_state/position = Vector2( -100, 120 )
-node_connections = [ "output", 0, "is_attacking", "is_attacking", 0, "move_state", "is_attacking", 1, "attack_state", "attack_state", 0, "attack1", "attack_state", 1, "attack2", "attack_state", 2, "attacl3", "move_state", 0, "idle", "move_state", 1, "move" ]
+node_connections = [ "output", 0, "is_attacking", "move_state", 0, "idle", "move_state", 1, "move", "is_attacking", 0, "move_state", "is_attacking", 1, "attack_state", "attack_state", 0, "attack1", "attack_state", 1, "attack2", "attack_state", 2, "attacl3" ]
 
 [sub_resource type="CapsuleShape" id=30]
 radius = 0.441436
@@ -724,7 +799,7 @@ bones/0/name = "root"
 bones/0/parent = -1
 bones/0/rest = Transform( 1, 0, 2.38419e-07, 0, 1, 0, -2.38419e-07, 0, 1, 0, 0.69514, 0 )
 bones/0/enabled = true
-bones/0/bound_children = [  ]
+bones/0/bound_children = [ NodePath("torsoAttachment") ]
 bones/1/name = "head"
 bones/1/parent = 0
 bones/1/rest = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.488568, 0 )
@@ -754,7 +829,7 @@ bones/6/name = "lowerHand.L"
 bones/6/parent = 5
 bones/6/rest = Transform( 0.999969, 0.00794068, -2.63883e-07, -0.00794068, 0.999969, -2.29366e-09, 2.63856e-07, 4.38899e-09, 1, -3.62154e-08, 0.0937178, -1.05258e-09 )
 bones/6/enabled = true
-bones/6/bound_children = [  ]
+bones/6/bound_children = [ NodePath("weaponBoneAttachment") ]
 bones/7/name = "thumb.L"
 bones/7/parent = 4
 bones/7/rest = Transform( 1, -1.1115e-06, 1.01e-06, 1.1115e-06, 0.0954617, -0.995433, 1.01e-06, 0.995433, 0.0954617, -1.67484e-07, 0.357269, 7.99322e-09 )
@@ -817,7 +892,7 @@ skin = SubResource( 2 )
 material/0 = null
 
 [node name="weaponBoneAttachment" type="BoneAttachment" parent="mechArmature/Skeleton"]
-transform = Transform( 0.254877, -0.437047, -0.862571, 0.802227, 0.593608, -0.0637231, 0.539879, -0.675736, 0.501908, -0.185227, 0.544866, 0.476421 )
+transform = Transform( -0.121891, 0.992544, 2.58773e-07, -0.992544, -0.121891, -1.17505e-06, -1.20945e-06, -7.31043e-09, 0.999999, 1.03247, 1.08466, 0.0262651 )
 bone_name = "lowerHand.L"
 
 [node name="mace" parent="mechArmature/Skeleton/weaponBoneAttachment" instance=ExtResource( 3 )]
@@ -830,22 +905,42 @@ input_ray_pickable = false
 script = ExtResource( 8 )
 
 [node name="collider" type="CollisionShape" parent="mechArmature/Skeleton/weaponBoneAttachment/mace/hurtbox"]
-transform = Transform( 0.978884, -0.0795107, 0.188323, 0.112382, 0.978861, -0.170873, -0.170755, 0.188429, 0.967127, 0.595764, 0.21144, 0.970219 )
+transform = Transform( 0.978884, -0.0795107, 0.188323, 0.112382, 0.978861, -0.170873, -0.170755, 0.188429, 0.967127, 0.656313, 0.21419, 1.05269 )
 shape = SubResource( 33 )
 disabled = true
 
 [node name="torsoAttachment" type="BoneAttachment" parent="mechArmature/Skeleton"]
-transform = Transform( 0.942354, -0.290764, -0.165606, 0.150341, 0.810049, -0.566761, 0.298943, 0.509192, 0.807067, 0, 0.69514, 0 )
+transform = Transform( 1, 0, 2.38419e-07, 0, 1, 0, -2.38419e-07, 0, 1, 0, 0.69514, 0 )
 bone_name = "root"
 
 [node name="boosters" type="Spatial" parent="mechArmature/Skeleton/torsoAttachment"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.681613, 0.0330736 )
 
-[node name="mesh2" type="MeshInstance" parent="mechArmature/Skeleton/torsoAttachment/boosters"]
+[node name="left" type="MeshInstance" parent="mechArmature/Skeleton/torsoAttachment/boosters"]
 transform = Transform( 0.083, 0, 0, 0, -0.108, 6.98492e-09, 0, -1.58325e-08, -0.045, 0.109841, 1.03426, -0.180401 )
 mesh = SubResource( 28 )
 skeleton = NodePath("../../../../..")
-material/0 = ExtResource( 1 )
+material/0 = SubResource( 35 )
+
+[node name="OmniLight" type="OmniLight" parent="mechArmature/Skeleton/torsoAttachment/boosters/left"]
+light_color = Color( 0, 0.729412, 0.847059, 1 )
+light_energy = 5.991
+shadow_enabled = true
+omni_range = 1.0
+
+[node name="right" type="MeshInstance" parent="mechArmature/Skeleton/torsoAttachment/boosters"]
+transform = Transform( 0.083, 0, 0, 0, -0.108, 6.98492e-09, 0, -1.58325e-08, -0.045, -0.119321, 1.03426, -0.180401 )
+mesh = SubResource( 28 )
+skeleton = NodePath("../../../../..")
+material/0 = SubResource( 35 )
+
+[node name="OmniLight" type="OmniLight" parent="mechArmature/Skeleton/torsoAttachment/boosters/right"]
+light_color = Color( 0, 0.729412, 0.847059, 1 )
+light_energy = 5.991
+shadow_enabled = true
+omni_range = 1.0
+
+[node name="headAttachments" type="BoneAttachment" parent="mechArmature/Skeleton"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack1 = ExtResource( 6 )

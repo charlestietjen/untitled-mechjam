@@ -44,6 +44,7 @@ func _process(_delta):
 	else:
 		velocity.x = lerp(velocity.x, 0, acceleration)
 		velocity.y = lerp(velocity.y, 0, acceleration)
+	global_transform.origin.z = 0
 	velocity = move_and_slide(velocity, Vector3.UP)
 #	if Input.is_action_just_pressed("attack") && is_attacking:
 #		currentAttack = clamp(currentAttack, -1, 2)

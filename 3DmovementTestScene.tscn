@@ -1,18 +1,12 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=21 format=2]
 
-[ext_resource path="res://Entity/3DPlayerController.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Entity/PlayerController_PS1_Shaders.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Camera.tscn" type="PackedScene" id=2]
-[ext_resource path="res://shader/pixelize.gdshader" type="Shader" id=3]
 [ext_resource path="res://Entity/testDummy.tscn" type="PackedScene" id=4]
-
-[sub_resource type="CubeMesh" id=1]
-
-[sub_resource type="BoxShape" id=2]
-extents = Vector3( 2.55739, 0.524587, 1 )
-
-[sub_resource type="ShaderMaterial" id=10]
-shader = ExtResource( 3 )
-shader_param/pixelSize = 3
+[ext_resource path="res://Entity/testScenePlatformMat.tres" type="Material" id=5]
+[ext_resource path="res://3DmovementTestScene.gd" type="Script" id=6]
+[ext_resource path="res://AStar.gd" type="Script" id=7]
+[ext_resource path="res://shader/lcd_post_process.shader" type="Shader" id=8]
 
 [sub_resource type="QuadMesh" id=7]
 
@@ -109,67 +103,100 @@ shader_param/blend_depth = 0.01
 shader_param/distance_fade_length = 50.0
 shader_param/distance_fade_blend = 20.0
 
+[sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 2.55739, 0.524587, 1 )
+
+[sub_resource type="QuadMesh" id=12]
+size = Vector2( 100, 100 )
+
+[sub_resource type="CubeMesh" id=13]
+size = Vector3( 100, 70, 2 )
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = ExtResource( 8 )
+shader_param/enabled = true
+shader_param/lcd_opacity = 0.5
+shader_param/scanline_gap = 5
+
+[sub_resource type="ProceduralSky" id=19]
+radiance_size = 1
+sky_top_color = Color( 0, 0, 0, 1 )
+sky_horizon_color = Color( 0, 0.341176, 0.615686, 1 )
+sun_latitude = 162.27
+sun_longitude = -32.73
+sun_angle_min = 2.0
+sun_angle_max = 15.0
+sun_energy = 64.0
+texture_size = 1
+
+[sub_resource type="Environment" id=20]
+background_mode = 2
+background_sky = SubResource( 19 )
+ambient_light_color = Color( 1, 1, 1, 1 )
+ambient_light_energy = 1.94
+ambient_light_sky_contribution = 0.56
+ssao_enabled = true
+dof_blur_far_enabled = true
+dof_blur_far_distance = 20.0
+
+[sub_resource type="QuadMesh" id=14]
+size = Vector2( 2, 2 )
+
+[sub_resource type="Shader" id=17]
+code = "shader_type spatial;
+render_mode unshaded, shadows_disabled, depth_test_disable, depth_draw_never;
+
+uniform int color_depth : hint_range(1, 8) = 5;
+uniform bool dithering = true;
+uniform int resolution_scale = 4;
+
+int dithering_pattern(ivec2 fragcoord) {
+	const int pattern[] = {
+		-4, +0, -3, +1, 
+		+2, -2, +3, -1, 
+		-3, +1, -4, +0, 
+		+3, -1, +2, -2
+	};
+	
+	int x = fragcoord.x % 4;
+	int y = fragcoord.y % 4;
+	
+	return pattern[y * 4 + x];
+}
+
+void vertex() {
+	POSITION = vec4(VERTEX, 1.0);
+}
+
+void fragment() {
+	ivec2 uv = ivec2(FRAGCOORD.xy / float(resolution_scale));
+	vec3 color = texelFetch(SCREEN_TEXTURE, uv * resolution_scale, 0).rgb;
+	
+	// Convert from [0.0, 1.0] range to [0, 255] range
+	ivec3 c = ivec3(round(color * 255.0));
+	
+	// Apply the dithering pattern
+	if (dithering) {
+		c += ivec3(dithering_pattern(uv));
+	}
+	
+	// Truncate from 8 bits to color_depth bits
+	c >>= (8 - color_depth);
+
+	// Convert back to [0.0, 1.0] range
+	ALBEDO = vec3(c) / float(1 << color_depth);
+}"
+
+[sub_resource type="ShaderMaterial" id=18]
+shader = SubResource( 17 )
+shader_param/color_depth = 5
+shader_param/dithering = true
+shader_param/resolution_scale = 2
+
 [node name="Spatial" type="Spatial"]
-
-[node name="StaticBody" type="StaticBody" parent="."]
-
-[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
-transform = Transform( 2.563, 0, 0, 0, 0.533, 0, 0, 0, 1, 0, -0.541, 0 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.521675, 0 )
-shape = SubResource( 2 )
-
-[node name="StaticBody2" type="StaticBody" parent="."]
-transform = Transform( 0.46311, -0.886301, 0, 0.886301, 0.46311, 0, 0, 0, 1, 7.61927, 4.49979, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="StaticBody2"]
-transform = Transform( 2.563, 0, 0, 0, 0.533, 0, 0, 0, 1, 0, -0.541, 0 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.521675, 0 )
-shape = SubResource( 2 )
-
-[node name="StaticBody3" type="StaticBody" parent="."]
-transform = Transform( -0.803722, -0.595005, 0, 0.595005, -0.803722, 0, 0, 0, 1, -9.09619, 6.52883, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="StaticBody3"]
-transform = Transform( 2.563, 0, 0, 0, 0.533, 0, 0, 0, 1, 0, -0.541, 0 )
-mesh = SubResource( 1 )
-skeleton = NodePath("../..")
-material/0 = null
-
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.521675, 0 )
-shape = SubResource( 2 )
-
-[node name="PlayerController" parent="." instance=ExtResource( 1 )]
-maxSpeed = 10
-
-[node name="ViewportContainer" type="ViewportContainer" parent="."]
-material = SubResource( 10 )
-margin_right = 1920.0
-margin_bottom = 1080.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_scale = Vector2( 1.00818, 1.01323 )
-
-[node name="Viewport" type="Viewport" parent="ViewportContainer"]
-size = Vector2( 1920, 1080 )
-size_override_stretch = true
-handle_input_locally = false
-msaa = 4
-fxaa = true
-render_target_update_mode = 3
-
-[node name="Camera" parent="ViewportContainer/Viewport" instance=ExtResource( 2 )]
-transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.0894885, 1.44541, -5.17702 )
+script = ExtResource( 6 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
@@ -182,6 +209,80 @@ extra_cull_margin = 16384.0
 mesh = SubResource( 7 )
 material/0 = SubResource( 9 )
 
+[node name="environment" type="Spatial" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="environment"]
+transform = Transform( 18.656, 0, 0, 0, 0.533, 0, 0, 0, 1, 0, -0.541, 0 )
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 5 )
+
+[node name="StaticBody" type="StaticBody" parent="environment/MeshInstance"]
+transform = Transform( 0.390168, 0, 0, 0, 1.87617, 0, 0, 0, 1, 0, 1.01501, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="environment/MeshInstance/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.521675, 0 )
+shape = SubResource( 2 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="environment"]
+transform = Transform( 1.18695, -0.472398, 0, 2.27159, 0.246838, 0, 0, 0, 1, 8.04412, 5.06902, -0.0622945 )
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 5 )
+
+[node name="StaticBody2" type="StaticBody" parent="environment/MeshInstance2"]
+transform = Transform( 0.390168, 0, 0, 5.96046e-08, 1.87617, 0, 0, 0, 1, 0, 1.01501, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="environment/MeshInstance2/StaticBody2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.521675, 0 )
+shape = SubResource( 2 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="environment"]
+transform = Transform( -2.05994, -0.317138, 0, 1.525, -0.428384, 0, 0, 0, 1, -8.77429, 6.96364, 0 )
+mesh = SubResource( 1 )
+skeleton = NodePath("../..")
+material/0 = ExtResource( 5 )
+
+[node name="StaticBody3" type="StaticBody" parent="environment/MeshInstance3"]
+transform = Transform( 0.390168, 0, 0, 0, 1.87617, 0, 0, 0, 1, 0, 1.01501, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="environment/MeshInstance3/StaticBody3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.521675, 0 )
+shape = SubResource( 2 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="environment"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0.478135, 1.00164 )
+visible = false
+mesh = SubResource( 12 )
+skeleton = NodePath("")
+material/0 = null
+
 [node name="testDummy" parent="." instance=ExtResource( 4 )]
 
-[connection signal="area_entered" from="testDummy" to="testDummy" method="_on_testDummy_area_entered"]
+[node name="AStar" type="Spatial" parent="."]
+script = ExtResource( 7 )
+
+[node name="pathGrid" type="MeshInstance" parent="." groups=["pathables"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 34.5432, 0 )
+visible = false
+mesh = SubResource( 13 )
+material/0 = SubResource( 16 )
+
+[node name="Camera" parent="." instance=ExtResource( 2 )]
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.0894885, 1.44541, -5.17702 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="Camera"]
+transform = Transform( -0.920396, -0.253906, -0.297327, 0, -0.760451, 0.649395, -0.390988, 0.5977, 0.699916, -18.3099, 11.6743, 6.75998 )
+visible = false
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 20 )
+
+[node name="PlayerController" parent="." instance=ExtResource( 1 )]
+transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
+maxSpeed = 10
+
+[node name="postProcess" type="MeshInstance" parent="PlayerController"]
+mesh = SubResource( 14 )
+skeleton = NodePath("")
+material/0 = SubResource( 18 )
