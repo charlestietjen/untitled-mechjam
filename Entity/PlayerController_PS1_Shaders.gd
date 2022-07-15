@@ -12,6 +12,7 @@ var inputVelocity = Vector2.ZERO
 var velocity = Vector3(0,0,0)
 var is_attacking = false
 var combo_valid = false
+var is_boosting = false
 var currentAttack = 0
 
 
@@ -22,23 +23,26 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	inputVelocity = Vector2.ZERO
-	if int(velocity.x) > 0:
-		rotation.y = lerp_angle(rotation.y, 90, 0.5)
-	elif int(velocity.x) < 0:
-		rotation.y = lerp_angle(rotation.y, 180, 0.5)
 	inputVelocity.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
 	inputVelocity.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
+	if inputVelocity.x > 0:
+		rotation.y = lerp_angle(rotation.y, 90, 0.5)
+	elif inputVelocity.x < 0:
+		rotation.y = lerp_angle(rotation.y, 180, 0.5)
 	if inputVelocity != Vector2.ZERO:
 		$AnimTree.set('parameters/is_moving/current', 1)
 	else:
 		$AnimTree.set('parameters/is_moving/current', 0)
-	$AnimTree.set('parameters/move_direction/blend_position', inputVelocity)
+	$AnimTree.set("parameters/is_boosting/current", is_boosting)
+	$AnimTree.set('parameters/move_direction/blend_position', Vector2(velocity.x, velocity.y))
 	inputVelocity = inputVelocity.normalized()
 	if Input.is_action_just_pressed("boost"):
 		targetSpeed = maxSpeed * (boostSpeed + initialBoost)
 	elif Input.is_action_pressed("boost"):
 		targetSpeed = maxSpeed * boostSpeed
+		is_boosting = true
 	else:
+		is_boosting = false
 		targetSpeed = maxSpeed
 	if !is_attacking:
 		velocity.x = lerp(velocity.x, targetSpeed  * inputVelocity.x, acceleration)
@@ -60,15 +64,23 @@ func _process(_delta):
 		print('Combo start at: ', currentAttack)
 		is_attacking = true
 		combo_valid = false
-		$AnimTree.set('parameters/is_attacking/current', true)
+		$AnimTree.set('parameters/blocked_action/current', true)
+		$AnimTree.set('parameters/action_type/current', 0)
 		$AnimTree.set('parameters/attack_state/current', currentAttack)
+	elif Input.is_action_pressed("block") && !is_attacking:
+		$AnimTree.set('parameters/blocked_action/current', true)
+		$AnimTree.set("parameters/action_type/current", 1)
+		$shield.visible = visible
+	elif Input.is_action_just_released("block") && !is_attacking:
+		$shield.visible = not visible
+		$AnimTree.set('parameters/blocked_action/current', false)
 #	set debug label to display current vectors
 	$debugLabel.text = str(int(velocity.x),' ',int(velocity.y))
 	
 func _reset_attack_state():
 	print('reset attack state')
 	currentAttack = 0
-	$AnimTree.set('parameters/is_attacking/current', false)
+	$AnimTree.set('parameters/blocked_action/current', false)
 	is_attacking = false
 	combo_valid = false
 	
