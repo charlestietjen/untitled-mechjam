@@ -1,0 +1,13 @@
+[remap]
+
+importer="qodot.map"
+type="Resource"
+path="res://.import/unnamed.map-96e15b90c372e829b58934f7242325e8.tres"
+
+[deps]
+
+source_file="res://Map/unnamed.map"
+dest_files=[ "res://.import/unnamed.map-96e15b90c372e829b58934f7242325e8.tres" ]
+
+[params]
+

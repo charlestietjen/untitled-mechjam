@@ -1,89 +1,93 @@
 extends "res://script/Actor.gd"
 
+export var _boost_speed = 2.5
+export var _initial_boost = 10
+var _new__velocity
+var _input_velocity = Vector3.ZERO
+var _velocity = Vector3(0,0,0)
+var _is_attacking = false
+var _combo_enabled = false
+var _is_boosting = false
+var _current_attack = 0
 
-# Declare member variables here. Examples:
-export var boostSpeed = 2.5
-export var initialBoost = 10
-var targetSpeed
-var inputVelocity = Vector2.ZERO
-var velocity = Vector3(0,0,0)
-var is_attacking = false
-var combo_valid = false
-var is_boosting = false
-var currentAttack = 0
-
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	health = maxHealth
 	$AnimTree.active = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	inputVelocity = Vector2.ZERO
-	inputVelocity.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
-	inputVelocity.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
-	if inputVelocity.x > 0:
+	_input_velocity = Vector2.ZERO
+	_input_velocity.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
+	_input_velocity.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
+	if _input_velocity.x > 0:
 		rotation.y = lerp_angle(rotation.y, 90, 0.5)
-	elif inputVelocity.x < 0:
+	elif _input_velocity.x < 0:
 		rotation.y = lerp_angle(rotation.y, 180, 0.5)
-	if inputVelocity != Vector2.ZERO:
+	if _input_velocity != Vector2.ZERO:
 		$AnimTree.set('parameters/is_moving/current', 1)
 	else:
 		$AnimTree.set('parameters/is_moving/current', 0)
-	$AnimTree.set("parameters/is_boosting/current", is_boosting)
-	$AnimTree.set('parameters/move_direction/blend_position', Vector2(velocity.x, velocity.y))
-	inputVelocity = inputVelocity.normalized()
+	$AnimTree.set("parameters/is_boosting/current", _is_boosting)
+	$AnimTree.set('parameters/move_direction/blend_position', Vector2(_velocity.x, _velocity.y))
+	_input_velocity = _input_velocity.normalized()
 	if Input.is_action_just_pressed("boost"):
-		targetSpeed = speed * (boostSpeed + initialBoost)
+		_new__velocity = speed * (_boost_speed + _initial_boost)
 	elif Input.is_action_pressed("boost"):
-		targetSpeed = speed * boostSpeed
-		is_boosting = true
+		_new__velocity = speed * _boost_speed
+		_is_boosting = true
 	else:
-		is_boosting = false
-		targetSpeed = speed
-	if !is_attacking:
-		velocity.x = lerp(velocity.x, targetSpeed  * inputVelocity.x, acceleration)
-		velocity.y = lerp(velocity.y, targetSpeed * inputVelocity.y, acceleration)
+		_is_boosting = false
+		_new__velocity = speed
+	if !_is_attacking:
+		_velocity.x = lerp(_velocity.x, _new__velocity  * _input_velocity.x, acceleration)
+		_velocity.y = lerp(_velocity.y, _new__velocity * _input_velocity.y, acceleration)
 	else:
-		velocity.x = lerp(velocity.x, 0, acceleration)
-		velocity.y = lerp(velocity.y, 0, acceleration)
+		_velocity.x = lerp(_velocity.x, 0, acceleration)
+		_velocity.y = lerp(_velocity.y, 0, acceleration)
 	global_transform.origin.z = 0
-	velocity = move_and_slide(velocity, Vector3.UP)
-#	if Input.is_action_just_pressed("attack") && is_attacking:
+	_velocity = move_and_slide(_velocity, Vector3.DOWN)
+#	if Input.is_action_just_pressed("attack") && _is_attacking:
 #		currentAttack = clamp(currentAttack, -1, 2)
 #		currentAttack += 1
 #		$AnimTree.set('parameters/attack_state/current', currentAttack)
-	if Input.is_action_just_pressed("attack") && combo_valid:
-		print('Follow up attack: ', currentAttack)
-		$AnimTree.set('parameters/attack_state/current', currentAttack)
-		combo_valid = false
-	elif Input.is_action_just_pressed("attack") && !is_attacking:
-		print('Combo start at: ', currentAttack)
-		is_attacking = true
-		combo_valid = false
+	if Input.is_action_just_pressed("attack") && _combo_enabled:
+		print('Follow up attack: ', _current_attack)
+		print(rotation.y)
+		if rotation.y < 0:
+			_velocity.x -= 20
+		elif rotation.y > 0:
+			_velocity.x += 20
+		$AnimTree.set('parameters/attack_state/current', _current_attack)
+		_combo_enabled = false
+	elif Input.is_action_just_pressed("attack") && !_is_attacking:
+		if rotation.y < 0:
+			_velocity.x -= 20
+		elif rotation.y > 0:
+			_velocity.x += 20
+		print('Combo start at: ', _current_attack)
+		_is_attacking = true
+		_combo_enabled = false
 		$AnimTree.set('parameters/blocked_action/current', true)
 		$AnimTree.set('parameters/action_type/current', 0)
-		$AnimTree.set('parameters/attack_state/current', currentAttack)
-	elif Input.is_action_pressed("block") && !is_attacking:
+		$AnimTree.set('parameters/attack_state/current', _current_attack)
+	elif Input.is_action_pressed("block") && !_is_attacking:
 		$AnimTree.set('parameters/blocked_action/current', true)
 		$AnimTree.set("parameters/action_type/current", 1)
 		$shield.visible = visible
-	elif Input.is_action_just_released("block") && !is_attacking:
+	elif Input.is_action_just_released("block") && !_is_attacking:
 		$shield.visible = not visible
 		$AnimTree.set('parameters/blocked_action/current', false)
 #	set debug label to display current vectors
-	$debugLabel.text = str(int(velocity.x),' ',int(velocity.y))
+	$debugLabel.text = str(int(_velocity.x),' ',int(_velocity.y))
 	
 func _reset_attack_state():
 	print('reset attack state')
-	currentAttack = 0
+	_current_attack = 0
 	$AnimTree.set('parameters/blocked_action/current', false)
-	is_attacking = false
-	combo_valid = false
+	_is_attacking = false
+	_combo_enabled = false
 	
 func _enable_combo():
 	print('combo window open')
-	combo_valid = true
-	currentAttack = wrapi(currentAttack, 0, 2)
-	currentAttack += 1
+	_combo_enabled = true
+	_current_attack = wrapi(_current_attack, 0, 2)
+	_current_attack += 1

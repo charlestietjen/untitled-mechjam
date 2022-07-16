@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/armsAlbedo.png-172d1e4658151fbc1933565dd9ee0d36.s3tc.stex"
-path.etc2="res://.import/armsAlbedo.png-172d1e4658151fbc1933565dd9ee0d36.etc2.stex"
+path.s3tc="res://.import/metalFloor_orm.png-3172f930e85a951d8ce7baa354459549.s3tc.stex"
+path.etc2="res://.import/metalFloor_orm.png-3172f930e85a951d8ce7baa354459549.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://texture/armsAlbedo.png"
-dest_files=[ "res://.import/armsAlbedo.png-172d1e4658151fbc1933565dd9ee0d36.s3tc.stex", "res://.import/armsAlbedo.png-172d1e4658151fbc1933565dd9ee0d36.etc2.stex" ]
+source_file="res://textures/metalFloor_orm.png"
+dest_files=[ "res://.import/metalFloor_orm.png-3172f930e85a951d8ce7baa354459549.s3tc.stex", "res://.import/metalFloor_orm.png-3172f930e85a951d8ce7baa354459549.etc2.stex" ]
 
 [params]
 
@@ -21,11 +21,11 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
-flags/filter=false
-flags/mipmaps=false
+flags/repeat=true
+flags/filter=true
+flags/mipmaps=true
 flags/anisotropic=false
-flags/srgb=1
+flags/srgb=2
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false

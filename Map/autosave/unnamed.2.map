@@ -1,0 +1,25 @@
+// Game: Untitled-Mechjam3
+// Format: Standard
+// entity 0
+{
+"classname" "worldspawn"
+"_tb_textures" "textures"
+// brush 0
+{
+( -64 -64 -16 ) ( -64 -63 -16 ) ( -64 -64 -15 ) metalFloor_albedo 0 0 0 1 1
+( -64 -64 -16 ) ( -64 -64 -15 ) ( -63 -64 -16 ) metalFloor_albedo 0 0 0 1 1
+( -64 -64 -16 ) ( -63 -64 -16 ) ( -64 -63 -16 ) metalFloor_albedo 0 0 0 1 1
+( 64 64 16 ) ( 64 65 16 ) ( 65 64 16 ) metalFloor_albedo 0 0 0 1 1
+( 64 64 16 ) ( 65 64 16 ) ( 64 64 17 ) metalFloor_albedo 0 0 0 1 1
+( 64 64 16 ) ( 64 64 17 ) ( 64 65 16 ) metalFloor_albedo 0 0 0 1 1
+}
+// brush 1
+{
+( -64 64 0 ) ( -64 65 0 ) ( -64 64 1 ) metalFloor 0 0 0 1 1
+( -64 64 0 ) ( -64 64 1 ) ( -63 64 0 ) metalFloor 0 0 0 1 1
+( -64 64 0 ) ( -63 64 0 ) ( -64 65 0 ) metalFloor 0 0 0 1 1
+( 64 96 16 ) ( 64 97 16 ) ( 65 96 16 ) metalFloor 0 0 0 1 1
+( 64 96 16 ) ( 65 96 16 ) ( 64 96 17 ) metalFloor 0 0 0 1 1
+( 64 96 16 ) ( 64 96 17 ) ( 64 97 16 ) metalFloor 0 0 0 1 1
+}
+}

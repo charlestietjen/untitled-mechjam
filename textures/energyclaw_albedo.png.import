@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/bodyAlbedo.png-bdc5f46e879c09427091e2fca04683dd.s3tc.stex"
-path.etc2="res://.import/bodyAlbedo.png-bdc5f46e879c09427091e2fca04683dd.etc2.stex"
+path.s3tc="res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.s3tc.stex"
+path.etc2="res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://texture/bodyAlbedo.png"
-dest_files=[ "res://.import/bodyAlbedo.png-bdc5f46e879c09427091e2fca04683dd.s3tc.stex", "res://.import/bodyAlbedo.png-bdc5f46e879c09427091e2fca04683dd.etc2.stex" ]
+source_file="res://textures/energyclaw_albedo.png"
+dest_files=[ "res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.s3tc.stex", "res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.etc2.stex" ]
 
 [params]
 
@@ -21,9 +21,9 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=0
-flags/filter=false
-flags/mipmaps=false
+flags/repeat=true
+flags/filter=true
+flags/mipmaps=true
 flags/anisotropic=false
 flags/srgb=1
 process/fix_alpha_border=true

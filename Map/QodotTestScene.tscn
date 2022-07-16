@@ -1,0 +1,77 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://textures/metalFloor.tres" type="Material" id=1]
+[ext_resource path="res://addons/qodot/game_definitions/fgd/qodot_fgd.tres" type="Resource" id=2]
+[ext_resource path="res://addons/qodot/src/nodes/qodot_map.gd" type="Script" id=3]
+[ext_resource path="res://Entity/Player/PlayerController_PS1_Shaders.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Entity/System/Camera.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Entity/System/AStar.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Entity/System/PostProcess.tscn" type="PackedScene" id=7]
+
+[sub_resource type="ArrayMesh" id=4]
+surfaces/0 = {
+"aabb": AABB( -4, -22, -78, 32, 22.9844, 154 ),
+"array_data": PoolByteArray( 0, 0, 128, 192, 234, 0, 124, 63, 0, 0, 156, 194, 127, 127, 127, 193, 0, 188, 255, 179, 0, 0, 128, 192, 0, 0, 176, 193, 0, 0, 156, 194, 127, 127, 127, 193, 0, 188, 255, 51, 0, 0, 224, 65, 0, 0, 176, 193, 0, 0, 156, 194, 127, 127, 127, 193, 0, 60, 255, 51, 0, 0, 224, 65, 234, 0, 124, 63, 0, 0, 156, 194, 127, 127, 127, 193, 0, 60, 255, 179, 0, 0, 128, 192, 234, 0, 124, 63, 0, 0, 156, 194, 129, 0, 0, 63, 0, 188, 255, 179, 0, 0, 128, 192, 234, 0, 124, 63, 0, 0, 152, 66, 129, 0, 0, 63, 0, 60, 255, 179, 0, 0, 128, 192, 0, 0, 176, 193, 0, 0, 152, 66, 129, 0, 0, 63, 0, 60, 255, 51, 0, 0, 128, 192, 0, 0, 176, 193, 0, 0, 156, 194, 129, 0, 0, 63, 0, 188, 255, 51, 0, 0, 224, 65, 0, 0, 176, 193, 0, 0, 156, 194, 0, 129, 0, 193, 0, 188, 0, 188, 0, 0, 128, 192, 0, 0, 176, 193, 0, 0, 156, 194, 0, 129, 0, 193, 0, 188, 0, 60, 0, 0, 128, 192, 0, 0, 176, 193, 0, 0, 152, 66, 0, 129, 0, 193, 0, 60, 0, 60, 0, 0, 224, 65, 0, 0, 176, 193, 0, 0, 152, 66, 0, 129, 0, 193, 0, 60, 0, 188, 0, 0, 224, 65, 234, 0, 124, 63, 0, 0, 156, 194, 0, 127, 0, 63, 0, 188, 0, 188, 0, 0, 224, 65, 234, 0, 124, 63, 0, 0, 152, 66, 0, 127, 0, 63, 0, 60, 0, 188, 0, 0, 128, 192, 234, 0, 124, 63, 0, 0, 152, 66, 0, 127, 0, 63, 0, 60, 0, 60, 0, 0, 128, 192, 234, 0, 124, 63, 0, 0, 156, 194, 0, 127, 0, 63, 0, 188, 0, 60, 0, 0, 224, 65, 234, 0, 124, 63, 0, 0, 156, 194, 127, 0, 0, 193, 0, 188, 255, 179, 0, 0, 224, 65, 0, 0, 176, 193, 0, 0, 156, 194, 127, 0, 0, 193, 0, 188, 255, 51, 0, 0, 224, 65, 0, 0, 176, 193, 0, 0, 152, 66, 127, 0, 0, 193, 0, 60, 255, 51, 0, 0, 224, 65, 234, 0, 124, 63, 0, 0, 152, 66, 127, 0, 0, 193, 0, 60, 255, 179, 0, 0, 128, 192, 234, 0, 124, 63, 0, 0, 152, 66, 0, 0, 127, 63, 0, 188, 255, 179, 0, 0, 224, 65, 234, 0, 124, 63, 0, 0, 152, 66, 0, 0, 127, 63, 0, 60, 255, 179, 0, 0, 224, 65, 0, 0, 176, 193, 0, 0, 152, 66, 0, 0, 127, 63, 0, 60, 255, 51, 0, 0, 128, 192, 0, 0, 176, 193, 0, 0, 152, 66, 0, 0, 127, 63, 0, 188, 255, 51 ),
+"array_index_data": PoolByteArray( 0, 0, 1, 0, 2, 0, 0, 0, 2, 0, 3, 0, 4, 0, 5, 0, 6, 0, 4, 0, 6, 0, 7, 0, 8, 0, 9, 0, 10, 0, 8, 0, 10, 0, 11, 0, 12, 0, 13, 0, 14, 0, 12, 0, 14, 0, 15, 0, 16, 0, 17, 0, 18, 0, 16, 0, 18, 0, 19, 0, 20, 0, 21, 0, 22, 0, 20, 0, 22, 0, 23, 0 ),
+"blend_shape_data": [  ],
+"format": 2194711,
+"index_count": 36,
+"material": ExtResource( 1 ),
+"primitive": 4,
+"skeleton_aabb": [  ],
+"vertex_count": 24
+}
+
+[sub_resource type="ConvexPolygonShape" id=5]
+points = PoolVector3Array( -4, 0.984389, -78, -4, -22, -78, 28, -22, -78, 28, 0.984389, -78, -4, 0.984389, 76, -4, -22, 76, 28, -22, 76, 28, 0.984389, 76 )
+
+[sub_resource type="CubeMesh" id=3]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="QodotMap" type="Spatial" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+script = ExtResource( 3 )
+map_file = "/home/charles/Documents/dev/games/untitled-mechjam/Map/unnamed.map"
+inverse_scale_factor = 16.0
+entity_fgd = ExtResource( 2 )
+base_texture_dir = "res://textures"
+texture_file_extensions = PoolStringArray( "png" )
+worldspawn_layers = [  ]
+brush_clip_texture = "special/clip"
+face_skip_texture = "special/skip"
+texture_wads = [  ]
+material_file_extension = "tres"
+default_material = null
+uv_unwrap_texel_size = 1.0
+print_profiling_data = false
+use_trenchbroom_group_hierarchy = false
+tree_attach_batch_size = 16
+set_owner_batch_size = 16
+
+[node name="entity_0_worldspawn" type="StaticBody" parent="QodotMap"]
+
+[node name="entity_0_mesh_instance" type="MeshInstance" parent="QodotMap/entity_0_worldspawn"]
+use_in_baked_light = true
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="entity_0_brush_0_collision_shape" type="CollisionShape" parent="QodotMap/entity_0_worldspawn"]
+shape = SubResource( 5 )
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.7321, 0, 0 )
+speed = 15
+
+[node name="postProcess" parent="Player" instance=ExtResource( 7 )]
+
+[node name="Camera" parent="." instance=ExtResource( 5 )]
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.0894885, 4.137, -43.3068 )
+
+[node name="AStar" parent="." instance=ExtResource( 6 )]
+
+[node name="pathGrid" type="MeshInstance" parent="." groups=["pathables"]]
+transform = Transform( 177.185, 0, 0, 0, 162.585, 0, 0, 0, 1.45383, 0, 163.554, 0 )
+visible = false
+mesh = SubResource( 3 )
+material/0 = null
