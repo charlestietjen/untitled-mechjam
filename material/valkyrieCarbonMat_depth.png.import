@@ -1,0 +1,37 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path.s3tc="res://.import/valkyrieCarbonMat_depth.png-a904c8c649722cf3d821e4e8ca45614a.s3tc.stex"
+path.etc2="res://.import/valkyrieCarbonMat_depth.png-a904c8c649722cf3d821e4e8ca45614a.etc2.stex"
+metadata={
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://material/valkyrieCarbonMat_depth.png"
+dest_files=[ "res://.import/valkyrieCarbonMat_depth.png-a904c8c649722cf3d821e4e8ca45614a.s3tc.stex", "res://.import/valkyrieCarbonMat_depth.png-a904c8c649722cf3d821e4e8ca45614a.etc2.stex" ]
+
+[params]
+
+compress/mode=2
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=true
+flags/filter=true
+flags/mipmaps=true
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+process/normal_map_invert_y=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

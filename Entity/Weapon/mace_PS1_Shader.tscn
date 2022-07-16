@@ -1,0 +1,33 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://texture/maceAlbedo.png" type="Texture" id=1]
+[ext_resource path="res://shader/psx_lit.shader" type="Shader" id=2]
+[ext_resource path="res://mesh/weapon/mace02.gltf" type="PackedScene" id=3]
+[ext_resource path="res://Entity/Weapon/maceEntity.gd" type="Script" id=4]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 2 )
+shader_param/precision_multiplier = 1.0
+shader_param/modulate_color = Color( 1, 1, 1, 1 )
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/uv_pan_velocity = Vector2( 0, 0 )
+shader_param/albedoTex = ExtResource( 1 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.390564, 0.327608, 0.828246 )
+
+[node name="mace02" instance=ExtResource( 3 )]
+
+[node name="mace" parent="weaponArmature/Skeleton" index="0"]
+material/0 = SubResource( 1 )
+
+[node name="hurtbox" type="Area" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.675402, 0.478676 )
+collision_mask = 3
+script = ExtResource( 4 )
+
+[node name="collider" type="CollisionShape" parent="hurtbox" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.401835, -0.189959, 0.424112 )
+shape = SubResource( 2 )
+disabled = true
