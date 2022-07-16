@@ -1,93 +1,128 @@
 extends "res://script/Actor.gd"
 
-export var _boost_speed = 2.5
-export var _initial_boost = 10
-var _new__velocity
-var _input_velocity = Vector3.ZERO
-var _velocity = Vector3(0,0,0)
-var _is_attacking = false
-var _combo_enabled = false
-var _is_boosting = false
-var _current_attack = 0
+export var boostspeed := 2.5
+export var initial_boost := 10
+export var melee_range := 30.0
+var input_direction := Vector2.ZERO
+var velocity := Vector3(0,0,0)
+var is_attacking := false
+var combo_enabled := false
+var is_blocking := false
+var is_boosting := false
+var current_attack := 0
+var target = null
+var target_list := []
 
 func _ready():
 	health = maxHealth
 	$AnimTree.active = true
+	var testDummy = get_parent().get_node("testDummy")
+	target_list = [testDummy]
 
 func _process(_delta):
-	_input_velocity = Vector2.ZERO
-	_input_velocity.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
-	_input_velocity.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
-	if _input_velocity.x > 0:
-		rotation.y = lerp_angle(rotation.y, 90, 0.5)
-	elif _input_velocity.x < 0:
-		rotation.y = lerp_angle(rotation.y, 180, 0.5)
-	if _input_velocity != Vector2.ZERO:
+	var new_speed
+	input_direction = Vector2.ZERO
+	input_direction.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
+	input_direction.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
+#	if we don't have a target then we lerp our facing angle to full left or right based on input
+	if input_direction.x > 0 && !target:
+		rotation.y = lerp_angle(rotation.y, -1, 0.5)
+	elif input_direction.x < 0 && !target:
+		rotation.y = lerp_angle(rotation.y, 1, 0.5)
+#	if we do have a target, we rotate to face the target (this is a little janky currently when rotating full around a target
+	if target:
+#		rotation.x = stepify(rotation.x, 0.01)
+#		rotation.x = clamp(rotation.x, -0.9, 0.9)
+		look_at(target.global_transform.origin, Vector3.DOWN)
+		rotation.x = clamp(rotation.x, -0.8, 0.8)
+#	flag the character as moving or not in the animation tree
+	if input_direction != Vector2.ZERO:
 		$AnimTree.set('parameters/is_moving/current', 1)
 	else:
 		$AnimTree.set('parameters/is_moving/current', 0)
-	$AnimTree.set("parameters/is_boosting/current", _is_boosting)
-	$AnimTree.set('parameters/move_direction/blend_position', Vector2(_velocity.x, _velocity.y))
-	_input_velocity = _input_velocity.normalized()
-	if Input.is_action_just_pressed("boost"):
-		_new__velocity = speed * (_boost_speed + _initial_boost)
-	elif Input.is_action_pressed("boost"):
-		_new__velocity = speed * _boost_speed
-		_is_boosting = true
+#	set whether the character is boosting and set the blend position of the movement direction to
+#	our current velocity, this manages vertical and horizontal movement animations
+	$AnimTree.set("parameters/is_boosting/current", is_boosting)
+	$AnimTree.set('parameters/move_direction/blend_position', Vector2(velocity.x, velocity.y))
+#	normalize the input velocity to prevent diagonal movement being faster than single axis
+	input_direction = input_direction.normalized()
+#	go faster decider
+	if Input.is_action_just_pressed("boost") && !is_blocking:
+		new_speed = speed * (boostspeed + initial_boost)
+	elif Input.is_action_pressed("boost") && !is_blocking:
+		new_speed = speed * boostspeed
+		is_boosting = true
 	else:
-		_is_boosting = false
-		_new__velocity = speed
-	if !_is_attacking:
-		_velocity.x = lerp(_velocity.x, _new__velocity  * _input_velocity.x, acceleration)
-		_velocity.y = lerp(_velocity.y, _new__velocity * _input_velocity.y, acceleration)
+		is_boosting = false
+		new_speed = speed
+#	if we're not currently attacking, lerp the velocity towards speed at a rate of acceleration
+	if !is_attacking:
+		velocity.x = lerp(velocity.x, new_speed  * input_direction.x, acceleration)
+		velocity.y = lerp(velocity.y, new_speed * input_direction.y, acceleration)
 	else:
-		_velocity.x = lerp(_velocity.x, 0, acceleration)
-		_velocity.y = lerp(_velocity.y, 0, acceleration)
-	global_transform.origin.z = 0
-	_velocity = move_and_slide(_velocity, Vector3.DOWN)
-#	if Input.is_action_just_pressed("attack") && _is_attacking:
-#		currentAttack = clamp(currentAttack, -1, 2)
-#		currentAttack += 1
-#		$AnimTree.set('parameters/attack_state/current', currentAttack)
-	if Input.is_action_just_pressed("attack") && _combo_enabled:
-		print('Follow up attack: ', _current_attack)
-		print(rotation.y)
-		if rotation.y < 0:
-			_velocity.x -= 20
-		elif rotation.y > 0:
-			_velocity.x += 20
-		$AnimTree.set('parameters/attack_state/current', _current_attack)
-		_combo_enabled = false
-	elif Input.is_action_just_pressed("attack") && !_is_attacking:
-		if rotation.y < 0:
-			_velocity.x -= 20
-		elif rotation.y > 0:
-			_velocity.x += 20
-		print('Combo start at: ', _current_attack)
-		_is_attacking = true
-		_combo_enabled = false
-		$AnimTree.set('parameters/blocked_action/current', true)
-		$AnimTree.set('parameters/action_type/current', 0)
-		$AnimTree.set('parameters/attack_state/current', _current_attack)
-	elif Input.is_action_pressed("block") && !_is_attacking:
+		velocity.x = lerp(velocity.x, 0, acceleration)
+		velocity.y = lerp(velocity.y, 0, acceleration)
+#	manage attack state, animations call methods to set which if statement executes, if the target
+#	is within the defined melee range, move towards them and attack, else -> shoot in future
+	if Input.is_action_just_pressed("attack") && combo_enabled:
+		if !target:
+			pass
+		else:
+			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
+			if distance_to_target < melee_range:
+				print('Follow up attack: ', current_attack)
+				velocity = (target.global_transform.origin - global_transform.origin) * 5
+				$AnimTree.set('parameters/attack_state/current', current_attack)
+				combo_enabled = false
+	elif Input.is_action_just_pressed("attack") && !is_attacking && !is_blocking:
+		if !target:
+			pass
+		else:
+			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
+			if distance_to_target < melee_range:
+				print('Combo start at: ', current_attack)
+				velocity = (target.global_transform.origin - global_transform.origin) * 5
+				is_attacking = true
+				combo_enabled = false
+				$AnimTree.set('parameters/blocked_action/current', true)
+				$AnimTree.set('parameters/action_type/current', 0)
+				$AnimTree.set('parameters/attack_state/current', current_attack)
+			else:
+				print('shoot placeholder')
+#	if we're not attacking and hold block, we're blocking
+	elif Input.is_action_pressed("block") && !is_attacking:
+		velocity = velocity * 0.8
 		$AnimTree.set('parameters/blocked_action/current', true)
 		$AnimTree.set("parameters/action_type/current", 1)
 		$shield.visible = visible
-	elif Input.is_action_just_released("block") && !_is_attacking:
+		is_blocking = true
+	elif Input.is_action_just_released("block") && !is_attacking:
 		$shield.visible = not visible
 		$AnimTree.set('parameters/blocked_action/current', false)
+		is_blocking = false
+	global_transform.origin.z = 0
+	velocity = move_and_slide(velocity, Vector3.DOWN)
 #	set debug label to display current vectors
-	$debugLabel.text = str(int(_velocity.x),' ',int(_velocity.y))
+	$debugLabel.text = str(int(velocity.x),' ',int(velocity.y))
+	if Input.is_action_just_pressed("toggle_target"):
+		_target_toggle()
 	
 func _reset_attack_state():
 	print('reset attack state')
-	_current_attack = 0
+	current_attack = 0
 	$AnimTree.set('parameters/blocked_action/current', false)
-	_is_attacking = false
-	_combo_enabled = false
+	is_attacking = false
+	combo_enabled = false
 	
 func _enable_combo():
 	print('combo window open')
-	_combo_enabled = true
-	_current_attack = wrapi(_current_attack, 0, 2)
-	_current_attack += 1
+	combo_enabled = true
+	current_attack = wrapi(current_attack, 0, 2)
+	current_attack += 1
+
+func _target_toggle():
+	if !target:
+		for i in target_list.size():
+			print(target_list[i])
+	else:
+		target = null

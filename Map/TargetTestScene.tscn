@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Entity/System/Camera.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Entity/Player/PlayerController_PS1_Shaders.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entity/Placeholder/testDummy.tscn" type="PackedScene" id=3]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0 )
+speed = 15
+
+[node name="Camera" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, -0.0894885, 6.16938, -28.6848 )
+
+[node name="testDummy" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32.4392, 22.4374, -18.258 )

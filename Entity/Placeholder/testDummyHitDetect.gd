@@ -57,6 +57,3 @@ func calculate_movement():
 func _on_hitbox_area_entered(area):
 	damage_health(area.damage)
 
-
-func _on_Timer_timeout():
-	update_path(nav.find_path(global_transform.origin, player.global_transform.origin))
