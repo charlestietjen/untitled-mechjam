@@ -3,7 +3,7 @@ extends KinematicBody
 
 # Declare member variables here. Examples:
 onready var nav = get_parent().get_node("AStar")
-onready var player = get_parent().get_node("PlayerController")
+onready var player = get_parent().get_node("Player")
 export var maxHealth = 100
 export var speed = 10
 var health

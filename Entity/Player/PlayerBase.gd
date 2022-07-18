@@ -16,29 +16,36 @@ var target_list := []
 func _ready():
 	health = maxHealth
 	$AnimTree.active = true
-	var testDummy = get_parent().get_node("testDummy")
-	target_list = [testDummy]
 
 func _process(_delta):
 	var new_speed
+	if !is_instance_valid(target):
+		target = null
 	input_direction = Vector2.ZERO
-	input_direction.x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
+	input_direction.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	input_direction.y = Input.get_action_strength("move_up") - Input.get_action_strength("move_down")
 #	if we don't have a target then we lerp our facing angle to full left or right based on input
 	if input_direction.x > 0 && !target:
-		rotation.y = lerp_angle(rotation.y, -1, 0.5)
-	elif input_direction.x < 0 && !target:
 		rotation.y = lerp_angle(rotation.y, 1, 0.5)
+	elif input_direction.x < 0 && !target:
+		rotation.y = lerp_angle(rotation.y, -1, 0.5)
 #	if we do have a target, we rotate to face the target (this is a little janky currently when rotating full around a target
 	if target:
 #		rotation.x = stepify(rotation.x, 0.01)
 #		rotation.x = clamp(rotation.x, -0.9, 0.9)
-		look_at(target.global_transform.origin, Vector3.DOWN)
+		look_at(target.global_transform.origin, Vector3.UP)
+		rotate_object_local(Vector3.DOWN, PI)
 		rotation.x = clamp(rotation.x, -0.8, 0.8)
+	else:
+		rotation.x = lerp_angle(rotation.x, 0, 0.1)
 #	flag the character as moving or not in the animation tree
 	if input_direction != Vector2.ZERO:
 		$AnimTree.set('parameters/is_moving/current', 1)
+		$armatureMaterialTest/Skeleton/torsoAttachments/engineTrailLeft.emitting = true
+		$armatureMaterialTest/Skeleton/torsoAttachments/engineTrailRight.emitting = true
 	else:
+		$armatureMaterialTest/Skeleton/torsoAttachments/engineTrailLeft.emitting = false
+		$armatureMaterialTest/Skeleton/torsoAttachments/engineTrailRight.emitting = false
 		$AnimTree.set('parameters/is_moving/current', 0)
 #	set whether the character is boosting and set the blend position of the movement direction to
 #	our current velocity, this manages vertical and horizontal movement animations
@@ -122,7 +129,31 @@ func _enable_combo():
 
 func _target_toggle():
 	if !target:
+		var closest_target
+		var target_distance := 0.0
 		for i in target_list.size():
-			print(target_list[i])
+			if is_instance_valid(target_list[i]):
+				var distance_to_target = global_transform.origin.distance_to(target_list[i].global_transform.origin)
+				if !closest_target:
+					closest_target = target_list[i]
+					target_distance = distance_to_target
+				elif distance_to_target < target_distance:
+					closest_target = target_list[i]
+					target_distance = distance_to_target
+		if !closest_target:
+			return
+		target = closest_target
 	else:
 		target = null
+
+
+func _on_targetArea_body_entered(body):
+	if body != null:
+		target_list.push_front(body)
+
+
+func _on_targetArea_body_exited(body):
+	if body != null:
+		for i in target_list.size():
+			if target_list[i - 1] == body:
+				target_list.remove(i)

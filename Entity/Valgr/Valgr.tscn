@@ -186,13 +186,14 @@ nodes/moveHorizontalLoop/node = SubResource( 14 )
 nodes/moveHorizontalLoop/position = Vector2( -380, 160 )
 nodes/move_state/node = SubResource( 15 )
 nodes/move_state/position = Vector2( -100, 60 )
-node_connections = [ "output", 0, "is_attacking", "move_state", 0, "idleLoop", "move_state", 1, "moveHorizontalLoop", "is_attacking", 0, "move_state", "is_attacking", 1, "attack01" ]
+node_connections = [ "output", 0, "is_attacking", "is_attacking", 0, "move_state", "is_attacking", 1, "attack01", "move_state", 0, "idleLoop", "move_state", 1, "moveHorizontalLoop" ]
 
 [sub_resource type="CapsuleShape" id=17]
 radius = 2.75909
 height = 2.48779
 
 [node name="valgr01" type="KinematicBody"]
+collision_layer = 9
 script = ExtResource( 10 )
 maxHealth = 30
 

@@ -1,15 +1,14 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://material/plating_albedo.png" type="Texture" id=1]
-[ext_resource path="res://shader/psx_lit_transparent.shader" type="Shader" id=2]
+[ext_resource path="res://material/psxEnergy.tres" type="Material" id=2]
 [ext_resource path="res://shader/psx_lit_metal.shader" type="Shader" id=3]
-[ext_resource path="res://Entity/Player/PlayerController_PS1_Shaders.gd" type="Script" id=4]
+[ext_resource path="res://Entity/Player/PlayerBase.gd" type="Script" id=4]
 [ext_resource path="res://shader/psx_lit.shader" type="Shader" id=5]
 [ext_resource path="res://mesh/visorMat.material" type="Material" id=6]
 [ext_resource path="res://mesh/ventPlateMat.material" type="Material" id=7]
 [ext_resource path="res://mesh/engineVfxMat.material" type="Material" id=8]
 [ext_resource path="res://material/abstractMetal_albedo.png" type="Texture" id=9]
-[ext_resource path="res://material/energy_albedo.png" type="Texture" id=10]
 [ext_resource path="res://UI/font/DotGothic.tres" type="DynamicFont" id=11]
 [ext_resource path="res://mesh/polishedBrassMat.material" type="Material" id=12]
 [ext_resource path="res://material/psxVent.tres" type="Material" id=13]
@@ -120,15 +119,6 @@ surfaces/0 = {
 "skeleton_aabb": [ AABB( 0, 0, 0, -1, -1, -1 ), AABB( -2.84403, 8.69169, -3.00753, 5.68806, 1.08906, 1.30607 ), AABB( -2.03377, 10.2219, -1.45682, 4.06755, 1.6565, 2.28697 ) ],
 "vertex_count": 56
 }
-
-[sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 2 )
-shader_param/precision_multiplier = 1.0
-shader_param/modulate_color = Color( 0.517647, 0.854902, 1, 1 )
-shader_param/uv_scale = Vector2( 1, 1 )
-shader_param/uv_offset = Vector2( 0, 0 )
-shader_param/uv_pan_velocity = Vector2( 0, 0 )
-shader_param/albedoTex = ExtResource( 10 )
 
 [sub_resource type="ArrayMesh" id=54]
 resource_name = "valkyrie0_Cube006"
@@ -244,6 +234,25 @@ shader_param/uv_scale = Vector2( 1.368, 1.369 )
 shader_param/uv_offset = Vector2( 0, 0 )
 shader_param/uv_pan_velocity = Vector2( 0, 0 )
 shader_param/albedoTex = ExtResource( 14 )
+
+[sub_resource type="Curve" id=72]
+max_value = 3.0
+_data = [ Vector2( 0, 0 ), 0.0, 0.463954, 0, 0, Vector2( 1, 3 ), 2.85845, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=73]
+width = 128
+curve = SubResource( 72 )
+
+[sub_resource type="ParticlesMaterial" id=70]
+gravity = Vector3( -5, -9.8, 10 )
+angular_velocity = -261.42
+linear_accel = 1.4
+linear_accel_random = 0.77
+scale_curve = SubResource( 73 )
+
+[sub_resource type="CubeMesh" id=71]
+material = ExtResource( 2 )
+size = Vector3( 1, 1, 1 )
 
 [sub_resource type="Animation" id=10]
 resource_name = "attackMelee01001"
@@ -1608,6 +1617,7 @@ shader_param/uv_offset = null
 
 [sub_resource type="AnimationNodeTransition" id=45]
 input_count = 2
+xfade_time = 0.2
 input_0/name = "attack"
 input_0/auto_advance = false
 input_1/name = "block"
@@ -1624,6 +1634,7 @@ animation = "attackMelee03001"
 
 [sub_resource type="AnimationNodeTransition" id=49]
 input_count = 3
+xfade_time = 0.2
 input_0/name = "attackMelee01"
 input_0/auto_advance = false
 input_1/name = "attackMelee02"
@@ -1649,6 +1660,7 @@ animation = "idle001"
 
 [sub_resource type="AnimationNodeTransition" id=44]
 input_count = 2
+xfade_time = 0.1
 input_0/name = "false"
 input_0/auto_advance = false
 input_1/name = "true"
@@ -1656,6 +1668,7 @@ input_1/auto_advance = false
 
 [sub_resource type="AnimationNodeTransition" id=42]
 input_count = 2
+xfade_time = 0.5
 input_0/name = "idle"
 input_0/auto_advance = false
 input_1/name = "moving"
@@ -1683,10 +1696,9 @@ blend_point_2/pos = Vector2( 1, 0 )
 blend_point_3/node = SubResource( 65 )
 blend_point_3/pos = Vector2( -1, 0 )
 snap = Vector2( 1, 1 )
-blend_mode = 1
 
 [sub_resource type="AnimationNodeBlendTree" id=66]
-graph_offset = Vector2( -516.583, 18.2986 )
+graph_offset = Vector2( -827, 128.75 )
 nodes/action_type/node = SubResource( 45 )
 nodes/action_type/position = Vector2( 280, 360 )
 nodes/attackMelee01/node = SubResource( 46 )
@@ -1712,10 +1724,12 @@ nodes/is_moving/position = Vector2( 80, 60 )
 nodes/move_direction/node = SubResource( 39 )
 nodes/move_direction/position = Vector2( -380, 120 )
 nodes/output/position = Vector2( 760, 140 )
-node_connections = [ "output", 0, "blocked_action", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03" ]
+node_connections = [ "output", 0, "blocked_action", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "is_moving", 0, "idle", "is_moving", 1, "is_boosting" ]
+
+[sub_resource type="SphereShape" id=74]
+radius = 127.346
 
 [node name="Player" type="KinematicBody"]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
 script = ExtResource( 4 )
 
 [node name="armatureMaterialTest" type="Spatial" parent="."]
@@ -1810,7 +1824,7 @@ material/0 = ExtResource( 18 )
 [node name="energy" type="MeshInstance" parent="armatureMaterialTest/Skeleton"]
 mesh = SubResource( 4 )
 skin = SubResource( 2 )
-material/0 = SubResource( 5 )
+material/0 = ExtResource( 2 )
 
 [node name="engine" type="MeshInstance" parent="armatureMaterialTest/Skeleton"]
 mesh = SubResource( 54 )
@@ -1838,14 +1852,14 @@ skin = SubResource( 2 )
 material/0 = SubResource( 69 )
 
 [node name="weaponAttachment" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( -0.540335, 0.813429, -0.215342, -0.734567, -0.331165, 0.592235, 0.410428, 0.478188, 0.776457, 4.57681, 8.60952, 0.950864 )
+transform = Transform( -0.964519, -0.142679, 0.22214, 0.226055, -0.880974, 0.415674, 0.136391, 0.451141, 0.881969, 2.35844, 6.26481, 0.496298 )
 bone_name = "hand.L"
 
 [node name="mace02" parent="armatureMaterialTest/Skeleton/weaponAttachment" instance=ExtResource( 20 )]
 transform = Transform( 4.90241, 0.215578, 0.959145, -0.257114, 4.98967, 0.192691, -0.948854, -0.238252, 4.90336, -1.86073, -1.90476, 1.87388 )
 
 [node name="torsoAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 1, -1.25309e-17, -4.88538e-19, 1.25366e-17, 0.997973, 0.0636415, -3.0994e-19, -0.0636415, 0.997973, -5.30755e-17, 7.8641, -0.249293 )
+transform = Transform( 1, 4.40381e-18, -4.36724e-20, -4.40381e-18, 0.999803, -0.0198329, -4.36763e-20, 0.0198329, 0.999803, 3.90091e-17, 7.9206, 0.175682 )
 bone_name = "torso"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/torsoAttachments"]
@@ -1858,8 +1872,20 @@ transform = Transform( 1, 6.60876e-25, 3.23117e-26, -1.67314e-25, 1, 0, -3.23117
 light_color = Color( 0.0392157, 0.533333, 0.682353, 1 )
 light_energy = 2.468
 
+[node name="engineTrailRight" type="Particles" parent="armatureMaterialTest/Skeleton/torsoAttachments"]
+transform = Transform( 0.845445, 0.507493, 0.166366, 0.243211, -0.0885217, -0.96593, -0.475473, 0.857101, -0.198268, -1.99486, 1.53453, -2.32747 )
+visibility_aabb = AABB( -4, -3.89453, -4.16041, 8, 8, 8.32082 )
+process_material = SubResource( 70 )
+draw_pass_1 = SubResource( 71 )
+
+[node name="engineTrailLeft" type="Particles" parent="armatureMaterialTest/Skeleton/torsoAttachments"]
+transform = Transform( 0.537927, -0.830948, 0.142006, 0.156908, -0.0668159, -0.985356, 0.828261, 0.552331, 0.0944405, 2.26946, 1.53885, -2.392 )
+visibility_aabb = AABB( -4, -3.89453, -4.16041, 8, 8, 8.32082 )
+process_material = SubResource( 70 )
+draw_pass_1 = SubResource( 71 )
+
 [node name="headAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 1, 3.95689e-17, -3.69073e-18, -3.96165e-17, 0.98523, -0.171235, -3.13937e-18, 0.171235, 0.98523, -7.67547e-17, 9.74993, -0.369554 )
+transform = Transform( 1, 4.40381e-18, -4.36725e-20, -4.40381e-18, 0.999803, -0.0198329, -4.36763e-20, 0.0198329, 0.999803, 4.73308e-17, 9.80989, 0.213159 )
 bone_name = "head"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/headAttachments"]
@@ -1884,6 +1910,7 @@ anims/moveDownLoop001 = SubResource( 17 )
 anims/moveHorizontalLoop001 = SubResource( 18 )
 anims/moveUpLoop001 = SubResource( 19 )
 anims/reset001 = SubResource( 20 )
+blend_times = [ "attackMelee01001", "attackMelee02001", 0.1, "attackMelee01001", "blockLoop001", 0.5, "attackMelee01001", "boostHorizontalLoop001", 0.5, "attackMelee01001", "idle001", 0.5, "attackMelee01001", "moveDownLoop001", 0.5, "idle001", "attackMelee01001", 0.5, "idle001", "blockLoop001", 0.5, "idle001", "boostHorizontalLoop001", 0.5, "idle001", "idle001", 0.5, "idle001", "moveDownLoop001", 0.5, "idle001", "moveHorizontalLoop001", 0.5, "idle001", "moveUpLoop001", 0.5 ]
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.0532116, 5.833, -0.750224 )
@@ -1909,10 +1936,20 @@ material/0 = SubResource( 61 )
 [node name="AnimTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 66 )
 anim_player = NodePath("../AnimationPlayer")
-active = true
 parameters/action_type/current = 0
 parameters/attack_state/current = 0
 parameters/blocked_action/current = 0
 parameters/is_boosting/current = 0
 parameters/is_moving/current = 1
-parameters/move_direction/blend_position = Vector2( 0, -1 )
+parameters/move_direction/blend_position = Vector2( -0.000876427, -0.017341 )
+
+[node name="targetArea" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="targetCollider" type="CollisionShape" parent="targetArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0709877, 6.90964, 0 )
+shape = SubResource( 74 )
+
+[connection signal="body_entered" from="targetArea" to="." method="_on_targetArea_body_entered"]
+[connection signal="body_exited" from="targetArea" to="." method="_on_targetArea_body_exited"]

@@ -288,7 +288,9 @@ previous_target={
 [layer_names]
 
 3d_physics/layer_1="obstruction"
-3d_physics/layer_2="hitbox"
+3d_physics/layer_2="npc_hitbox"
+3d_physics/layer_3="player_hitbox"
+3d_physics/layer_4="targeting"
 
 [physics]
 

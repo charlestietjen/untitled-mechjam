@@ -1,6 +1,6 @@
 extends Spatial
 
-onready var player = get_node("PlayerController")
+onready var player = get_node("Player")
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
