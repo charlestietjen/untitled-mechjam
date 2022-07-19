@@ -78,8 +78,8 @@ func _process(_delta):
 			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
 			if distance_to_target < melee_range:
 				print('Follow up attack: ', current_attack)
-				velocity = (target.global_transform.origin - global_transform.origin) * 5
 				$AnimTree.set('parameters/attack_state/current', current_attack)
+				velocity = (target.global_transform.origin - global_transform.origin) * 5
 				combo_enabled = false
 	elif Input.is_action_just_pressed("attack") && !is_attacking && !is_blocking:
 		if !target:
@@ -88,12 +88,12 @@ func _process(_delta):
 			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
 			if distance_to_target < melee_range:
 				print('Combo start at: ', current_attack)
-				velocity = (target.global_transform.origin - global_transform.origin) * 5
 				is_attacking = true
 				combo_enabled = false
 				$AnimTree.set('parameters/blocked_action/current', true)
 				$AnimTree.set('parameters/action_type/current', 0)
 				$AnimTree.set('parameters/attack_state/current', current_attack)
+				velocity = (target.global_transform.origin - global_transform.origin) * 5
 			else:
 				print('shoot placeholder')
 #	if we're not attacking and hold block, we're blocking

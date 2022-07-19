@@ -1,7 +1,7 @@
 extends "res://script/Actor.gd"
 
-onready var nav = get_parent().get_node("AStar")
-onready var player = get_parent().get_node("Player")
+onready var nav = get_node("/root/Spatial/AStar")
+onready var player = get_node("/root/Spatial/Player")
 
 func _ready():
 	health = maxHealth

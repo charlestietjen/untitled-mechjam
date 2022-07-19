@@ -1,0 +1,19 @@
+[remap]
+
+importer="hterrain_packed_texture_importer"
+type="StreamTexture"
+path.s3tc="res://.import/QodotTestScene_slot0_albedo_bump.packed_tex-d2f98b02b3e2ac8c79cb410aeaf6f8fe.s3tc.stex"
+path.etc2="res://.import/QodotTestScene_slot0_albedo_bump.packed_tex-d2f98b02b3e2ac8c79cb410aeaf6f8fe.etc2.stex"
+
+[deps]
+
+source_file="res://Map/QodotTestScene_slot0_albedo_bump.packed_tex"
+dest_files=[ "res://.import/QodotTestScene_slot0_albedo_bump.packed_tex-d2f98b02b3e2ac8c79cb410aeaf6f8fe.s3tc.stex", "res://.import/QodotTestScene_slot0_albedo_bump.packed_tex-d2f98b02b3e2ac8c79cb410aeaf6f8fe.etc2.stex" ]
+
+[params]
+
+compress/mode=2
+flags/repeat=1
+flags/filter=true
+flags/mipmaps=true
+flags/anisotropic=false

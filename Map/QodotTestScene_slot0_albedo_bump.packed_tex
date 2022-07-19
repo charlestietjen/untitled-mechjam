@@ -1,0 +1,8 @@
+{
+	"contains_albedo": true,
+	"resolution": 128,
+	"src": {
+		"a": "#ff888888",
+		"rgb": "res://textures/icefloor128_albedo.png"
+	}
+}

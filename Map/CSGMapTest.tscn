@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Entity/System/Camera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entity/Player/PlayerBase.tscn" type="PackedScene" id=4]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Camera" parent="." instance=ExtResource( 3 )]
+transform = Transform( 0.999817, 0.0158405, -0.0107237, -0.0159798, 0.999787, -0.0130312, 0.010515, 0.0132002, 0.999858, -0.224789, 10.9376, 30.7734 )
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.81251, 0 )
