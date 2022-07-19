@@ -1,0 +1,97 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://mapdata/environment.tres" type="Environment" id=1]
+[ext_resource path="res://Entity/System/AStar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entity/System/Camera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entity/Player/PlayerBase.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Entity/System/PostProcess.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=6]
+[ext_resource path="res://addons/zylann.hterrain/hterrain_texture_set.gd" type="Script" id=7]
+[ext_resource path="res://data/data.hterrain" type="Resource" id=8]
+[ext_resource path="res://Map/SkyMapTest_slot0_normal_roughness.packed_tex" type="Texture" id=9]
+[ext_resource path="res://Map/SkyMapTest_slot0_albedo_bump.packed_tex" type="Texture" id=10]
+[ext_resource path="res://Entity/CarrierShip/CarrierShip.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Entity/Valgr/Valgr.tscn" type="PackedScene" id=12]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 7 )
+mode = 0
+textures = [ [ ExtResource( 10 ) ], [ ExtResource( 9 ) ] ]
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 50, 50, 5 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 1 )
+
+[node name="AStar" parent="." instance=ExtResource( 2 )]
+
+[node name="Camera" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0894885, 105.754, 46.3699 )
+far = 500.0
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 142.529, 0 )
+
+[node name="postProcess" parent="Player" instance=ExtResource( 5 )]
+
+[node name="HTerrain" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -50, 0 )
+script = ExtResource( 6 )
+map_scale = Vector3( 2, 2, 2 )
+centered = true
+_terrain_data = ExtResource( 8 )
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource( 1 )
+render_layers = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = false
+shader_params/u_tile_reduction = Plane( 0, 0, 0, 0 )
+
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 512.708, 244.637, 0 )
+width = 10.5712
+height = 369.605
+depth = 50.0
+
+[node name="CSGBox3" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -803.702, 244.637, 0 )
+width = 10.0
+height = 370.0
+depth = 50.0
+
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, 0, 1, -145.677, 65.3358, 0 )
+width = 10.5712
+height = 1319.75
+depth = 50.0
+
+[node name="CSGBox4" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1.31134e-07, 1, 0, -1, 1.31134e-07, 0, 0, 0, 1, -145.677, 424.145, 0 )
+width = 10.5712
+height = 1319.75
+depth = 50.0
+
+[node name="carriership" parent="." instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, 292.034, 362.448, -400.769 )
+
+[node name="pathGrid" type="MeshInstance" parent="." groups=["pathables"]]
+transform = Transform( 27.013, 0, 0, 0, 6.967, 0, 0, 0, 1, -159.975, 251.522, -1.30175 )
+visible = false
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="valgr01" parent="." instance=ExtResource( 12 )]
+transform = Transform( 0.117729, 0.1404, -0.98307, -0.0166945, 0.990095, 0.139404, 0.992905, -1.49012e-08, 0.118907, 268.233, 264.381, -605.729 )

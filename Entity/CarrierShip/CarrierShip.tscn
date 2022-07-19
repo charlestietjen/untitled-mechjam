@@ -1,0 +1,51 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://shader/psx_lit.shader" type="Shader" id=1]
+[ext_resource path="res://shader/psx_lit_metal.shader" type="Shader" id=2]
+[ext_resource path="res://material/plating.tres" type="Material" id=3]
+[ext_resource path="res://textures/light128_emission.png" type="Texture" id=4]
+[ext_resource path="res://material/carbon.tres" type="Material" id=5]
+[ext_resource path="res://material/engine_emission.png" type="Texture" id=6]
+[ext_resource path="res://material/abstractMetal_albedo.png" type="Texture" id=7]
+[ext_resource path="res://mesh/carriership/carriership.gltf" type="PackedScene" id=8]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 1 )
+shader_param/precision_multiplier = 1.0
+shader_param/modulate_color = Color( 1, 1, 1, 1 )
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/uv_pan_velocity = Vector2( 0, 0 )
+shader_param/albedoTex = ExtResource( 6 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 2 )
+shader_param/precision_multiplier = 1.0
+shader_param/modulate_color = Color( 1, 1, 1, 1 )
+shader_param/metal_tex = ExtResource( 7 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 1 )
+shader_param/precision_multiplier = 1.0
+shader_param/modulate_color = Color( 1, 1, 1, 1 )
+shader_param/uv_scale = Vector2( 1, 1 )
+shader_param/uv_offset = Vector2( 0, 0 )
+shader_param/uv_pan_velocity = Vector2( 0, 0 )
+shader_param/albedoTex = ExtResource( 4 )
+
+[node name="carriership" instance=ExtResource( 8 )]
+
+[node name="hangarglow" parent="." index="0"]
+material/0 = SubResource( 1 )
+
+[node name="hullarmor" parent="." index="1"]
+material/0 = ExtResource( 3 )
+
+[node name="chrome" parent="." index="2"]
+material/0 = SubResource( 2 )
+
+[node name="engineglow" parent="." index="3"]
+material/0 = SubResource( 3 )
+
+[node name="hullsecondary" parent="." index="4"]
+material/0 = ExtResource( 5 )

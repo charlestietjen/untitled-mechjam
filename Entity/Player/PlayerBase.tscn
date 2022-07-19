@@ -369,7 +369,7 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0.195611, 1.25 ),
+"times": PoolRealArray( 1, 1.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -515,7 +515,7 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0.138558, 1.25 ),
+"times": PoolRealArray( 0.9, 1.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -1634,7 +1634,6 @@ animation = "attackMelee03001"
 
 [sub_resource type="AnimationNodeTransition" id=49]
 input_count = 3
-xfade_time = 0.2
 input_0/name = "attackMelee01"
 input_0/auto_advance = false
 input_1/name = "attackMelee02"
@@ -1698,7 +1697,7 @@ blend_point_3/pos = Vector2( -1, 0 )
 snap = Vector2( 1, 1 )
 
 [sub_resource type="AnimationNodeBlendTree" id=66]
-graph_offset = Vector2( -827, 128.75 )
+graph_offset = Vector2( -364, 337.75 )
 nodes/action_type/node = SubResource( 45 )
 nodes/action_type/position = Vector2( 280, 360 )
 nodes/attackMelee01/node = SubResource( 46 )
@@ -1724,7 +1723,7 @@ nodes/is_moving/position = Vector2( 80, 60 )
 nodes/move_direction/node = SubResource( 39 )
 nodes/move_direction/position = Vector2( -380, 120 )
 nodes/output/position = Vector2( 760, 140 )
-node_connections = [ "output", 0, "blocked_action", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "is_moving", 0, "idle", "is_moving", 1, "is_boosting" ]
+node_connections = [ "output", 0, "blocked_action", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "action_type", 0, "attack_state", "action_type", 1, "block_loop" ]
 
 [sub_resource type="SphereShape" id=74]
 radius = 127.346
@@ -1852,14 +1851,14 @@ skin = SubResource( 2 )
 material/0 = SubResource( 69 )
 
 [node name="weaponAttachment" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( -0.964519, -0.142679, 0.22214, 0.226055, -0.880974, 0.415674, 0.136391, 0.451141, 0.881969, 2.35844, 6.26481, 0.496298 )
+transform = Transform( -0.654879, -0.392401, -0.645876, -0.75364, 0.275508, 0.596761, -0.0562253, 0.877562, -0.476154, 1.31143, 9.82865, 4.54111 )
 bone_name = "hand.L"
 
 [node name="mace02" parent="armatureMaterialTest/Skeleton/weaponAttachment" instance=ExtResource( 20 )]
 transform = Transform( 4.90241, 0.215578, 0.959145, -0.257114, 4.98967, 0.192691, -0.948854, -0.238252, 4.90336, -1.86073, -1.90476, 1.87388 )
 
 [node name="torsoAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 1, 4.40381e-18, -4.36724e-20, -4.40381e-18, 0.999803, -0.0198329, -4.36763e-20, 0.0198329, 0.999803, 3.90091e-17, 7.9206, 0.175682 )
+transform = Transform( 0.993941, -0.0880258, -0.0658205, 0.0536027, 0.911004, -0.4089, 0.0959565, 0.402894, 0.910203, -0.0351772, 7.94939, 0.668378 )
 bone_name = "torso"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/torsoAttachments"]
@@ -1885,7 +1884,7 @@ process_material = SubResource( 70 )
 draw_pass_1 = SubResource( 71 )
 
 [node name="headAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 1, 4.40381e-18, -4.36725e-20, -4.40381e-18, 0.999803, -0.0198329, -4.36763e-20, 0.0198329, 0.999803, 4.73308e-17, 9.80989, 0.213159 )
+transform = Transform( 0.980715, -0.193899, -0.0245378, 0.124011, 0.714384, -0.688678, 0.151063, 0.672354, 0.724652, -0.201516, 9.67087, 1.42971 )
 bone_name = "head"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/headAttachments"]

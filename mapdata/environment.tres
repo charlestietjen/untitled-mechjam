@@ -4,12 +4,14 @@
 radiance_size = 1
 sky_top_color = Color( 0, 0, 0, 1 )
 sky_horizon_color = Color( 0, 0.341176, 0.615686, 1 )
+ground_bottom_color = Color( 0.0705882, 0.0862745, 0.0392157, 1 )
+ground_horizon_color = Color( 0.133333, 0.121569, 0.113725, 1 )
 sun_latitude = 154.04
 sun_longitude = 142.13
 sun_angle_min = 2.0
 sun_angle_max = 15.0
 sun_energy = 64.0
-texture_size = 1
+texture_size = 0
 
 [resource]
 background_mode = 2
@@ -19,5 +21,4 @@ ambient_light_color = Color( 1, 1, 1, 1 )
 ambient_light_energy = 1.86
 ambient_light_sky_contribution = 0.56
 ssao_enabled = true
-dof_blur_far_enabled = true
 dof_blur_far_distance = 168.99
