@@ -369,7 +369,7 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 1, 1.25 ),
+"times": PoolRealArray( 0.8, 1.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -515,7 +515,7 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0.9, 1.25 ),
+"times": PoolRealArray( 0.7, 1.25 ),
 "transitions": PoolRealArray( 1, 1 ),
 "values": [ {
 "args": [  ],
@@ -1723,7 +1723,7 @@ nodes/is_moving/position = Vector2( 80, 60 )
 nodes/move_direction/node = SubResource( 39 )
 nodes/move_direction/position = Vector2( -380, 120 )
 nodes/output/position = Vector2( 760, 140 )
-node_connections = [ "output", 0, "blocked_action", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "action_type", 0, "attack_state", "action_type", 1, "block_loop" ]
+node_connections = [ "output", 0, "blocked_action", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "is_moving", 0, "idle", "is_moving", 1, "is_boosting" ]
 
 [sub_resource type="SphereShape" id=74]
 radius = 127.346
@@ -1851,14 +1851,14 @@ skin = SubResource( 2 )
 material/0 = SubResource( 69 )
 
 [node name="weaponAttachment" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( -0.654879, -0.392401, -0.645876, -0.75364, 0.275508, 0.596761, -0.0562253, 0.877562, -0.476154, 1.31143, 9.82865, 4.54111 )
+transform = Transform( -0.243854, 0.896857, 0.36903, -0.534543, -0.441795, 0.720474, 0.809197, -0.0215721, 0.587141, 5.09473, 7.96913, -0.00816447 )
 bone_name = "hand.L"
 
 [node name="mace02" parent="armatureMaterialTest/Skeleton/weaponAttachment" instance=ExtResource( 20 )]
 transform = Transform( 4.90241, 0.215578, 0.959145, -0.257114, 4.98967, 0.192691, -0.948854, -0.238252, 4.90336, -1.86073, -1.90476, 1.87388 )
 
 [node name="torsoAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 0.993941, -0.0880258, -0.0658205, 0.0536027, 0.911004, -0.4089, 0.0959565, 0.402894, 0.910203, -0.0351772, 7.94939, 0.668378 )
+transform = Transform( 0.936772, 0.337168, 0.0936758, -0.301198, 0.913146, -0.274672, -0.17815, 0.22909, 0.956964, -0.0193223, 7.87362, 0.401906 )
 bone_name = "torso"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/torsoAttachments"]
@@ -1884,7 +1884,7 @@ process_material = SubResource( 70 )
 draw_pass_1 = SubResource( 71 )
 
 [node name="headAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 0.980715, -0.193899, -0.0245378, 0.124011, 0.714384, -0.688678, 0.151063, 0.672354, 0.724652, -0.201516, 9.67087, 1.42971 )
+transform = Transform( 0.892587, 0.403019, 0.202149, -0.357201, 0.905672, -0.228396, -0.275129, 0.131656, 0.95235, 0.617811, 9.59915, 0.834809 )
 bone_name = "head"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/headAttachments"]
