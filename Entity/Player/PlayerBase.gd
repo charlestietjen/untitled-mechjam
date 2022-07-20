@@ -2,6 +2,7 @@ extends "res://script/Actor.gd"
 
 signal health_changed(max_health, new_health)
 
+onready var target_element_scene = preload("res://Entity/UI/TargetElement.tscn")
 export var boostspeed := 2.5
 export var initial_boost := 10
 export var melee_range := 30.0
@@ -13,6 +14,7 @@ var is_blocking := false
 var is_boosting := false
 var current_attack := 0
 var target = null
+var target_element = null
 var target_list := []
 
 func _ready():
@@ -111,8 +113,6 @@ func _process(_delta):
 		is_blocking = false
 	global_transform.origin.z = 0
 	velocity = move_and_slide(velocity, Vector3.DOWN)
-#	set debug label to display current vectors
-	$debugLabel.text = str(int(velocity.x),' ',int(velocity.y))
 	if Input.is_action_just_pressed("toggle_target"):
 		_target_toggle()
 	
@@ -145,8 +145,12 @@ func _target_toggle():
 		if !closest_target:
 			return
 		target = closest_target
+		target_element = target_element_scene.instance()
+		target.add_child(target_element)
 	else:
 		target = null
+		if is_instance_valid(target_element):
+			target_element.queue_free()
 		
 func _on_hit(damage):
 	damage_health(damage)

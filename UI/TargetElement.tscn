@@ -1,0 +1,38 @@
+[gd_scene format=2]
+
+[node name="Control" type="Control"]
+anchor_right = 0.069
+anchor_bottom = 0.083
+margin_right = 0.519989
+margin_bottom = 0.359993
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_left = 7.0
+margin_top = 8.0
+margin_right = 125.0
+margin_bottom = 18.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+margin_left = 7.0
+margin_top = 74.0
+margin_right = 125.0
+margin_bottom = 84.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+margin_left = 119.0
+margin_top = 16.0
+margin_right = 125.0
+margin_bottom = 74.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+margin_left = 7.0
+margin_top = 16.0
+margin_right = 13.0
+margin_bottom = 74.0
+color = Color( 0, 0, 0, 1 )
