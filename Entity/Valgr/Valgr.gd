@@ -8,8 +8,6 @@ func _ready():
 	$AnimationTree.active = true
 
 func _physics_process(delta):
-	if health == 0:
-		queue_free()
 	if current_velocity != Vector3.ZERO:
 		$AnimationTree.set("parameters/move_state/current", 1)
 	else:

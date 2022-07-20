@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/valkyrie0.5.gltf-a656799d78a4566973185b532c51b7e6.scn"
+path="res://.import/valkyrie.0.6.gltf-409fdd0a6b5d9abfb0c295720f8af287.scn"
 
 [deps]
 
-source_file="res://mesh/valkyrie/valkyrie0.5.gltf"
-dest_files=[ "res://.import/valkyrie0.5.gltf-a656799d78a4566973185b532c51b7e6.scn" ]
+source_file="res://mesh/valkyrie/0.6/valkyrie.0.6.gltf"
+dest_files=[ "res://.import/valkyrie.0.6.gltf-409fdd0a6b5d9abfb0c295720f8af287.scn" ]
 
 [params]
 

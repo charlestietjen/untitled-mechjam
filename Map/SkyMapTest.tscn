@@ -111,7 +111,6 @@ material/0 = null
 
 [node name="valgr01" parent="." instance=ExtResource( 12 )]
 transform = Transform( 0.117729, 0.1404, -0.98307, -0.0166945, 0.990095, 0.139404, 0.992905, -1.49012e-08, 0.118907, -166.405, 264.381, -605.729 )
-maxHealth = 300
 
 [node name="HUD" parent="." instance=ExtResource( 18 )]
 

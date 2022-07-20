@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://material/plating_albedo.png" type="Texture" id=1]
 [ext_resource path="res://shader/psx_lit_transparent.shader" type="Shader" id=2]
@@ -164,10 +164,21 @@ surfaces/0 = {
 [sub_resource type="AnimationNodeAnimation" id=11]
 animation = "attack01"
 
+[sub_resource type="AnimationNodeAnimation" id=20]
+
+[sub_resource type="AnimationNodeAnimation" id=21]
+
 [sub_resource type="AnimationNodeAnimation" id=12]
 animation = "idle"
 
 [sub_resource type="AnimationNodeTransition" id=13]
+input_count = 2
+input_0/name = "false"
+input_0/auto_advance = false
+input_1/name = "true"
+input_1/auto_advance = false
+
+[sub_resource type="AnimationNodeTransition" id=22]
 input_count = 2
 input_0/name = "false"
 input_0/auto_advance = false
@@ -184,19 +195,30 @@ input_0/auto_advance = false
 input_1/name = "moving"
 input_1/auto_advance = false
 
+[sub_resource type="AnimationNodeOneShot" id=19]
+
 [sub_resource type="AnimationNodeBlendTree" id=16]
-graph_offset = Vector2( -502, -43.5 )
+graph_offset = Vector2( -137.498, 27.1944 )
 nodes/attack01/node = SubResource( 11 )
 nodes/attack01/position = Vector2( -40, 340 )
+nodes/dying/node = SubResource( 20 )
+nodes/dying/position = Vector2( 500, 320 )
+nodes/hit_react/node = SubResource( 21 )
+nodes/hit_react/position = Vector2( 220, 340 )
 nodes/idleLoop/node = SubResource( 12 )
 nodes/idleLoop/position = Vector2( -300, 0 )
 nodes/is_attacking/node = SubResource( 13 )
 nodes/is_attacking/position = Vector2( 100, 120 )
+nodes/is_dead/node = SubResource( 22 )
+nodes/is_dead/position = Vector2( 720, 80 )
 nodes/moveHorizontalLoop/node = SubResource( 14 )
 nodes/moveHorizontalLoop/position = Vector2( -380, 160 )
 nodes/move_state/node = SubResource( 15 )
 nodes/move_state/position = Vector2( -100, 60 )
-node_connections = [ "output", 0, "is_attacking", "is_attacking", 0, "move_state", "is_attacking", 1, "attack01", "move_state", 0, "idleLoop", "move_state", 1, "moveHorizontalLoop" ]
+nodes/on_hit/node = SubResource( 19 )
+nodes/on_hit/position = Vector2( 420, 100 )
+nodes/output/position = Vector2( 960, 80 )
+node_connections = [ "output", 0, "is_dead", "is_attacking", 0, "move_state", "is_attacking", 1, "attack01", "move_state", 0, "idleLoop", "move_state", 1, "moveHorizontalLoop", "on_hit", 0, "is_attacking", "on_hit", 1, "hit_react", "is_dead", 0, "on_hit", "is_dead", 1, "dying" ]
 
 [sub_resource type="CapsuleShape" id=17]
 radius = 2.75909
@@ -205,7 +227,6 @@ height = 2.48779
 [node name="valgr01" type="KinematicBody"]
 collision_layer = 9
 script = ExtResource( 10 )
-maxHealth = 30
 
 [node name="Armature" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000473797, 4.11092, -0.189251 )
@@ -307,7 +328,9 @@ anims/reset = ExtResource( 3 )
 tree_root = SubResource( 16 )
 anim_player = NodePath("../AnimationPlayer")
 parameters/is_attacking/current = 0
+parameters/is_dead/current = 0
 parameters/move_state/current = 0
+parameters/on_hit/active = false
 
 [node name="collider" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.3969, -0.553604 )
