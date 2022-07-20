@@ -193,3 +193,6 @@ func _on_hitbox_area_entered(area):
 
 func _on_invulTimer_timeout():
 	$hitbox/hitboxCollider.disabled = false
+
+func handle_game_over():
+	get_tree().change_scene("res://UI/YouDiedUI.tscn")
