@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://UI/UITheme.tres" type="Theme" id=1]
+[ext_resource path="res://UI/HUDScene.gd" type="Script" id=2]
+
+[node name="HUD" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LifeLabel" type="Label" parent="."]
+margin_left = 27.0
+margin_top = 10.0
+margin_right = 104.0
+margin_bottom = 54.0
+rect_scale = Vector2( 2.283, 1.575 )
+theme = ExtResource( 1 )
+text = "LIFE"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthBar" type="Control" parent="."]
+margin_left = 17.0
+margin_top = 74.0
+margin_right = 468.0
+margin_bottom = 112.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthContainer" type="ColorRect" parent="HealthBar"]
+margin_left = 2.0
+margin_top = 4.0
+margin_right = 447.0
+margin_bottom = 34.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthFill" type="ColorRect" parent="HealthBar"]
+margin_left = 8.0
+margin_top = 10.0
+margin_right = 441.0
+margin_bottom = 27.0
+color = Color( 0.596078, 0.0509804, 0.0509804, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

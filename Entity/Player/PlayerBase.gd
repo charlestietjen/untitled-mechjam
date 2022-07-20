@@ -1,5 +1,7 @@
 extends "res://script/Actor.gd"
 
+signal health_changed(max_health, new_health)
+
 export var boostspeed := 2.5
 export var initial_boost := 10
 export var melee_range := 30.0
@@ -145,6 +147,10 @@ func _target_toggle():
 		target = closest_target
 	else:
 		target = null
+		
+func _on_hit(damage):
+	damage_health(damage)
+	emit_signal("health_changed", maxHealth, health)
 
 
 func _on_targetArea_body_entered(body):

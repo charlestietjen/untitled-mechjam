@@ -1,7 +1,7 @@
 extends KinematicBody
 
-export var health = 100
-export var maxHealth = 100
+export var health = 100.0
+export var maxHealth = 100.0
 export var speed = 10
 export var acceleration = 0.1
 

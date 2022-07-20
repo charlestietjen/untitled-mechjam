@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://mapdata/environment.tres" type="Environment" id=1]
 [ext_resource path="res://Entity/System/AStar.tscn" type="PackedScene" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://textures/rockyterrain128_albedo.png" type="Texture" id=14]
 [ext_resource path="res://textures/rockyterrain128_normal.png" type="Texture" id=15]
 [ext_resource path="res://addons/zylann.hterrain/tools/icons/icon_detail_layer_node.svg" type="Texture" id=16]
+[ext_resource path="res://material/mapboundaryalpha.tres" type="Material" id=17]
+[ext_resource path="res://UI/HUDScene.tscn" type="PackedScene" id=18]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 7 )
@@ -75,24 +77,28 @@ shader_params/u_instance_scale = Vector3( 1, 1, 1 )
 use_collision = true
 
 [node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -60.1995, 251.441, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -60.3323, 251.441, -0.110783 )
 height = 154.085
 depth = 7.53553
+material = ExtResource( 17 )
 
 [node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -260.203, 251.441, 0 )
 height = 154.085
 depth = 7.53553
+material = ExtResource( 17 )
 
 [node name="CSGBox3" type="CSGBox" parent="CSGCombiner"]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -159.399, 326.287, 0 )
 height = 200.223
 depth = 7.53553
+material = ExtResource( 17 )
 
 [node name="CSGBox4" type="CSGBox" parent="CSGCombiner"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -159.399, 175.532, 0 )
-height = 200.223
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -159.491, 175.532, 0.0312691 )
+height = 201.431
 depth = 7.53553
+material = ExtResource( 17 )
 
 [node name="carriership" parent="." instance=ExtResource( 11 )]
 transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, -47.3341, 362.448, -400.769 )
@@ -106,3 +112,7 @@ material/0 = null
 [node name="valgr01" parent="." instance=ExtResource( 12 )]
 transform = Transform( 0.117729, 0.1404, -0.98307, -0.0166945, 0.990095, 0.139404, 0.992905, -1.49012e-08, 0.118907, -166.405, 264.381, -605.729 )
 maxHealth = 300
+
+[node name="HUD" parent="." instance=ExtResource( 18 )]
+
+[connection signal="health_changed" from="Player" to="HUD" method="_on_Player_health_changed"]
