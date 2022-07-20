@@ -12,7 +12,8 @@ var current_velocity := Vector3.ZERO
 var actions_blocked := false
 
 func _ready():
-	pass
+	health = maxHealth
+	$AnimationTree.active = true
 
 func damage_health(damage):
 	health = clamp(health, 0, maxHealth)

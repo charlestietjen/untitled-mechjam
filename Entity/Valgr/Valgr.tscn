@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://material/psxClaw.tres" type="Material" id=1]
 [ext_resource path="res://material/psxValgrPlating.tres" type="Material" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://mesh/valgr/0.2/idle.anim" type="Animation" id=9]
 [ext_resource path="res://Entity/Valgr/Valgr.gd" type="Script" id=10]
 [ext_resource path="res://mesh/valgr/0.2/moveHorizontalLoop.anim" type="Animation" id=11]
+[ext_resource path="res://Entity/Valgr/hurtBoxArea.gd" type="Script" id=12]
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_name = "carbon"
@@ -144,6 +145,8 @@ surfaces/0 = {
 }
 
 [sub_resource type="CapsuleShape" id=25]
+radius = 1.66832
+height = 7.79228
 
 [sub_resource type="AnimationNodeAnimation" id=11]
 animation = "attack01"
@@ -184,7 +187,7 @@ input_1/auto_advance = false
 [sub_resource type="AnimationNodeOneShot" id=19]
 
 [sub_resource type="AnimationNodeBlendTree" id=23]
-graph_offset = Vector2( -217.498, 36.1944 )
+graph_offset = Vector2( -286.498, 100.444 )
 nodes/attack01/node = SubResource( 11 )
 nodes/attack01/position = Vector2( -40, 340 )
 nodes/dying/node = SubResource( 20 )
@@ -305,7 +308,7 @@ skin = SubResource( 3 )
 material/0 = ExtResource( 6 )
 
 [node name="leftHandAttach" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.932119, -0.29782, -0.206054, 0.346049, -0.900236, -0.264247, -0.106799, -0.317615, 0.942185, 1.94159, 0.198032, -1.09638 )
+transform = Transform( -0.151344, 0.560121, -0.814469, -0.825622, 0.381449, 0.415745, 0.543545, 0.735364, 0.404718, 2.49794, 3.76446, -0.986481 )
 bone_name = "claw.L"
 
 [node name="hurtboxContainer" type="Spatial" parent="Armature/Skeleton/leftHandAttach"]
@@ -313,10 +316,14 @@ transform = Transform( 1, -3.72529e-09, -7.45058e-09, 5.58794e-09, 1, -2.98023e-
 
 [node name="hurtBoxArea" type="Area" parent="Armature/Skeleton/leftHandAttach/hurtboxContainer"]
 transform = Transform( 1, 0, 0, -1.86265e-09, 1, -2.98023e-08, -7.45058e-09, 2.98023e-08, 1, 0, 0, 0 )
+collision_layer = 4
+collision_mask = 0
+script = ExtResource( 12 )
 
 [node name="hurtBoxCollider" type="CollisionShape" parent="Armature/Skeleton/leftHandAttach/hurtboxContainer/hurtBoxArea"]
-transform = Transform( 0.987244, -0.150241, 0.0527822, -0.0491974, 0.0274756, 0.998415, -0.151452, -0.98827, 0.0197346, -0.284122, 1.39652, 0.105122 )
+transform = Transform( 0.987242, -0.150241, 0.0527821, -0.0491973, 0.027476, 0.998415, -0.151452, -0.988269, 0.0197348, 0.593643, 2.17052, 0.495667 )
 shape = SubResource( 25 )
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack01 = ExtResource( 8 )
@@ -346,8 +353,7 @@ collision_mask = 2
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 4.3969, -0.553604 )
 shape = SubResource( 24 )
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
+[node name="pathfindTimer" type="Timer" parent="."]
 autostart = true
 
 [node name="RayCasts" type="Spatial" parent="."]
@@ -376,6 +382,14 @@ cast_to = Vector3( 0, -1, 30 )
 wait_time = 4.0
 autostart = true
 
+[node name="attackTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="coolDownTimer" type="Timer" parent="."]
+wait_time = 3.0
+
 [connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="pathfindTimer" to="." method="_on_pathfindTimer_timeout"]
 [connection signal="timeout" from="IdleRotateTimer" to="." method="_on_IdleRotateTimer_timeout"]
+[connection signal="timeout" from="attackTimer" to="." method="_on_attackTimer_timeout"]
+[connection signal="timeout" from="coolDownTimer" to="." method="_on_coolDownTimer_timeout"]

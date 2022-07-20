@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://material/psxPolishedMetal.tres" type="Material" id=1]
 [ext_resource path="res://material/psxEnergy.tres" type="Material" id=2]
@@ -420,7 +420,7 @@ snap = Vector2( 1, 1 )
 animation = "attackShoot01"
 
 [sub_resource type="AnimationNodeBlendTree" id=94]
-graph_offset = Vector2( -173, 171.944 )
+graph_offset = Vector2( -139, 232.944 )
 nodes/action_type/node = SubResource( 45 )
 nodes/action_type/position = Vector2( 280, 360 )
 nodes/attackMelee01/node = SubResource( 46 )
@@ -460,6 +460,10 @@ node_connections = [ "output", 0, "is_dead", "is_boosting", 0, "move_direction",
 
 [sub_resource type="SphereShape" id=95]
 radius = 127.346
+
+[sub_resource type="CapsuleShape" id=97]
+radius = 4.36201
+height = 3.28958
 
 [node name="PlayerBase" type="KinematicBody"]
 script = ExtResource( 4 )
@@ -669,5 +673,18 @@ collision_mask = 8
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0709877, 6.90964, 0 )
 shape = SubResource( 95 )
 
+[node name="hitbox" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="hitboxCollider" type="CollisionShape" parent="hitbox"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5.71194, 0 )
+shape = SubResource( 97 )
+
+[node name="invulTimer" type="Timer" parent="."]
+wait_time = 1.5
+
 [connection signal="body_entered" from="targetArea" to="." method="_on_targetArea_body_entered"]
 [connection signal="body_exited" from="targetArea" to="." method="_on_targetArea_body_exited"]
+[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="invulTimer" to="." method="_on_invulTimer_timeout"]

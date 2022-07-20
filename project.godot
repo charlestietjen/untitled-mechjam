@@ -219,6 +219,7 @@ _global_script_class_icons={
 [application]
 
 config/name="untitled-mechjam"
+run/main_scene="res://Map/SkyMapTest.tscn"
 config/icon="res://icon.png"
 
 [display]

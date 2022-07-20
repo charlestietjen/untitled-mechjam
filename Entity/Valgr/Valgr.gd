@@ -2,22 +2,23 @@ extends "res://script/Actor.gd"
 
 enum {
 	IDLE,
-	ALERT
+	ALERT,
+	COOLDOWN
 }
 
-var state = IDLE
+export var damage = 5
+export var damage_type := "melee"
 
 onready var nav = get_node("/root/Spatial/AStar")
 onready var player = get_node("/root/Spatial/Player")
 onready var raycasts = $RayCasts
 var velocity := Vector3(0,0,0)
-
-export var damage = 5
-export var damage_type := "melee"
+var target = null
+var state = IDLE
+var distance_to_target := 0
 
 func _ready():
-	health = maxHealth
-	$AnimationTree.active = true
+	pass
 
 func _physics_process(delta):
 	if velocity != Vector3.ZERO:
@@ -29,8 +30,14 @@ func _physics_process(delta):
 	elif int(velocity.x) < 0:
 		rotation.y = lerp_angle(rotation.y, 180, 0.5)
 	var lerp_weight = delta * 8.0
-
-	if current_target != Vector3.INF:
+	if target:
+		distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
+		look_at(target.global_transform.origin, Vector3.UP)
+		rotate_object_local(Vector3.DOWN, PI)
+		rotation.x = clamp(rotation.x, -0.8, 0.8)
+	else:
+		rotation.x = lerp_angle(rotation.x, 0, 0.1)
+	if current_target != Vector3.INF && distance_to_target > 15:
 		var dir_to_target = global_transform.origin.direction_to(current_target).normalized()
 		velocity = lerp(velocity, speed * dir_to_target, lerp_weight)
 		if global_transform.origin.distance_to(current_target) < 0.5:
@@ -40,10 +47,12 @@ func _physics_process(delta):
 	global_transform.origin.z = lerp(global_transform.origin.z, 0, 0.1)
 	velocity = move_and_slide(velocity)
 	
-	for ray in raycasts.get_children():
-		if(ray.get_collider() == player):
-			state = ALERT
-			break
+	if state == IDLE:
+		for ray in raycasts.get_children():
+			if(ray.get_collider() == player):
+				state = ALERT
+				target = player
+				break
 
 func find_next_point_in_path():
 	if path.size() > 0:
@@ -57,8 +66,13 @@ func update_path(new_path: Array):
 	path = new_path
 	find_next_point_in_path()
 
-func set_hurtbox_enabled(state):
-	$Armature/Skeleton/leftHandAttach/hurtboxContainer/hurtBoxArea/hurtBoxCollider.disabled = !state
+func set_hurtbox_enabled(hurtbox_state):
+	$Armature/Skeleton/leftHandAttach/hurtboxContainer/hurtBoxArea/hurtBoxCollider.disabled = !hurtbox_state
+
+func attack():
+	$AnimationTree.set("parameters/is_attacking/current", true)
+	velocity = (target.global_transform.origin - global_transform.origin) * 5
+	actions_blocked = true
 
 func _on_Area_area_entered(area):
 	if area.damage_type == "range":
@@ -69,12 +83,39 @@ func _on_Area_area_entered(area):
 		damage_health(area.damage)
 		print('ouch, remaining health: ', health)
 
+func _on_IdleRotateTimer_timeout():
+	# on time out, stop, turn the fuck around, and move
+	pass
 
-func _on_Timer_timeout():
+# start repeating timer on first change to alert state
+# on timer:
+# make attack roll
+# if alert state && within melee range & attack roll succeeds:
+# set animation state to attack and move towards target
+# set state to cooldown & start cooldown timer
+# on cooldown timer:
+# set state to alert
+
+
+func _on_pathfindTimer_timeout():
 	if(state == ALERT):
 		update_path(nav.find_path(global_transform.origin, player.global_transform.origin))
 
 
-func _on_IdleRotateTimer_timeout():
-	# on time out, stop, turn the fuck around, and move
-	pass
+func _on_attackTimer_timeout():
+	var attack_roll = randi() & 100 + 1
+	if target != null:
+		print(distance_to_target)
+		if (state == ALERT) && attack_roll > 50 && distance_to_target <= 20:
+			attack()
+			$coolDownTimer.start()
+			state = COOLDOWN
+
+func _on_coolDownTimer_timeout():
+	print('Cooldown expired')
+	state = ALERT
+
+func _reset_attack_state():
+	print('reset attack state')
+	$AnimationTree.set('parameters/is_attacking/current', false)
+	actions_blocked = false

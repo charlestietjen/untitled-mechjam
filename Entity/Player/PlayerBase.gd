@@ -14,13 +14,12 @@ var combo_enabled := false
 var is_blocking := false
 var is_boosting := false
 var current_attack := 0
-var target = null
 var target_element = null
 var target_list := []
+var target = null
 
 func _ready():
-	health = maxHealth
-	$AnimationTree.active = true
+	pass
 
 func _process(_delta):
 	var new_speed
@@ -158,6 +157,9 @@ func _target_toggle():
 func _on_hit(damage):
 	damage_health(damage)
 	emit_signal("health_changed", maxHealth, health)
+	$AnimationTree.set("parameters/on_hit/active", true)
+	$hitbox/hitboxCollider.disabled = true
+	$invulTimer.start()
 
 func shoot():
 	var bullet = bullet_scene.instance()
@@ -179,3 +181,15 @@ func _on_targetArea_body_exited(body):
 		for i in target_list.size():
 			if target_list[i - 1] == body:
 				target_list.remove(i)
+
+
+func _on_hitbox_area_entered(area):
+	if area.damage_type == "range":
+		_on_hit(area.damage)
+		area.get_parent().queue_free()
+	elif area.damage_type == "melee":
+		_on_hit(area.damage)
+
+
+func _on_invulTimer_timeout():
+	$hitbox/hitboxCollider.disabled = false
