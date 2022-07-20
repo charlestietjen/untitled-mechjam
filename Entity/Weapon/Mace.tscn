@@ -3,7 +3,7 @@
 [ext_resource path="res://textures/maceAlbedo.png" type="Texture" id=1]
 [ext_resource path="res://shader/psx_lit.shader" type="Shader" id=2]
 [ext_resource path="res://mesh/weapon/mace02.gltf" type="PackedScene" id=3]
-[ext_resource path="res://Entity/Weapon/maceEntity.gd" type="Script" id=4]
+[ext_resource path="res://Entity/Weapon/Mace.gd" type="Script" id=4]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
@@ -24,7 +24,8 @@ material/0 = SubResource( 1 )
 
 [node name="hurtbox" type="Area" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.675402, 0.478676 )
-collision_mask = 3
+collision_layer = 2
+collision_mask = 0
 script = ExtResource( 4 )
 
 [node name="collider" type="CollisionShape" parent="hurtbox" index="0"]

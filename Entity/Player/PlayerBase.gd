@@ -3,6 +3,7 @@ extends "res://script/Actor.gd"
 signal health_changed(max_health, new_health)
 
 onready var target_element_scene = preload("res://Entity/UI/TargetElement.tscn")
+onready var bullet_scene = preload("res://Entity/Weapon/PlayerBullet.tscn")
 export var boostspeed := 2.5
 export var initial_boost := 10
 export var melee_range := 30.0
@@ -19,7 +20,7 @@ var target_list := []
 
 func _ready():
 	health = maxHealth
-	$AnimTree.active = true
+	$AnimationTree.active = true
 
 func _process(_delta):
 	var new_speed
@@ -44,17 +45,17 @@ func _process(_delta):
 		rotation.x = lerp_angle(rotation.x, 0, 0.1)
 #	flag the character as moving or not in the animation tree
 	if input_direction != Vector2.ZERO:
-		$AnimTree.set('parameters/is_moving/current', 1)
+		$AnimationTree.set('parameters/is_moving/current', 1)
 		$armatureMaterialTest/Skeleton/torsoAttachments/engineTrailLeft.emitting = true
 		$armatureMaterialTest/Skeleton/torsoAttachments/engineTrailRight.emitting = true
 	else:
 		$armatureMaterialTest/Skeleton/torsoAttachments/engineTrailLeft.emitting = false
 		$armatureMaterialTest/Skeleton/torsoAttachments/engineTrailRight.emitting = false
-		$AnimTree.set('parameters/is_moving/current', 0)
+		$AnimationTree.set('parameters/is_moving/current', 0)
 #	set whether the character is boosting and set the blend position of the movement direction to
 #	our current velocity, this manages vertical and horizontal movement animations
-	$AnimTree.set("parameters/is_boosting/current", is_boosting)
-	$AnimTree.set('parameters/move_direction/blend_position', Vector2(velocity.x, velocity.y))
+	$AnimationTree.set("parameters/is_boosting/current", is_boosting)
+	$AnimationTree.set('parameters/move_direction/blend_position', Vector2(velocity.x, velocity.y))
 #	normalize the input velocity to prevent diagonal movement being faster than single axis
 	input_direction = input_direction.normalized()
 #	go faster decider
@@ -82,7 +83,7 @@ func _process(_delta):
 			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
 			if distance_to_target < melee_range:
 				print('Follow up attack: ', current_attack)
-				$AnimTree.set('parameters/attack_state/current', current_attack)
+				$AnimationTree.set('parameters/attack_state/current', current_attack)
 				velocity = (target.global_transform.origin - global_transform.origin) * 5
 				combo_enabled = false
 	elif Input.is_action_just_pressed("attack") && !is_attacking && !is_blocking:
@@ -94,22 +95,24 @@ func _process(_delta):
 				print('Combo start at: ', current_attack)
 				is_attacking = true
 				combo_enabled = false
-				$AnimTree.set('parameters/blocked_action/current', true)
-				$AnimTree.set('parameters/action_type/current', 0)
-				$AnimTree.set('parameters/attack_state/current', current_attack)
+				$AnimationTree.set('parameters/blocked_action/current', true)
+				$AnimationTree.set('parameters/action_type/current', 0)
+				$AnimationTree.set('parameters/attack_state/current', current_attack)
 				velocity = (target.global_transform.origin - global_transform.origin) * 5
 			else:
-				print('shoot placeholder')
+				is_attacking = true
+				$AnimationTree.set("parameters/blocked_action/current", true)
+				$AnimationTree.set("parameters/action_type/current", 2)
 #	if we're not attacking and hold block, we're blocking
 	elif Input.is_action_pressed("block") && !is_attacking:
 		velocity = velocity * 0.8
-		$AnimTree.set('parameters/blocked_action/current', true)
-		$AnimTree.set("parameters/action_type/current", 1)
+		$AnimationTree.set('parameters/blocked_action/current', true)
+		$AnimationTree.set("parameters/action_type/current", 1)
 		$shield.visible = visible
 		is_blocking = true
 	elif Input.is_action_just_released("block") && !is_attacking:
 		$shield.visible = not visible
-		$AnimTree.set('parameters/blocked_action/current', false)
+		$AnimationTree.set('parameters/blocked_action/current', false)
 		is_blocking = false
 	global_transform.origin.z = 0
 	velocity = move_and_slide(velocity, Vector3.DOWN)
@@ -119,7 +122,7 @@ func _process(_delta):
 func _reset_attack_state():
 	print('reset attack state')
 	current_attack = 0
-	$AnimTree.set('parameters/blocked_action/current', false)
+	$AnimationTree.set('parameters/blocked_action/current', false)
 	is_attacking = false
 	combo_enabled = false
 	
@@ -156,6 +159,15 @@ func _on_hit(damage):
 	damage_health(damage)
 	emit_signal("health_changed", maxHealth, health)
 
+func shoot():
+	var bullet = bullet_scene.instance()
+#	var bullet_velocity = Vector3(0, 0, 5).rotated(rotation, 0)
+	$armatureMaterialTest/Skeleton/rightHandAttachments.add_child(bullet)
+	bullet.look_at(target.global_transform.origin, Vector3.FORWARD)
+#	var bullet_direction = global_transform.basis.xform(Vector3.FORWARD)
+#	print(bullet_direction)
+#	bullet.rotation = bullet_direction
+	bullet.velocity = Vector3(0,0,-30)
 
 func _on_targetArea_body_entered(body):
 	if body != null:
