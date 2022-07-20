@@ -3,6 +3,9 @@ extends "res://script/Actor.gd"
 onready var nav = get_node("/root/Spatial/AStar")
 onready var player = get_node("/root/Spatial/Player")
 
+export var damage = 5
+export var damage_type := "melee"
+
 func _ready():
 	health = maxHealth
 	$AnimationTree.active = true
@@ -40,11 +43,17 @@ func update_path(new_path: Array):
 	path = new_path
 	find_next_point_in_path()
 
+func set_hurtbox_enabled(state):
+	$Armature/Skeleton/leftHandAttach/hurtboxContainer/hurtBoxArea/hurtBoxCollider.disabled = !state
+
 func _on_Area_area_entered(area):
-	if !area.damage:
-		return
-	damage_health(area.damage)
-	print('ouch, remaining health: ', health)
+	if area.damage_type == "range":
+		damage_health(area.damage)
+		print('ouch, remaining health: ', health)
+		area.get_parent().queue_free()
+	elif area.damage_type == "melee":
+		damage_health(area.damage)
+		print('ouch, remaining health: ', health)
 
 
 func _on_Timer_timeout():

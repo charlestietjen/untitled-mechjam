@@ -23,6 +23,5 @@ func damage_health(damage):
 		$AnimationTree.set("parameters/on_hit/active", true)
 
 func handle_death():
+	$AnimationTree.set("parameters/is_dead/current", true)
 	
-	$AnimationTree.set("parameters/is_dead/current/", 1)
-	queue_free()

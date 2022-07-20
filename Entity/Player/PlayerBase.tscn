@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=2]
+[gd_scene load_steps=74 format=2]
 
 [ext_resource path="res://material/psxPolishedMetal.tres" type="Material" id=1]
 [ext_resource path="res://material/psxEnergy.tres" type="Material" id=2]
@@ -19,7 +19,7 @@
 [ext_resource path="res://mesh/valkyrie/0.6/idle.anim" type="Animation" id=17]
 [ext_resource path="res://material/carbon.tres" type="Material" id=18]
 [ext_resource path="res://mesh/valkyrie/0.6/attackMelee03.anim" type="Animation" id=19]
-[ext_resource path="res://Entity/Weapon/mace_PS1_Shader.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Entity/Weapon/Mace.tscn" type="PackedScene" id=20]
 [ext_resource path="res://mesh/valkyrie/0.6/hitReact.anim" type="Animation" id=21]
 [ext_resource path="res://mesh/valkyrie/0.6/blockLoop.anim" type="Animation" id=22]
 [ext_resource path="res://mesh/valkyrie/0.6/moveDownLoop.anim" type="Animation" id=23]
@@ -320,12 +320,13 @@ shader_param/uv_scale = null
 shader_param/uv_offset = null
 
 [sub_resource type="AnimationNodeTransition" id=45]
-input_count = 2
-xfade_time = 0.2
+input_count = 3
 input_0/name = "attack"
 input_0/auto_advance = false
 input_1/name = "block"
 input_1/auto_advance = false
+input_2/name = "shoot"
+input_2/auto_advance = false
 
 [sub_resource type="AnimationNodeAnimation" id=46]
 animation = "attackMelee01"
@@ -415,8 +416,11 @@ snap = Vector2( 1, 1 )
 
 [sub_resource type="AnimationNodeOneShot" id=78]
 
+[sub_resource type="AnimationNodeAnimation" id=96]
+animation = "attackShoot01"
+
 [sub_resource type="AnimationNodeBlendTree" id=94]
-graph_offset = Vector2( -442, -89.0556 )
+graph_offset = Vector2( -173, 171.944 )
 nodes/action_type/node = SubResource( 45 )
 nodes/action_type/position = Vector2( 280, 360 )
 nodes/attackMelee01/node = SubResource( 46 )
@@ -428,7 +432,7 @@ nodes/attackMelee03/position = Vector2( -420, 640 )
 nodes/attack_state/node = SubResource( 49 )
 nodes/attack_state/position = Vector2( -120, 380 )
 nodes/block_loop/node = SubResource( 50 )
-nodes/block_loop/position = Vector2( -120, 580 )
+nodes/block_loop/position = Vector2( -140, 560 )
 nodes/blocked_action/node = SubResource( 51 )
 nodes/blocked_action/position = Vector2( 440, 200 )
 nodes/boost/node = SubResource( 43 )
@@ -450,7 +454,9 @@ nodes/move_direction/position = Vector2( -380, 120 )
 nodes/on_hit/node = SubResource( 78 )
 nodes/on_hit/position = Vector2( 660, 360 )
 nodes/output/position = Vector2( 1260, 40 )
-node_connections = [ "output", 0, "is_dead", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "on_hit", 0, "blocked_action", "on_hit", 1, "hit_react", "is_dead", 0, "on_hit", "is_dead", 1, "dying" ]
+nodes/shoot/node = SubResource( 96 )
+nodes/shoot/position = Vector2( -140, 680 )
+node_connections = [ "output", 0, "is_dead", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "action_type", 2, "shoot", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "on_hit", 0, "blocked_action", "on_hit", 1, "hit_react", "is_dead", 0, "on_hit", "is_dead", 1, "dying" ]
 
 [sub_resource type="SphereShape" id=95]
 radius = 127.346
@@ -568,14 +574,14 @@ skin = SubResource( 3 )
 material/0 = SubResource( 85 )
 
 [node name="weaponAttachment" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( -0.957212, 0.289389, -1.00583e-07, -0.289389, -0.957212, -2.5332e-07, -1.85333e-07, -1.49012e-07, 1, 2.89543, 6.08123, -6.25849e-07 )
+transform = Transform( -0.957213, 0.289389, -1.71363e-07, -0.28939, -0.957211, -4.47035e-07, -2.93367e-07, -3.57628e-07, 1, 2.89543, 6.08122, 1.19209e-07 )
 bone_name = "hand.L"
 
 [node name="mace02" parent="armatureMaterialTest/Skeleton/weaponAttachment" instance=ExtResource( 20 )]
 transform = Transform( 4.90241, 0.215578, 0.959145, -0.257114, 4.98967, 0.192691, -0.948854, -0.238252, 4.90336, -1.86073, -1.90476, 1.87388 )
 
 [node name="torsoAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 1, -5.73771e-17, 1.51496e-08, 1.9781e-15, 1, -1.26784e-07, -1.51496e-08, 1.26784e-07, 1, -8.19876e-17, 7.93145, 1.81157e-07 )
+transform = Transform( 1, -5.73772e-17, 1.51496e-08, 1.9781e-15, 1, -1.26784e-07, -1.51496e-08, 1.26784e-07, 1, -8.19876e-17, 7.93144, 1.81157e-07 )
 bone_name = "torso"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/torsoAttachments"]
@@ -601,7 +607,7 @@ process_material = SubResource( 88 )
 draw_pass_1 = SubResource( 89 )
 
 [node name="headAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 1, -5.73774e-17, 1.51496e-08, 1.9781e-15, 1, -1.26784e-07, -1.51496e-08, 1.26784e-07, 1, -1.90413e-16, 9.82111, 4.20736e-07 )
+transform = Transform( 1, -5.73774e-17, 1.51496e-08, 1.9781e-15, 1, -1.26784e-07, -1.51496e-08, 1.26784e-07, 1, -1.90413e-16, 9.8211, 4.20735e-07 )
 bone_name = "head"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/headAttachments"]
@@ -613,6 +619,10 @@ light_energy = 2.468
 transform = Transform( 1, 2.47286e-25, 5.493e-26, -1.67617e-25, 1, 0, -2.26182e-26, 0, 1, 0.917755, 1.28702, -0.79958 )
 light_color = Color( 0.0392157, 0.533333, 0.682353, 1 )
 light_energy = 2.468
+
+[node name="rightHandAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
+transform = Transform( -0.957213, -0.289389, 2.6077e-07, 0.28939, -0.957211, -3.27826e-07, 3.00817e-07, -2.08616e-07, 1, -2.89543, 6.08122, 6.55651e-07 )
+bone_name = "hand.R"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attackMelee01 = ExtResource( 11 )
@@ -639,7 +649,7 @@ visible = false
 mesh = SubResource( 91 )
 material/0 = SubResource( 93 )
 
-[node name="AnimTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource( 94 )
 anim_player = NodePath("../AnimationPlayer")
 parameters/action_type/current = 0

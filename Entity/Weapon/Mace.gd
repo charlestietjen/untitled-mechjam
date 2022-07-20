@@ -3,6 +3,7 @@ extends Area
 
 # Declare member variables here. Examples:
 export var damage = 10
+export var damage_type := "melee"
 
 
 # Called when the node enters the scene tree for the first time.
