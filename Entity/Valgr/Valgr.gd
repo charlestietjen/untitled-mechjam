@@ -13,13 +13,15 @@ onready var impact_explosion_scene = preload("res://Entity/VFX/impactExplosion.t
 onready var nav = get_node("/root/Spatial/AStar")
 onready var player = get_node("/root/Spatial/Player")
 onready var raycasts = $RayCasts
+onready var rng = RandomNumberGenerator.new()
+var waypoints : Array
 var velocity := Vector3(0,0,0)
 var target = null
 var state = IDLE
 var distance_to_target := 0
 
 func _ready():
-	pass
+	waypoints = get_tree().get_nodes_in_group("waypoints")
 
 func _physics_process(delta):
 	if velocity != Vector3.ZERO:
@@ -43,6 +45,11 @@ func _physics_process(delta):
 		velocity = lerp(velocity, speed * dir_to_target, lerp_weight)
 		if global_transform.origin.distance_to(current_target) < 0.5:
 			find_next_point_in_path()
+	elif current_target != Vector3.INF && state == IDLE:
+		var dir_to_target = global_transform.origin.direction_to(current_target).normalized()
+		velocity = lerp(velocity, speed * dir_to_target, lerp_weight)
+		if global_transform.origin.distance_to(current_target) < 0.5:
+			find_next_point_in_path()
 	else:
 		velocity = lerp(velocity, Vector3.ZERO, lerp_weight)
 	global_transform.origin.z = lerp(global_transform.origin.z, 0, 0.1)
@@ -53,6 +60,7 @@ func _physics_process(delta):
 			if(ray.get_collider() == player):
 				state = ALERT
 				target = player
+				$pathfindTimer.wait_time = 1.0
 				break
 
 func initialize(start_position, direction_facing = Vector3.LEFT):
@@ -107,10 +115,16 @@ func _on_IdleRotateTimer_timeout():
 func _on_pathfindTimer_timeout():
 	if(state == ALERT):
 		update_path(nav.find_path(global_transform.origin, player.global_transform.origin))
+	elif (state == IDLE):
+		var new_waypoint = randi() % 4
+		rng.randomize()
+		var new_wait_time = rng.randf_range(3.0, 10.0)
+		$pathfindTimer.wait_time = new_wait_time
+		update_path(nav.find_path(global_transform.origin, waypoints[new_waypoint].global_transform.origin))
 
 
 func _on_attackTimer_timeout():
-	var attack_roll = randi() & 100 + 1
+	var attack_roll = randi() % 100 + 1
 	if target != null:
 		print(distance_to_target)
 		if (state == ALERT) && attack_roll > 50 && distance_to_target <= 20:

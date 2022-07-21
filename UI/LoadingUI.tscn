@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://UI/LoadingUI.gd" type="Script" id=1]
+[ext_resource path="res://UI/UITheme.tres" type="Theme" id=2]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0, 0.552239, 1 )
@@ -12,6 +13,7 @@ gradient = SubResource( 1 )
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 2 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -22,12 +24,19 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 texture = SubResource( 2 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Label" type="Label" parent="."]
-margin_left = 759.0
-margin_top = 473.0
-margin_right = 821.0
-margin_bottom = 487.0
+[node name="loadingLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -429.0
+margin_top = -435.0
+margin_right = -324.0
+margin_bottom = -391.0
 rect_scale = Vector2( 8.196, 7.467 )
 text = "Loading"
 uppercase = true
@@ -35,8 +44,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Timer" type="Timer" parent="."]
+[node name="loadingSimulation" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[node name="continueButton" type="Button" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -200.0
+margin_top = -334.0
+margin_right = -68.0001
+margin_bottom = -284.0
+rect_scale = Vector2( 3, 3 )
+text = "Continue"
+
+[node name="Story" type="RichTextLabel" parent="."]
+margin_left = 66.0
+margin_top = 97.0
+margin_right = 1146.0
+margin_bottom = 401.0
+rect_scale = Vector2( 1.7, 1.7 )
+text = "Upon returning through the Bilröst to Asgard, the pilot of Valkyr-X03 'Sigrun' finds themselves ambushed by the forces of Hel.
+
+Could this be the Ragnarok event ODIN had calculated would occur?
+
+In either case, Sigrun's pilot must now fight for their very survival."
+
+[connection signal="timeout" from="loadingSimulation" to="." method="_on_Timer_timeout"]
+[connection signal="button_up" from="continueButton" to="." method="_on_continueButton_button_up"]

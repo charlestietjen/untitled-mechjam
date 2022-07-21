@@ -18,7 +18,7 @@ func _ready():
 
 
 func _on_SpawnTimer_timeout():
-	print("Spawning Enemy")
+#	print("Spawning Enemy")
 	for wave_entity in range(group_size):
 		
 		var enemy = enemy_scene.instance()
@@ -26,12 +26,12 @@ func _on_SpawnTimer_timeout():
 		var enemy_spawn_location = get_node("SpawnPath/SpawnLocation")
 	
 		enemy_spawn_location.unit_offset = randf()
-		enemy.initialize(enemy_spawn_location.translation, Vector3.RIGHT)
+#		enemy.initialize(enemy_spawn_location.translation, Vector3.RIGHT)
 	
 		add_child(enemy)
 		enemies_active.append(enemy)
 	
 	if enemies_active.size() >= wave_size * group_size:
 		$SpawnTimer.stop()
-	print("Enemies Spawned", enemies_active)
+#	print("Enemies Spawned", enemies_active)
 	

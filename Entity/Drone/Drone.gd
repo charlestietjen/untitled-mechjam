@@ -13,10 +13,15 @@ onready var bullet_scene := preload("res://Entity/Weapon/DroneBullet.tscn")
 onready var nav = get_node("/root/Spatial/AStar")
 onready var player = get_node("/root/Spatial/Player")
 onready var raycasts = $RayCasts
+onready var rng = RandomNumberGenerator.new()
+var waypoints : Array
 var velocity := Vector3(0,0,0)
 var target = null
 var state = IDLE
 var distance_to_target := 0
+
+func _ready():
+	waypoints = get_tree().get_nodes_in_group("waypoints")
 
 func _physics_process(delta):
 	if velocity != Vector3.ZERO:
@@ -33,6 +38,11 @@ func _physics_process(delta):
 		look_at(target.global_transform.origin, Vector3.UP)
 		rotate_object_local(Vector3.DOWN, PI)
 		rotation.x = clamp(rotation.x, -0.8, 0.8)
+	elif current_target != Vector3.INF && state == IDLE:
+		var dir_to_target = global_transform.origin.direction_to(current_target).normalized()
+		velocity = lerp(velocity, speed * dir_to_target, lerp_weight)
+		if global_transform.origin.distance_to(current_target) < 0.5:
+			find_next_point_in_path()
 	else:
 		rotation.x = lerp_angle(rotation.x, 0, 0.1)
 	if current_target != Vector3.INF && distance_to_target > 40:
@@ -50,6 +60,7 @@ func _physics_process(delta):
 			if(ray.get_collider() == player):
 				state = ALERT
 				target = player
+				$pathfindTimer.wait_time = 1.0
 				break
 
 func find_next_point_in_path():
@@ -79,12 +90,12 @@ func _on_Area_area_entered(area):
 	if area.damage_type == "range":
 		$bulletHitSfx.play()
 		damage_health(area.damage)
-		print('ouch, remaining health: ', health)
+#		print('ouch, remaining health: ', health)
 		area.get_parent().queue_free()
 	elif area.damage_type == "melee":
 		$meleeHitSfx.play()
 		damage_health(area.damage)
-		print('ouch, remaining health: ', health)
+#		print('ouch, remaining health: ', health)
 
 func _on_IdleRotateTimer_timeout():
 	# on time out, stop, turn the fuck around, and move
@@ -103,22 +114,28 @@ func _on_IdleRotateTimer_timeout():
 func _on_pathfindTimer_timeout():
 	if(state == ALERT):
 		update_path(nav.find_path(global_transform.origin, player.global_transform.origin))
+	elif (state == IDLE):
+		var new_waypoint = randi() % 4
+		rng.randomize()
+		var new_wait_time = rng.randf_range(3.0, 10.0)
+		$pathfindTimer.wait_time = new_wait_time
+		update_path(nav.find_path(global_transform.origin, waypoints[new_waypoint].global_transform.origin))
 
 
 func _on_attackTimer_timeout():
 	var attack_roll = randi() & 100 + 1
 	if target != null && !actions_blocked:
-		print(distance_to_target)
+#		print(distance_to_target)
 		if (state == ALERT) && attack_roll > 50 && distance_to_target <= 40:
 			attack()
 			$coolDownTimer.start()
 			state = COOLDOWN
 
 func _on_coolDownTimer_timeout():
-	print('Cooldown expired')
+#	print('Cooldown expired')
 	state = ALERT
 
 func _reset_attack_state():
-	print('reset attack state')
+#	print('reset attack state')
 	$AnimationTree.set('parameters/is_attacking/current', false)
 	actions_blocked = false

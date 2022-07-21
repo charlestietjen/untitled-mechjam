@@ -310,7 +310,7 @@ skin = SubResource( 3 )
 material/0 = ExtResource( 6 )
 
 [node name="leftHandAttach" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.75652, 0.609942, -0.235901, 0.264996, 0.615691, 0.742092, 0.597875, 0.498896, -0.627414, 3.30247, -1.65651, 0.0225645 )
+transform = Transform( -0.932119, -0.29782, -0.206054, 0.346049, -0.900236, -0.264247, -0.106799, -0.317615, 0.942185, 1.94159, 0.198032, -1.09638 )
 bone_name = "claw.L"
 
 [node name="hurtboxContainer" type="Spatial" parent="Armature/Skeleton/leftHandAttach"]

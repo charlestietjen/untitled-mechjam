@@ -17,7 +17,7 @@ func _on_Start_button_up():
 	$buttonDown.play()
 	$MenuLayer/Menu.visible = not visible
 	yield(get_tree().create_timer(1.8), "timeout")
-	SceneChanger.goto_scene("res://UI/LoadingUI.tscn")
+	get_tree().change_scene("res://UI/LoadingUI.tscn")
 
 func _on_Quit_button_up():
 	$buttonDown.play()
@@ -32,6 +32,9 @@ func _on_focus_changed(event):
 func _on_Control_button_up():
 	$buttonDown.play()
 	$MenuLayer/Menu.visible = not visible
+	$BGLayer/renderDark.visible = not visible
+	$BGLayer/renderLit.visible = not visible
+	$BGLayer/Title.visible = not visible
 	$MenuLayer/controlsLayout.visible = visible
 	$MenuLayer/controlsLayout/backButton.grab_focus()
 
@@ -39,4 +42,7 @@ func _on_controls_back_up():
 	$buttonDown.play()
 	$MenuLayer/controlsLayout.visible = not visible
 	$MenuLayer/Menu.visible = visible
+	$BGLayer/renderDark.visible = visible
+	$BGLayer/renderLit.visible = visible
+	$BGLayer/Title.visible = visible
 	$MenuLayer/Menu/Control.grab_focus()

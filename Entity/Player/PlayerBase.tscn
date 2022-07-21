@@ -633,7 +633,7 @@ light_color = Color( 0.0392157, 0.533333, 0.682353, 1 )
 light_energy = 2.468
 
 [node name="rightHandAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( -0.996222, 0.0257847, -0.0829336, -0.0527121, -0.938425, 0.341435, -0.0690232, 0.344516, 0.936239, -2.48712, 6.39681, -0.102187 )
+transform = Transform( -0.996222, 0.0257847, -0.0829336, -0.0527121, -0.938426, 0.341435, -0.0690233, 0.344516, 0.936239, -2.48712, 6.39681, -0.102187 )
 bone_name = "hand.R"
 
 [node name="shootSfx" type="AudioStreamPlayer3D" parent="armatureMaterialTest/Skeleton/rightHandAttachments"]

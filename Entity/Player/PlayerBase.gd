@@ -82,7 +82,7 @@ func _process(_delta):
 		else:
 			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
 			if distance_to_target < melee_range:
-				print('Follow up attack: ', current_attack)
+#				print('Follow up attack: ', current_attack)
 				$AnimationTree.set('parameters/attack_state/current', current_attack)
 				velocity = (target.global_transform.origin - global_transform.origin) * 5
 				combo_enabled = false
@@ -95,7 +95,7 @@ func _process(_delta):
 		else:
 			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
 			if distance_to_target < melee_range:
-				print('Combo start at: ', current_attack)
+#				print('Combo start at: ', current_attack)
 				is_attacking = true
 				combo_enabled = false
 				$AnimationTree.set('parameters/blocked_action/current', true)
@@ -130,14 +130,14 @@ func _process(_delta):
 		get_tree().paused = true
 	
 func _reset_attack_state():
-	print('reset attack state')
+#	print('reset attack state')
 	current_attack = 0
 	$AnimationTree.set('parameters/blocked_action/current', false)
 	is_attacking = false
 	combo_enabled = false
 	
 func _enable_combo():
-	print('combo window open')
+#	print('combo window open')
 	combo_enabled = true
 	current_attack = wrapi(current_attack, 0, 2)
 	current_attack += 1
@@ -167,7 +167,7 @@ func _target_toggle():
 			
 func _target_change(offset):
 	var new_target = null
-	if target_list.size() == 1:
+	if target_list.size() < 1:
 		return
 	if !target:
 		return
@@ -212,9 +212,8 @@ func _on_targetArea_body_entered(body):
 func _on_targetArea_body_exited(body):
 	if body != null:
 		for i in target_list.size():
-			if target_list[i] == body && i > 0:
-				print(i)
-				target_list.remove(i)
+			if target_list[i - 1] == body && i > 0:
+				target_list.remove(i - 1)
 
 
 func _on_hitbox_area_entered(area):

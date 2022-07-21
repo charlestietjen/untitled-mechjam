@@ -85,9 +85,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Title" type="Label" parent="BGLayer"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -598.0
+margin_top = 113.0
+margin_right = -399.0
+margin_bottom = 160.0
+rect_scale = Vector2( 6, 6 )
+theme = ExtResource( 6 )
+text = "Valkyrie Gear"
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="BGLayer"]
 root_node = NodePath("../renderDark")
 anims/transition = SubResource( 1 )
+
+[node name="Label" type="Label" parent="BGLayer"]
+margin_left = 45.0
+margin_top = 10.0
+margin_right = 610.0
+margin_bottom = 57.0
+theme = ExtResource( 6 )
+text = "A game by lowlevelgoblin and phizzard"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="buttonFocus" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
