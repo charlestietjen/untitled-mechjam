@@ -21,6 +21,7 @@
 [ext_resource path="res://UI/PauseGUI.tscn" type="PackedScene" id=19]
 [ext_resource path="res://sound/music/Battle.mp3" type="AudioStream" id=20]
 [ext_resource path="res://Entity/Drone/Drone.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Entity/System/EnemySpawner.tscn" type="PackedScene" id=22]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 7 )
@@ -113,7 +114,12 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="valgr01" parent="." instance=ExtResource( 12 )]
-transform = Transform( 0.117729, 0.1404, -0.98307, -0.0166945, 0.990095, 0.139404, 0.992905, -1.49012e-08, 0.118907, -166.405, 264.381, -158.499 )
+transform = Transform( 0.964973, -0.0205537, 0.261541, -0.0166945, 0.990095, 0.139404, -0.261816, -0.138887, 0.955072, -166.405, 264.381, -158.499 )
+health = 30.0
+maxHealth = 500.0
+
+[node name="valgr03" parent="." instance=ExtResource( 12 )]
+transform = Transform( 0.117729, 0.1404, -0.98307, -0.0166945, 0.990095, 0.139404, 0.992905, -1.49012e-08, 0.118907, -166.405, 237.489, -12.5688 )
 health = 30.0
 maxHealth = 500.0
 
@@ -134,5 +140,46 @@ visible = false
 stream = ExtResource( 20 )
 volume_db = -10.666
 autoplay = true
+
+[node name="carrierShips" type="Spatial" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="carriership" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, -47.3341, 362.448, -410.575 )
+
+[node name="carriership2" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, -254.097, 362.448, -216.081 )
+
+[node name="carriership10" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, -593.258, 423.415, -216.081 )
+
+[node name="carriership3" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, 190.551, 362.448, -244.285 )
+
+[node name="carriership4" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.235458, 0.2808, -1.96614, -0.033389, 1.98019, 0.278808, 1.98581, 2.23517e-08, 0.237813, -462.325, 362.448, -282.206 )
+
+[node name="carriership5" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.235458, 0.2808, -1.96614, -0.033389, 1.98019, 0.278808, 1.98581, 2.23517e-08, 0.237813, -397.511, 370.471, -306.882 )
+
+[node name="carriership6" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.237513, -0.100559, -1.9833, 0.0119571, 1.99747, -0.0998452, 1.98581, 2.23517e-08, 0.237813, -392.319, 386.406, -254.912 )
+
+[node name="carriership7" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.235458, 0.2808, -1.96614, -0.033389, 1.98019, 0.278808, 1.98581, 2.23517e-08, 0.237813, -22.3671, 415.595, -229.025 )
+
+[node name="carriership8" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.235458, 0.2808, -1.96614, -0.033389, 1.98019, 0.278808, 1.98581, 2.23517e-08, 0.237813, 42.4459, 423.617, -253.701 )
+
+[node name="carriership9" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.237513, -0.100559, -1.9833, 0.0119571, 1.99747, -0.0998452, 1.98581, 2.23517e-08, 0.237813, 47.6386, 439.553, -201.731 )
+
+[node name="EnemySpawner" parent="." instance=ExtResource( 21 )]
+transform = Transform( 1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, -90.7676, 210.928, -1.93775 )
+enemy_scene = ExtResource( 12 )
+wave_size = 3
+spawn_interval = 5
 
 [connection signal="health_changed" from="Player" to="HUD" method="_on_Player_health_changed"]

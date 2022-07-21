@@ -54,6 +54,10 @@ func _physics_process(delta):
 				target = player
 				break
 
+func initialize(start_position, direction_facing = Vector3.LEFT):
+	look_at_from_position(start_position, direction_facing, Vector3.UP)
+
+
 func find_next_point_in_path():
 	if path.size() > 0:
 		var new_target = path.pop_front()
