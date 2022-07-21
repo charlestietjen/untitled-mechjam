@@ -17,6 +17,7 @@ var current_attack := 0
 var target_element = null
 var target_list := []
 var target = null
+var pause_enabled = true
 
 func _ready():
 	pass
@@ -88,6 +89,9 @@ func _process(_delta):
 	elif Input.is_action_just_pressed("attack") && !is_attacking && !is_blocking:
 		if !target:
 			pass
+#			is_attacking = true
+#			$AnimationTree.set("parameters/blocked_action/current", true)
+#			$AnimationTree.set("parameters/action_type/current", 2)
 		else:
 			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
 			if distance_to_target < melee_range:
@@ -117,6 +121,13 @@ func _process(_delta):
 	velocity = move_and_slide(velocity, Vector3.DOWN)
 	if Input.is_action_just_pressed("toggle_target"):
 		_target_toggle()
+	if Input.is_action_just_pressed("next_target"):
+		_target_change(1)
+	elif Input.is_action_just_pressed("previous_target"):
+		_target_change(-1)
+	if Input.is_action_just_pressed("pause") && pause_enabled:
+		get_node("/root/Spatial/pauseGUI").visible = visible
+		get_tree().paused = true
 	
 func _reset_attack_state():
 	print('reset attack state')
@@ -153,13 +164,35 @@ func _target_toggle():
 		target = null
 		if is_instance_valid(target_element):
 			target_element.queue_free()
+			
+func _target_change(offset):
+	var new_target = null
+	if target_list.size() == 1:
+		return
+	if !target:
+		return
+	for i in target_list.size():
+		if target == target_list[i - 1]:
+			new_target = target_list[(i - 1) + offset]
+		else:
+			pass
+	if is_instance_valid(target_element):
+		target_element.queue_free()
+	target = new_target
+	if is_instance_valid(target):
+		target_element = target_element_scene.instance()
+		target.add_child(target_element)
 		
 func _on_hit(damage):
-	damage_health(damage)
-	emit_signal("health_changed", maxHealth, health)
-	$AnimationTree.set("parameters/on_hit/active", true)
-	$hitbox/hitboxCollider.disabled = true
-	$invulTimer.start()
+	if !is_blocking:
+		$meleeHitSfx.play()
+		damage_health(damage)
+		emit_signal("health_changed", maxHealth, health)
+		$AnimationTree.set("parameters/on_hit/active", true)
+		$hitbox/hitboxCollider.disabled = true
+		$invulTimer.start()
+	else:
+		pass
 
 func shoot():
 	var bullet = bullet_scene.instance()

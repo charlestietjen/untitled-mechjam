@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=2]
+[gd_scene load_steps=78 format=2]
 
 [ext_resource path="res://material/psxPolishedMetal.tres" type="Material" id=1]
 [ext_resource path="res://material/psxEnergy.tres" type="Material" id=2]
@@ -24,6 +24,9 @@
 [ext_resource path="res://mesh/valkyrie/0.6/blockLoop.anim" type="Animation" id=22]
 [ext_resource path="res://mesh/valkyrie/0.6/moveDownLoop.anim" type="Animation" id=23]
 [ext_resource path="res://mesh/valkyrie/0.6/moveHorizontalLoop.anim" type="Animation" id=24]
+[ext_resource path="res://sound/sfx/maceSwing.wav" type="AudioStream" id=25]
+[ext_resource path="res://sound/sfx/metalImpact.ogg" type="AudioStream" id=26]
+[ext_resource path="res://sound/sfx/shoot.wav" type="AudioStream" id=27]
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_name = "polishedBrassMat"
@@ -456,7 +459,7 @@ nodes/on_hit/position = Vector2( 660, 360 )
 nodes/output/position = Vector2( 1260, 40 )
 nodes/shoot/node = SubResource( 96 )
 nodes/shoot/position = Vector2( -140, 680 )
-node_connections = [ "output", 0, "is_dead", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "action_type", 2, "shoot", "on_hit", 0, "blocked_action", "on_hit", 1, "hit_react", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "is_dead", 0, "on_hit", "is_dead", 1, "dying" ]
+node_connections = [ "output", 0, "is_dead", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "action_type", 2, "shoot", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "is_dead", 0, "on_hit", "is_dead", 1, "dying", "on_hit", 0, "blocked_action", "on_hit", 1, "hit_react", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost" ]
 
 [sub_resource type="SphereShape" id=95]
 radius = 127.346
@@ -578,14 +581,19 @@ skin = SubResource( 3 )
 material/0 = SubResource( 85 )
 
 [node name="weaponAttachment" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( -0.896586, -0.430416, 0.104292, 0.127963, -0.0263292, 0.99143, -0.423981, 0.902247, 0.0786835, 0.695366, 8.26425, 2.6696 )
+transform = Transform( -0.986215, -0.0198113, 0.164283, -0.0202444, -0.970904, -0.238613, 0.16423, -0.238648, 0.957118, 3.23433, 6.75659, -1.1842 )
 bone_name = "hand.L"
 
 [node name="mace02" parent="armatureMaterialTest/Skeleton/weaponAttachment" instance=ExtResource( 20 )]
 transform = Transform( 4.90241, 0.215578, 0.959145, -0.257114, 4.98967, 0.192691, -0.948854, -0.238252, 4.90336, -1.86073, -1.90476, 1.87388 )
 
+[node name="weaponSwing" type="AudioStreamPlayer3D" parent="armatureMaterialTest/Skeleton/weaponAttachment"]
+transform = Transform( -0.985455, 0.160224, 0.0566139, -0.116949, -0.881167, 0.458112, 0.123286, 0.444828, 0.88709, 0.568589, 0.487331, 4.93472 )
+stream = ExtResource( 25 )
+unit_db = 44.021
+
 [node name="torsoAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 1, -1.50565e-09, 1.50746e-08, 2.34159e-15, 0.995049, 0.0993853, -1.51496e-08, -0.0993853, 0.995049, -2.78507e-09, 7.91956, -0.183838 )
+transform = Transform( 1, 7.54835e-10, 1.51308e-08, 1.92833e-15, 0.998758, -0.0498255, -1.51496e-08, 0.0498255, 0.998758, -1.95069e-09, 7.92563, -0.128762 )
 bone_name = "torso"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/torsoAttachments"]
@@ -611,7 +619,7 @@ process_material = SubResource( 88 )
 draw_pass_1 = SubResource( 89 )
 
 [node name="headAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( 1, 1.66022e-09, 1.50583e-08, 2.24182e-15, 0.993977, -0.109589, -1.51496e-08, 0.109589, 0.993977, -5.63024e-09, 9.79987, -0.371642 )
+transform = Transform( 1, 1.88535e-10, 1.51484e-08, 1.89561e-15, 0.999923, -0.012445, -1.51496e-08, 0.012445, 0.999923, -5.24309e-10, 9.81294, -0.0346084 )
 bone_name = "head"
 
 [node name="rightGlow" type="OmniLight" parent="armatureMaterialTest/Skeleton/headAttachments"]
@@ -625,8 +633,12 @@ light_color = Color( 0.0392157, 0.533333, 0.682353, 1 )
 light_energy = 2.468
 
 [node name="rightHandAttachments" type="BoneAttachment" parent="armatureMaterialTest/Skeleton"]
-transform = Transform( -0.752245, 0.484486, 0.446545, 0.473235, -0.0742821, 0.877799, 0.458451, 0.871639, -0.173398, -1.15962, 9.0214, 3.1307 )
+transform = Transform( -0.0552802, -0.0106067, 0.998415, 0.918075, -0.393651, 0.046649, 0.392531, 0.919199, 0.0314981, -1.71669, 9.41229, 3.40375 )
 bone_name = "hand.R"
+
+[node name="shootSfx" type="AudioStreamPlayer3D" parent="armatureMaterialTest/Skeleton/rightHandAttachments"]
+stream = ExtResource( 27 )
+unit_db = 40.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attackMelee01 = ExtResource( 11 )
@@ -683,6 +695,10 @@ shape = SubResource( 97 )
 
 [node name="invulTimer" type="Timer" parent="."]
 wait_time = 1.5
+
+[node name="meleeHitSfx" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 26 )
+unit_db = 41.0
 
 [connection signal="body_entered" from="targetArea" to="." method="_on_targetArea_body_entered"]
 [connection signal="body_exited" from="targetArea" to="." method="_on_targetArea_body_exited"]

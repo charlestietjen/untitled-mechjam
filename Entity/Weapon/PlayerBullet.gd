@@ -11,3 +11,7 @@ func _ready():
 
 func _process(_delta):
 	move_and_slide(transform.basis * velocity)
+
+
+func _on_lifetime_timeout():
+	queue_free()

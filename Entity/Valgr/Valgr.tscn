@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://material/psxClaw.tres" type="Material" id=1]
 [ext_resource path="res://material/psxValgrPlating.tres" type="Material" id=2]
@@ -12,6 +12,8 @@
 [ext_resource path="res://Entity/Valgr/Valgr.gd" type="Script" id=10]
 [ext_resource path="res://mesh/valgr/0.2/moveHorizontalLoop.anim" type="Animation" id=11]
 [ext_resource path="res://Entity/Valgr/hurtBoxArea.gd" type="Script" id=12]
+[ext_resource path="res://sound/sfx/valgrSwing.wav" type="AudioStream" id=13]
+[ext_resource path="res://sound/sfx/metalImpact.ogg" type="AudioStream" id=14]
 
 [sub_resource type="SpatialMaterial" id=1]
 resource_name = "carbon"
@@ -207,7 +209,7 @@ nodes/move_state/position = Vector2( -100, 60 )
 nodes/on_hit/node = SubResource( 19 )
 nodes/on_hit/position = Vector2( 420, 100 )
 nodes/output/position = Vector2( 960, 80 )
-node_connections = [ "output", 0, "is_dead", "is_attacking", 0, "move_state", "is_attacking", 1, "attack01", "move_state", 0, "idleLoop", "move_state", 1, "moveHorizontalLoop", "on_hit", 0, "is_attacking", "on_hit", 1, "hit_react", "is_dead", 0, "on_hit", "is_dead", 1, "dying" ]
+node_connections = [ "output", 0, "is_dead", "is_dead", 0, "on_hit", "is_dead", 1, "dying", "on_hit", 0, "is_attacking", "on_hit", 1, "hit_react", "is_attacking", 0, "move_state", "is_attacking", 1, "attack01", "move_state", 0, "idleLoop", "move_state", 1, "moveHorizontalLoop" ]
 
 [sub_resource type="CapsuleShape" id=24]
 radius = 2.75909
@@ -250,7 +252,7 @@ bones/5/name = "claw.L"
 bones/5/parent = 4
 bones/5/rest = Transform( 0.838825, 0.408577, 0.359774, -0.421249, 0.905754, -0.0464616, -0.34485, -0.112581, 0.931882, 8.02306e-08, 1.63593, -3.46208e-07 )
 bones/5/enabled = true
-bones/5/bound_children = [ NodePath("leftHandAttach") ]
+bones/5/bound_children = [  ]
 bones/6/name = "upperArm.R"
 bones/6/parent = 1
 bones/6/rest = Transform( -0.804286, -0.587141, 0.0915888, 0.503974, -0.755624, -0.418382, 0.314856, -0.29034, 0.903642, -1.03958, 1.14353, -8.41789e-08 )
@@ -308,7 +310,7 @@ skin = SubResource( 3 )
 material/0 = ExtResource( 6 )
 
 [node name="leftHandAttach" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.151344, 0.560121, -0.814469, -0.825622, 0.381449, 0.415745, 0.543545, 0.735364, 0.404718, 2.49794, 3.76446, -0.986481 )
+transform = Transform( -0.994166, 0.0484521, -0.0963679, -0.0952353, -0.813761, 0.573343, -0.0506406, 0.579175, 0.813628, 2.05509, 0.238358, 0.282361 )
 bone_name = "claw.L"
 
 [node name="hurtboxContainer" type="Spatial" parent="Armature/Skeleton/leftHandAttach"]
@@ -324,6 +326,10 @@ script = ExtResource( 12 )
 transform = Transform( 0.987242, -0.150241, 0.0527821, -0.0491973, 0.027476, 0.998415, -0.151452, -0.988269, 0.0197348, 0.593643, 2.17052, 0.495667 )
 shape = SubResource( 25 )
 disabled = true
+
+[node name="weaponSwing" type="AudioStreamPlayer3D" parent="Armature/Skeleton/leftHandAttach"]
+stream = ExtResource( 13 )
+unit_db = 42.321
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/attack01 = ExtResource( 8 )
@@ -387,6 +393,12 @@ autostart = true
 
 [node name="coolDownTimer" type="Timer" parent="."]
 wait_time = 3.0
+
+[node name="meleeHitSfx" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource( 14 )
+unit_db = 41.0
+
+[node name="bulletHitSfx" type="AudioStreamPlayer3D" parent="."]
 
 [connection signal="area_entered" from="Area" to="." method="_on_Area_area_entered"]
 [connection signal="timeout" from="pathfindTimer" to="." method="_on_pathfindTimer_timeout"]

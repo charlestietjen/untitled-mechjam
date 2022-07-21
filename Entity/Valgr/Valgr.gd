@@ -76,10 +76,12 @@ func attack():
 
 func _on_Area_area_entered(area):
 	if area.damage_type == "range":
+		$bulletHitSfx.play()
 		damage_health(area.damage)
 		print('ouch, remaining health: ', health)
 		area.get_parent().queue_free()
 	elif area.damage_type == "melee":
+		$meleeHitSfx.play()
 		damage_health(area.damage)
 		print('ouch, remaining health: ', health)
 

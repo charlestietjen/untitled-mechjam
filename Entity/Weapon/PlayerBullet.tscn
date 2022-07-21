@@ -26,3 +26,9 @@ light_color = Color( 0.0431373, 0.8, 0.835294, 1 )
 [node name="bulletMesh" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )
 material/0 = null
+
+[node name="lifetime" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="lifetime" to="." method="_on_lifetime_timeout"]

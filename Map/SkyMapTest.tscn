@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://mapdata/environment.tres" type="Environment" id=1]
 [ext_resource path="res://Entity/System/AStar.tscn" type="PackedScene" id=2]
@@ -18,6 +18,8 @@
 [ext_resource path="res://addons/zylann.hterrain/tools/icons/icon_detail_layer_node.svg" type="Texture" id=16]
 [ext_resource path="res://material/mapboundaryalpha.tres" type="Material" id=17]
 [ext_resource path="res://UI/HUDScene.tscn" type="PackedScene" id=18]
+[ext_resource path="res://UI/PauseGUI.tscn" type="PackedScene" id=19]
+[ext_resource path="res://sound/music/Battle.mp3" type="AudioStream" id=20]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 7 )
@@ -114,6 +116,18 @@ transform = Transform( 0.117729, 0.1404, -0.98307, -0.0166945, 0.990095, 0.13940
 health = 30.0
 maxHealth = 500.0
 
+[node name="valgr02" parent="." instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -181.197, 263.642, -238.734 )
+
 [node name="HUD" parent="." instance=ExtResource( 18 )]
+
+[node name="pauseGUI" parent="." instance=ExtResource( 19 )]
+pause_mode = 2
+visible = false
+
+[node name="bgm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 20 )
+volume_db = -10.666
+autoplay = true
 
 [connection signal="health_changed" from="Player" to="HUD" method="_on_Player_health_changed"]

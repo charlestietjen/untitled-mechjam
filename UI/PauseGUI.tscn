@@ -1,0 +1,120 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://UI/UITheme.tres" type="Theme" id=1]
+[ext_resource path="res://UI/ControllerLayout.tscn" type="PackedScene" id=2]
+[ext_resource path="res://UI/PauseGUI.gd" type="Script" id=3]
+[ext_resource path="res://sound/sfx/buttonDown.wav" type="AudioStream" id=4]
+[ext_resource path="res://sound/sfx/buttonFocus.wav" type="AudioStream" id=5]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PauseBg" type="ColorRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -642.0
+margin_top = -407.0
+margin_right = 591.0
+margin_bottom = 428.0
+theme = ExtResource( 1 )
+color = Color( 0, 0, 0, 0.611765 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="menu" type="VBoxContainer" parent="PauseBg"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -133.0
+margin_top = -174.0
+margin_right = -1.0
+margin_bottom = -16.0
+rect_scale = Vector2( 2, 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="resumeButton" type="Button" parent="PauseBg/menu"]
+margin_right = 132.0
+margin_bottom = 50.0
+text = "Resume"
+
+[node name="controlsButton" type="Button" parent="PauseBg/menu"]
+margin_top = 54.0
+margin_right = 132.0
+margin_bottom = 104.0
+text = "Controls"
+
+[node name="quitButton" type="Button" parent="PauseBg/menu"]
+margin_top = 108.0
+margin_right = 132.0
+margin_bottom = 158.0
+text = "Quit"
+
+[node name="PausedHeader" type="Label" parent="PauseBg"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -230.5
+margin_top = 49.0
+margin_right = -140.5
+margin_bottom = 93.0
+rect_scale = Vector2( 5, 4 )
+text = "PAUSED"
+uppercase = true
+
+[node name="controlsDisplay" parent="PauseBg" instance=ExtResource( 2 )]
+visible = false
+margin_left = -776.5
+margin_top = -399.5
+margin_right = 1143.5
+margin_bottom = 680.5
+rect_scale = Vector2( 0.8, 0.8 )
+
+[node name="quitConfirm" type="HBoxContainer" parent="PauseBg"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -206.5
+margin_top = -222.0
+margin_right = -103.5
+margin_bottom = -172.0
+rect_scale = Vector2( 4, 3 )
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="yesButton" type="Button" parent="PauseBg/quitConfirm"]
+margin_right = 57.0
+margin_bottom = 50.0
+text = "Yes"
+
+[node name="noButton" type="Button" parent="PauseBg/quitConfirm"]
+margin_left = 61.0
+margin_right = 103.0
+margin_bottom = 50.0
+text = "No"
+
+[node name="focusChange" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[node name="buttonDown" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[connection signal="visibility_changed" from="." to="." method="_on_Control_visibility_changed"]
+[connection signal="button_up" from="PauseBg/menu/resumeButton" to="." method="_on_resumeButton_button_up"]
+[connection signal="button_up" from="PauseBg/menu/controlsButton" to="." method="_on_controlsButton_button_up"]
+[connection signal="button_up" from="PauseBg/menu/quitButton" to="." method="_on_quitButton_button_up"]
+[connection signal="button_up" from="PauseBg/quitConfirm/yesButton" to="." method="_on_yesButton_button_up"]
+[connection signal="button_up" from="PauseBg/quitConfirm/noButton" to="." method="_on_noButton_button_up"]
