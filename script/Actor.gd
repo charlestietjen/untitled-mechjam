@@ -24,5 +24,5 @@ func damage_health(damage):
 		$AnimationTree.set("parameters/on_hit/active", true)
 
 func handle_death():
+	actions_blocked = true
 	$AnimationTree.set("parameters/is_dead/current", true)
-	

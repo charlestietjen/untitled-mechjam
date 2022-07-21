@@ -189,7 +189,7 @@ input_1/auto_advance = false
 [sub_resource type="AnimationNodeOneShot" id=19]
 
 [sub_resource type="AnimationNodeBlendTree" id=23]
-graph_offset = Vector2( -286.498, 100.444 )
+graph_offset = Vector2( -24.3291, 28.1217 )
 nodes/attack01/node = SubResource( 11 )
 nodes/attack01/position = Vector2( -40, 340 )
 nodes/dying/node = SubResource( 20 )
@@ -310,7 +310,7 @@ skin = SubResource( 3 )
 material/0 = ExtResource( 6 )
 
 [node name="leftHandAttach" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.994166, 0.0484521, -0.0963679, -0.0952353, -0.813761, 0.573343, -0.0506406, 0.579175, 0.813628, 2.05509, 0.238358, 0.282361 )
+transform = Transform( -0.75652, 0.609942, -0.235901, 0.264996, 0.615691, 0.742092, 0.597875, 0.498896, -0.627414, 3.30247, -1.65651, 0.0225645 )
 bone_name = "claw.L"
 
 [node name="hurtboxContainer" type="Spatial" parent="Armature/Skeleton/leftHandAttach"]

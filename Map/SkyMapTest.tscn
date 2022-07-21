@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://mapdata/environment.tres" type="Environment" id=1]
 [ext_resource path="res://Entity/System/AStar.tscn" type="PackedScene" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://UI/HUDScene.tscn" type="PackedScene" id=18]
 [ext_resource path="res://UI/PauseGUI.tscn" type="PackedScene" id=19]
 [ext_resource path="res://sound/music/Battle.mp3" type="AudioStream" id=20]
+[ext_resource path="res://Entity/Drone/Drone.tscn" type="PackedScene" id=21]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 7 )
@@ -118,6 +119,10 @@ maxHealth = 500.0
 
 [node name="valgr02" parent="." instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -181.197, 263.642, -238.734 )
+
+[node name="turtledrone" parent="." instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -97.363, 265.163, -156.383 )
+maxHealth = 10.0
 
 [node name="HUD" parent="." instance=ExtResource( 18 )]
 
