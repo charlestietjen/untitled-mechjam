@@ -369,18 +369,43 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.58616, 0 )
 enabled = true
 cast_to = Vector3( 0, -1, 120 )
 
-[node name="RayCast2" type="RayCast" parent="RayCasts"]
-transform = Transform( -0.999965, 0, -0.00837749, 0, 1, 0, 0.00837749, 0, -0.999965, 0, 4.58616, 0 )
-enabled = true
-cast_to = Vector3( 0, -1, 60 )
-
 [node name="RayCast3" type="RayCast" parent="RayCasts"]
-transform = Transform( -0.0180457, 0, 0.999837, 0, 1, 0, -0.999837, 0, -0.0180457, 0, 4.58616, 0 )
+transform = Transform( 0.990672, 0, 0.136269, 0, 1, 0, -0.136269, 0, 0.990672, 0, 4.58616, 0 )
 enabled = true
 cast_to = Vector3( 0, -1, 60 )
 
 [node name="RayCast4" type="RayCast" parent="RayCasts"]
-transform = Transform( 0.00944214, 0, -0.999955, 0, 1, 0, 0.999955, 0, 0.00944214, 0, 4.58616, 0 )
+transform = Transform( 0.989157, 0, -0.14686, 0, 1, 0, 0.14686, 0, 0.989157, 0, 4.58616, 0 )
+enabled = true
+cast_to = Vector3( 0, -1, 60 )
+
+[node name="RayCast5" type="RayCast" parent="RayCasts"]
+transform = Transform( 0.00911032, 0, 0.999958, 0, 1, 0, -0.999958, 0, 0.00911032, 0, 4.58616, 0 )
+enabled = true
+cast_to = Vector3( 0, -1, 60 )
+
+[node name="RayCast6" type="RayCast" parent="RayCasts"]
+transform = Transform( -0.00298436, 0, -0.999995, 0, 1, 0, 0.999995, 0, -0.00298436, 0, 4.58616, 0 )
+enabled = true
+cast_to = Vector3( 0, -1, 60 )
+
+[node name="RayCast7" type="RayCast" parent="RayCasts"]
+transform = Transform( 0.433313, 0, -0.901243, 0, 1, 0, 0.901243, 0, 0.433313, 0, 4.58616, 0 )
+enabled = true
+cast_to = Vector3( 0, -1, 60 )
+
+[node name="RayCast8" type="RayCast" parent="RayCasts"]
+transform = Transform( 0.861097, 0, -0.50844, 0, 1, 0, 0.50844, 0, 0.861097, 0, 4.58616, 0 )
+enabled = true
+cast_to = Vector3( 0, -1, 60 )
+
+[node name="RayCast9" type="RayCast" parent="RayCasts"]
+transform = Transform( 0.790903, 0, 0.611941, 0, 1, 0, -0.611941, 0, 0.790903, 0, 4.58616, 0 )
+enabled = true
+cast_to = Vector3( 0, -1, 60 )
+
+[node name="RayCast10" type="RayCast" parent="RayCasts"]
+transform = Transform( 0.407741, 0, 0.913097, 0, 1, 0, -0.913097, 0, 0.407741, 0, 4.58616, 0 )
 enabled = true
 cast_to = Vector3( 0, -1, 60 )
 

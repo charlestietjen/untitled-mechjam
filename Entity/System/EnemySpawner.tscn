@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Entity/System/EnemySpawner.gd" type="Script" id=1]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -0.247649, -23.2273, -0.216314, 0, 0, 0, 0, 0, 0, 0.0311576, 19.7244, 1.60847, 0, 0, 0, 0, 0, 0, -0.196432, 20.445, 13.8369, 0, 0, 0, 0, 0, 0, -1.72227, -21.9479, 11.6362, 0, 0, 0, 0, 0, 0, -0.247649, -23.2273, -0.216314 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0 )
+}
+
+[node name="EnemySpawner" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, -0.0406898, 0.999172, 0, -0.999172, -0.0406898, 0, 0, 0 )
+script = ExtResource( 1 )
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 2.449
+autostart = true
+
+[node name="SpawnPath" type="Path" parent="."]
+curve = SubResource( 1 )
+
+[node name="SpawnLocation" type="PathFollow" parent="SpawnPath"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.247649, -23.2273, -0.216314 )
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_SpawnTimer_timeout"]
