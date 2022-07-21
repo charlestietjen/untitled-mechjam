@@ -1,7 +1,42 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://textures/UIBackgroundGradient.png" type="Texture" id=1]
 [ext_resource path="res://UI/StartUI.gd" type="Script" id=2]
+[ext_resource path="res://sound/music/Title.mp3" type="AudioStream" id=3]
+[ext_resource path="res://UI/image/visorlit512.png" type="Texture" id=4]
+[ext_resource path="res://UI/image/visordark512.png" type="Texture" id=5]
+[ext_resource path="res://UI/UITheme.tres" type="Theme" id=6]
+[ext_resource path="res://sound/sfx/buttonDown.wav" type="AudioStream" id=7]
+[ext_resource path="res://sound/sfx/buttonFocus.wav" type="AudioStream" id=8]
+[ext_resource path="res://UI/ControllerLayout.tscn" type="PackedScene" id=9]
+
+[sub_resource type="Animation" id=1]
+resource_name = "transition"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"update": 0,
+"values": [  ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("../renderLit:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
@@ -11,35 +46,93 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="BG" type="TextureRect" parent="."]
-margin_right = 1920.0
-margin_bottom = 1131.0
+[node name="BGLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="BG" type="TextureRect" parent="BGLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 texture = ExtResource( 1 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="PressStart" type="Button" parent="."]
-margin_left = 770.0
+[node name="renderDark" type="TextureRect" parent="BGLayer"]
+anchor_left = 0.051
+anchor_top = 0.12
+anchor_right = 0.931
+anchor_bottom = 1.0
+margin_left = 0.0799942
+margin_top = 39.4
+margin_right = -1177.52
+margin_bottom = -623.0
+rect_scale = Vector2( 3.3, 3.3 )
+texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="renderLit" type="TextureRect" parent="BGLayer"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 98.0
+margin_top = 169.0
+margin_right = 610.0
+margin_bottom = 457.0
+rect_scale = Vector2( 3.3, 3.3 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BGLayer"]
+root_node = NodePath("../renderDark")
+anims/transition = SubResource( 1 )
+
+[node name="buttonFocus" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+
+[node name="buttonDown" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[node name="titleBGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+autoplay = true
+
+[node name="MenuLayer" type="CanvasLayer" parent="."]
+
+[node name="PressStart" type="Button" parent="MenuLayer"]
+margin_left = 571.0
 margin_top = 830.0
-margin_right = 850.0
-margin_bottom = 850.0
+margin_right = 748.0
+margin_bottom = 880.0
 rect_scale = Vector2( 4.649, 3.237 )
+theme = ExtResource( 6 )
 text = "Press Start"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Menu" type="Control" parent="."]
+[node name="Menu" type="VBoxContainer" parent="MenuLayer"]
 visible = false
-margin_left = 799.0
-margin_top = 799.0
-margin_right = 1136.0
-margin_bottom = 1043.0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -263.0
+margin_top = -202.0
+margin_right = 305.0
+margin_bottom = -44.0
+theme = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Start" type="Button" parent="Menu"]
-margin_left = 34.0
-margin_top = 33.0
-margin_right = 117.0
-margin_bottom = 53.0
-rect_scale = Vector2( 3.024, 2.953 )
-focus_neighbour_top = NodePath(".")
-focus_neighbour_bottom = NodePath("../Quit")
+[node name="Start" type="Button" parent="MenuLayer/Menu"]
+margin_right = 568.0
+margin_bottom = 50.0
+focus_neighbour_top = NodePath("../Quit")
+focus_neighbour_bottom = NodePath("../Control")
 focus_next = NodePath("../Quit")
 focus_previous = NodePath("../Quit")
 text = "Start Game"
@@ -47,13 +140,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Quit" type="Button" parent="Menu"]
-margin_left = 34.0
-margin_top = 143.0
-margin_right = 117.0
-margin_bottom = 163.0
-rect_scale = Vector2( 3.024, 2.953 )
+[node name="Control" type="Button" parent="MenuLayer/Menu"]
+margin_top = 54.0
+margin_right = 568.0
+margin_bottom = 104.0
 focus_neighbour_top = NodePath("../Start")
+focus_neighbour_bottom = NodePath("../Quit")
+text = "Controls"
+
+[node name="Quit" type="Button" parent="MenuLayer/Menu"]
+margin_top = 108.0
+margin_right = 568.0
+margin_bottom = 158.0
+focus_neighbour_top = NodePath("../Control")
 focus_neighbour_bottom = NodePath("../Start")
 focus_next = NodePath("../Start")
 focus_previous = NodePath("../Start")
@@ -62,6 +161,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[connection signal="button_up" from="PressStart" to="." method="_on_PressStart_button_up"]
-[connection signal="button_up" from="Menu/Start" to="." method="_on_Start_button_up"]
-[connection signal="button_up" from="Menu/Quit" to="." method="_on_Quit_button_up"]
+[node name="controlsLayout" parent="MenuLayer" instance=ExtResource( 9 )]
+visible = false
+
+[connection signal="button_up" from="MenuLayer/PressStart" to="." method="_on_PressStart_button_up"]
+[connection signal="button_up" from="MenuLayer/Menu/Start" to="." method="_on_Start_button_up"]
+[connection signal="button_up" from="MenuLayer/Menu/Control" to="." method="_on_Control_button_up"]
+[connection signal="button_up" from="MenuLayer/Menu/Quit" to="." method="_on_Quit_button_up"]

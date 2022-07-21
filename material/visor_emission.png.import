@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/visor_emission.png-56c46046a9da9c2b03ded6d85b2cae64.s3tc.stex"
 path.etc2="res://.import/visor_emission.png-56c46046a9da9c2b03ded6d85b2cae64.etc2.stex"
+path.etc="res://.import/visor_emission.png-56c46046a9da9c2b03ded6d85b2cae64.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://material/visor_emission.png"
-dest_files=[ "res://.import/visor_emission.png-56c46046a9da9c2b03ded6d85b2cae64.s3tc.stex", "res://.import/visor_emission.png-56c46046a9da9c2b03ded6d85b2cae64.etc2.stex" ]
+dest_files=[ "res://.import/visor_emission.png-56c46046a9da9c2b03ded6d85b2cae64.s3tc.stex", "res://.import/visor_emission.png-56c46046a9da9c2b03ded6d85b2cae64.etc2.stex", "res://.import/visor_emission.png-56c46046a9da9c2b03ded6d85b2cae64.etc.stex" ]
 
 [params]
 

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/valgrSwing.wav-afcd9de413110b759d09c5e29bd84033.sample"
+
+[deps]
+
+source_file="res://sound/sfx/valgrSwing.wav"
+dest_files=[ "res://.import/valgrSwing.wav-afcd9de413110b759d09c5e29bd84033.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

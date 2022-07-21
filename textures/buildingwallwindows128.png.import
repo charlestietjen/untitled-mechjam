@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/buildingwallwindows128.png-1866e9122e074e2fab3f5426db6ee255.s3tc.stex"
 path.etc2="res://.import/buildingwallwindows128.png-1866e9122e074e2fab3f5426db6ee255.etc2.stex"
+path.etc="res://.import/buildingwallwindows128.png-1866e9122e074e2fab3f5426db6ee255.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/buildingwallwindows128.png"
-dest_files=[ "res://.import/buildingwallwindows128.png-1866e9122e074e2fab3f5426db6ee255.s3tc.stex", "res://.import/buildingwallwindows128.png-1866e9122e074e2fab3f5426db6ee255.etc2.stex" ]
+dest_files=[ "res://.import/buildingwallwindows128.png-1866e9122e074e2fab3f5426db6ee255.s3tc.stex", "res://.import/buildingwallwindows128.png-1866e9122e074e2fab3f5426db6ee255.etc2.stex", "res://.import/buildingwallwindows128.png-1866e9122e074e2fab3f5426db6ee255.etc.stex" ]
 
 [params]
 

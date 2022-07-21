@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/grassterrain128_depth.png-3284d3b2c021f313141398f575f7c734.s3tc.stex"
 path.etc2="res://.import/grassterrain128_depth.png-3284d3b2c021f313141398f575f7c734.etc2.stex"
+path.etc="res://.import/grassterrain128_depth.png-3284d3b2c021f313141398f575f7c734.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/grassterrain128_depth.png"
-dest_files=[ "res://.import/grassterrain128_depth.png-3284d3b2c021f313141398f575f7c734.s3tc.stex", "res://.import/grassterrain128_depth.png-3284d3b2c021f313141398f575f7c734.etc2.stex" ]
+dest_files=[ "res://.import/grassterrain128_depth.png-3284d3b2c021f313141398f575f7c734.s3tc.stex", "res://.import/grassterrain128_depth.png-3284d3b2c021f313141398f575f7c734.etc2.stex", "res://.import/grassterrain128_depth.png-3284d3b2c021f313141398f575f7c734.etc.stex" ]
 
 [params]
 

@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/HoleNoise.png-93d3daeb6f69349201337c111041a0d8.s3tc.stex"
 path.etc2="res://.import/HoleNoise.png-93d3daeb6f69349201337c111041a0d8.etc2.stex"
+path.etc="res://.import/HoleNoise.png-93d3daeb6f69349201337c111041a0d8.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://vfx/HoleNoise.png"
-dest_files=[ "res://.import/HoleNoise.png-93d3daeb6f69349201337c111041a0d8.s3tc.stex", "res://.import/HoleNoise.png-93d3daeb6f69349201337c111041a0d8.etc2.stex" ]
+dest_files=[ "res://.import/HoleNoise.png-93d3daeb6f69349201337c111041a0d8.s3tc.stex", "res://.import/HoleNoise.png-93d3daeb6f69349201337c111041a0d8.etc2.stex", "res://.import/HoleNoise.png-93d3daeb6f69349201337c111041a0d8.etc.stex" ]
 
 [params]
 

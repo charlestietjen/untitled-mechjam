@@ -7,8 +7,6 @@
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -1920.0
-margin_bottom = -1080.0
 focus_next = NodePath("Restart")
 size_flags_horizontal = 2
 size_flags_vertical = 2
@@ -19,8 +17,8 @@ __meta__ = {
 }
 
 [node name="Background" type="TextureRect" parent="."]
-margin_right = 1921.0
-margin_bottom = 1157.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 2 )

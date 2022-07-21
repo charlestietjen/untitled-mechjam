@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.s3tc.stex"
 path.etc2="res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.etc2.stex"
+path.etc="res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/energyclaw_albedo.png"
-dest_files=[ "res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.s3tc.stex", "res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.etc2.stex" ]
+dest_files=[ "res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.s3tc.stex", "res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.etc2.stex", "res://.import/energyclaw_albedo.png-2d16de64974381225f6024cb191b8300.etc.stex" ]
 
 [params]
 

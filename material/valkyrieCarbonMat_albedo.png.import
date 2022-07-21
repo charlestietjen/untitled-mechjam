@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/valkyrieCarbonMat_albedo.png-193f6904ad9bedf130a4679fc62f9411.s3tc.stex"
 path.etc2="res://.import/valkyrieCarbonMat_albedo.png-193f6904ad9bedf130a4679fc62f9411.etc2.stex"
+path.etc="res://.import/valkyrieCarbonMat_albedo.png-193f6904ad9bedf130a4679fc62f9411.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://material/valkyrieCarbonMat_albedo.png"
-dest_files=[ "res://.import/valkyrieCarbonMat_albedo.png-193f6904ad9bedf130a4679fc62f9411.s3tc.stex", "res://.import/valkyrieCarbonMat_albedo.png-193f6904ad9bedf130a4679fc62f9411.etc2.stex" ]
+dest_files=[ "res://.import/valkyrieCarbonMat_albedo.png-193f6904ad9bedf130a4679fc62f9411.s3tc.stex", "res://.import/valkyrieCarbonMat_albedo.png-193f6904ad9bedf130a4679fc62f9411.etc2.stex", "res://.import/valkyrieCarbonMat_albedo.png-193f6904ad9bedf130a4679fc62f9411.etc.stex" ]
 
 [params]
 

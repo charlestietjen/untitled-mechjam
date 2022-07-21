@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/visor_albedo.png-d3077ef8060edde966341e01f2e84854.s3tc.stex"
 path.etc2="res://.import/visor_albedo.png-d3077ef8060edde966341e01f2e84854.etc2.stex"
+path.etc="res://.import/visor_albedo.png-d3077ef8060edde966341e01f2e84854.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://material/visor_albedo.png"
-dest_files=[ "res://.import/visor_albedo.png-d3077ef8060edde966341e01f2e84854.s3tc.stex", "res://.import/visor_albedo.png-d3077ef8060edde966341e01f2e84854.etc2.stex" ]
+dest_files=[ "res://.import/visor_albedo.png-d3077ef8060edde966341e01f2e84854.s3tc.stex", "res://.import/visor_albedo.png-d3077ef8060edde966341e01f2e84854.etc2.stex", "res://.import/visor_albedo.png-d3077ef8060edde966341e01f2e84854.etc.stex" ]
 
 [params]
 

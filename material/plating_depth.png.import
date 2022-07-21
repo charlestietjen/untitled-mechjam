@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/plating_depth.png-7f244bd73ebaf1a741f79a7a2805953e.s3tc.stex"
 path.etc2="res://.import/plating_depth.png-7f244bd73ebaf1a741f79a7a2805953e.etc2.stex"
+path.etc="res://.import/plating_depth.png-7f244bd73ebaf1a741f79a7a2805953e.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://material/plating_depth.png"
-dest_files=[ "res://.import/plating_depth.png-7f244bd73ebaf1a741f79a7a2805953e.s3tc.stex", "res://.import/plating_depth.png-7f244bd73ebaf1a741f79a7a2805953e.etc2.stex" ]
+dest_files=[ "res://.import/plating_depth.png-7f244bd73ebaf1a741f79a7a2805953e.s3tc.stex", "res://.import/plating_depth.png-7f244bd73ebaf1a741f79a7a2805953e.etc2.stex", "res://.import/plating_depth.png-7f244bd73ebaf1a741f79a7a2805953e.etc.stex" ]
 
 [params]
 

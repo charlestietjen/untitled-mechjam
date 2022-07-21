@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/maceAlbedo.png-8df82e8b8844347aa91f8ae2e8dbba32.s3tc.stex"
 path.etc2="res://.import/maceAlbedo.png-8df82e8b8844347aa91f8ae2e8dbba32.etc2.stex"
+path.etc="res://.import/maceAlbedo.png-8df82e8b8844347aa91f8ae2e8dbba32.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/maceAlbedo.png"
-dest_files=[ "res://.import/maceAlbedo.png-8df82e8b8844347aa91f8ae2e8dbba32.s3tc.stex", "res://.import/maceAlbedo.png-8df82e8b8844347aa91f8ae2e8dbba32.etc2.stex" ]
+dest_files=[ "res://.import/maceAlbedo.png-8df82e8b8844347aa91f8ae2e8dbba32.s3tc.stex", "res://.import/maceAlbedo.png-8df82e8b8844347aa91f8ae2e8dbba32.etc2.stex", "res://.import/maceAlbedo.png-8df82e8b8844347aa91f8ae2e8dbba32.etc.stex" ]
 
 [params]
 

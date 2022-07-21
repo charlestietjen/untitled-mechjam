@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/maceSwing.wav-c8a5f270af4c26f0652551440d97770d.sample"
+
+[deps]
+
+source_file="res://sound/sfx/maceSwing.wav"
+dest_files=[ "res://.import/maceSwing.wav-c8a5f270af4c26f0652551440d97770d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

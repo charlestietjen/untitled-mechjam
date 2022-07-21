@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/distantterrain128.png-6b6232d546d0ee6063faeccaae2ac367.s3tc.stex"
 path.etc2="res://.import/distantterrain128.png-6b6232d546d0ee6063faeccaae2ac367.etc2.stex"
+path.etc="res://.import/distantterrain128.png-6b6232d546d0ee6063faeccaae2ac367.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/distantterrain128.png"
-dest_files=[ "res://.import/distantterrain128.png-6b6232d546d0ee6063faeccaae2ac367.s3tc.stex", "res://.import/distantterrain128.png-6b6232d546d0ee6063faeccaae2ac367.etc2.stex" ]
+dest_files=[ "res://.import/distantterrain128.png-6b6232d546d0ee6063faeccaae2ac367.s3tc.stex", "res://.import/distantterrain128.png-6b6232d546d0ee6063faeccaae2ac367.etc2.stex", "res://.import/distantterrain128.png-6b6232d546d0ee6063faeccaae2ac367.etc.stex" ]
 
 [params]
 

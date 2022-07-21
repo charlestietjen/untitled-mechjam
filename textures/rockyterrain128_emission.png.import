@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/rockyterrain128_emission.png-415c7a51606367297c66cf17587d9d42.s3tc.stex"
 path.etc2="res://.import/rockyterrain128_emission.png-415c7a51606367297c66cf17587d9d42.etc2.stex"
+path.etc="res://.import/rockyterrain128_emission.png-415c7a51606367297c66cf17587d9d42.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://textures/rockyterrain128_emission.png"
-dest_files=[ "res://.import/rockyterrain128_emission.png-415c7a51606367297c66cf17587d9d42.s3tc.stex", "res://.import/rockyterrain128_emission.png-415c7a51606367297c66cf17587d9d42.etc2.stex" ]
+dest_files=[ "res://.import/rockyterrain128_emission.png-415c7a51606367297c66cf17587d9d42.s3tc.stex", "res://.import/rockyterrain128_emission.png-415c7a51606367297c66cf17587d9d42.etc2.stex", "res://.import/rockyterrain128_emission.png-415c7a51606367297c66cf17587d9d42.etc.stex" ]
 
 [params]
 
