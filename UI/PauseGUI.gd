@@ -13,6 +13,7 @@ func _on_resumeButton_button_up():
 func _on_controlsButton_button_up():
 	$buttonDown.play()
 	$PauseBg/menu.visible = not visible
+	$PauseBg/PausedHeader.visible = not visible
 	$PauseBg/controlsDisplay.visible = visible
 	$PauseBg/controlsDisplay/backButton.grab_focus()
 
@@ -24,6 +25,7 @@ func _on_quitButton_button_up():
 func _on_controlsBackButton_button_up():
 	$buttonDown.play()
 	$PauseBg/controlsDisplay.visible = not visible
+	$PauseBg/PausedHeader.visible = visible
 	$PauseBg/menu.visible = visible
 	$PauseBg/menu/controlsButton.grab_focus()
 

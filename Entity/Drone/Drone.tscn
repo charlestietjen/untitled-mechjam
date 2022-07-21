@@ -112,8 +112,8 @@ shader_param/albedoTex = ExtResource( 2 )
 [sub_resource type="CapsuleShape" id=8]
 
 [sub_resource type="CapsuleShape" id=9]
-radius = 1.86857
-height = 1.29671
+radius = 2.96825
+height = 0.002
 
 [sub_resource type="AnimationNodeAnimation" id=11]
 animation = "dying"
@@ -173,15 +173,16 @@ nodes/on_hit/node = SubResource( 18 )
 nodes/on_hit/position = Vector2( -180, 120 )
 nodes/shoot/node = SubResource( 19 )
 nodes/shoot/position = Vector2( -680, 320 )
-node_connections = [ "output", 0, "is_dead", "is_dead", 0, "on_hit", "is_dead", 1, "dying", "on_hit", 0, "is_attacking", "on_hit", 1, "hit_react", "is_attacking", 0, "move_state", "is_attacking", 1, "shoot", "move_state", 0, "idle", "move_state", 1, "move" ]
+node_connections = [ "output", 0, "is_dead", "is_attacking", 0, "move_state", "is_attacking", 1, "shoot", "is_dead", 0, "on_hit", "is_dead", 1, "dying", "on_hit", 0, "is_attacking", "on_hit", 1, "hit_react", "move_state", 0, "idle", "move_state", 1, "move" ]
 
 [node name="Drone" type="KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.57922, 0 )
 collision_layer = 9
 script = ExtResource( 10 )
+maxHealth = 10.0
 
 [node name="root" type="Spatial" parent="."]
-transform = Transform( 0.718267, 0, 0, 0, 0.718267, 0, 0, 0, 0.718267, 0, 2.91955, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.91955, 0 )
 
 [node name="Skeleton" type="Skeleton" parent="root"]
 bones/0/name = "Bone"
@@ -191,7 +192,6 @@ bones/0/enabled = true
 bones/0/bound_children = [  ]
 
 [node name="Icosphere" type="MeshInstance" parent="root/Skeleton"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mesh = SubResource( 5 )
 skin = SubResource( 6 )
 material/0 = ExtResource( 3 )

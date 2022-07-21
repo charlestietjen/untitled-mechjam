@@ -209,7 +209,7 @@ nodes/move_state/position = Vector2( -100, 60 )
 nodes/on_hit/node = SubResource( 19 )
 nodes/on_hit/position = Vector2( 420, 100 )
 nodes/output/position = Vector2( 960, 80 )
-node_connections = [ "output", 0, "is_dead", "is_dead", 0, "on_hit", "is_dead", 1, "dying", "on_hit", 0, "is_attacking", "on_hit", 1, "hit_react", "is_attacking", 0, "move_state", "is_attacking", 1, "attack01", "move_state", 0, "idleLoop", "move_state", 1, "moveHorizontalLoop" ]
+node_connections = [ "is_attacking", 0, "move_state", "is_attacking", 1, "attack01", "on_hit", 0, "is_attacking", "on_hit", 1, "hit_react", "is_dead", 0, "on_hit", "is_dead", 1, "dying", "move_state", 0, "idleLoop", "move_state", 1, "moveHorizontalLoop", "output", 0, "is_dead" ]
 
 [sub_resource type="CapsuleShape" id=24]
 radius = 2.75909
@@ -218,6 +218,7 @@ height = 2.48779
 [node name="Valgr" type="KinematicBody"]
 collision_layer = 9
 script = ExtResource( 10 )
+maxHealth = 25.0
 
 [node name="Armature" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.000473797, 4.11092, -0.189251 )
@@ -252,7 +253,7 @@ bones/5/name = "claw.L"
 bones/5/parent = 4
 bones/5/rest = Transform( 0.838825, 0.408577, 0.359774, -0.421249, 0.905754, -0.0464616, -0.34485, -0.112581, 0.931882, 8.02306e-08, 1.63593, -3.46208e-07 )
 bones/5/enabled = true
-bones/5/bound_children = [  ]
+bones/5/bound_children = [ NodePath("leftHandAttach") ]
 bones/6/name = "upperArm.R"
 bones/6/parent = 1
 bones/6/rest = Transform( -0.804286, -0.587141, 0.0915888, 0.503974, -0.755624, -0.418382, 0.314856, -0.29034, 0.903642, -1.03958, 1.14353, -8.41789e-08 )
@@ -310,7 +311,7 @@ skin = SubResource( 3 )
 material/0 = ExtResource( 6 )
 
 [node name="leftHandAttach" type="BoneAttachment" parent="Armature/Skeleton"]
-transform = Transform( -0.932119, -0.29782, -0.206054, 0.346049, -0.900236, -0.264247, -0.106799, -0.317615, 0.942185, 1.94159, 0.198032, -1.09638 )
+transform = Transform( -0.994166, 0.0484781, -0.0963489, -0.0954631, -0.811253, 0.576849, -0.0501986, 0.58268, 0.811149, 2.05514, 0.239568, 0.281262 )
 bone_name = "claw.L"
 
 [node name="hurtboxContainer" type="Spatial" parent="Armature/Skeleton/leftHandAttach"]

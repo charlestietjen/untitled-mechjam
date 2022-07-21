@@ -459,7 +459,7 @@ nodes/on_hit/position = Vector2( 660, 360 )
 nodes/output/position = Vector2( 1260, 40 )
 nodes/shoot/node = SubResource( 96 )
 nodes/shoot/position = Vector2( -140, 680 )
-node_connections = [ "output", 0, "is_dead", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "action_type", 2, "shoot", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "is_dead", 0, "on_hit", "is_dead", 1, "dying", "on_hit", 0, "blocked_action", "on_hit", 1, "hit_react", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "is_boosting", 0, "move_direction", "is_boosting", 1, "boost" ]
+node_connections = [ "is_boosting", 0, "move_direction", "is_boosting", 1, "boost", "on_hit", 0, "blocked_action", "on_hit", 1, "hit_react", "is_dead", 0, "on_hit", "is_dead", 1, "dying", "is_moving", 0, "idle", "is_moving", 1, "is_boosting", "action_type", 0, "attack_state", "action_type", 1, "block_loop", "action_type", 2, "shoot", "blocked_action", 0, "is_moving", "blocked_action", 1, "action_type", "attack_state", 0, "attackMelee01", "attack_state", 1, "attackMelee02", "attack_state", 2, "attackMelee03", "output", 0, "is_dead" ]
 
 [sub_resource type="SphereShape" id=95]
 radius = 127.346

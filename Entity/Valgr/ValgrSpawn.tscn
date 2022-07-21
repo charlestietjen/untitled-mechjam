@@ -5,3 +5,4 @@
 [node name="ValgrSpawn" type="Spatial"]
 
 [node name="Valgr" parent="." instance=ExtResource( 1 )]
+maxHealth = 25.0

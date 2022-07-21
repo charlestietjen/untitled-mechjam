@@ -29,9 +29,19 @@ func _on_SpawnTimer_timeout():
 #		enemy.initialize(enemy_spawn_location.translation, Vector3.RIGHT)
 	
 		add_child(enemy)
+		enemy.connect("on_death", self, "_on_death")
 		enemies_active.append(enemy)
 	
 	if enemies_active.size() >= wave_size * group_size:
 		$SpawnTimer.stop()
 #	print("Enemies Spawned", enemies_active)
 	
+func _on_death(entity):
+	var i = enemies_active.find(entity)
+	if i != -1:
+		enemies_active.remove(i)
+	if enemies_active.size() == 0:
+		if wave_size < 6 && group_size < 3:
+			wave_size += 1
+			group_size += 1
+		$SpawnTimer.start()

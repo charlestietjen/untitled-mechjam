@@ -10,7 +10,8 @@ export var damage = 5
 export var damage_type := "melee"
 
 onready var impact_explosion_scene = preload("res://Entity/VFX/impactExplosion.tscn")
-onready var nav = get_node("/root/Spatial/AStar")
+#onready var nav = get_node("/root/Spatial/AStar")
+onready var nav : Navigation = get_node("/root/Spatial/Navigation")
 onready var player = get_node("/root/Spatial/Player")
 onready var raycasts = $RayCasts
 onready var rng = RandomNumberGenerator.new()
@@ -91,12 +92,12 @@ func _on_Area_area_entered(area):
 	if area.damage_type == "range":
 		$bulletHitSfx.play()
 		damage_health(area.damage)
-		print('ouch, remaining health: ', health)
+#		print('ouch, remaining health: ', health)
 		area.get_parent().queue_free()
 	elif area.damage_type == "melee":
 		$meleeHitSfx.play()
 		damage_health(area.damage)
-		print('ouch, remaining health: ', health)
+#		print('ouch, remaining health: ', health)
 
 func _on_IdleRotateTimer_timeout():
 	# on time out, stop, turn the fuck around, and move
@@ -114,29 +115,29 @@ func _on_IdleRotateTimer_timeout():
 
 func _on_pathfindTimer_timeout():
 	if(state == ALERT):
-		update_path(nav.find_path(global_transform.origin, player.global_transform.origin))
+		update_path(nav.get_simple_path(global_transform.origin, player.global_transform.origin))
 	elif (state == IDLE):
 		var new_waypoint = randi() % 4
 		rng.randomize()
 		var new_wait_time = rng.randf_range(3.0, 10.0)
 		$pathfindTimer.wait_time = new_wait_time
-		update_path(nav.find_path(global_transform.origin, waypoints[new_waypoint].global_transform.origin))
+		update_path(nav.get_simple_path(global_transform.origin, waypoints[new_waypoint].global_transform.origin))
 
 
 func _on_attackTimer_timeout():
 	var attack_roll = randi() % 100 + 1
 	if target != null:
-		print(distance_to_target)
+#		print(distance_to_target)
 		if (state == ALERT) && attack_roll > 50 && distance_to_target <= 20:
 			attack()
 			$coolDownTimer.start()
 			state = COOLDOWN
 
 func _on_coolDownTimer_timeout():
-	print('Cooldown expired')
+#	print('Cooldown expired')
 	state = ALERT
 
 func _reset_attack_state():
-	print('reset attack state')
+#	print('reset attack state')
 	$AnimationTree.set('parameters/is_attacking/current', false)
 	actions_blocked = false

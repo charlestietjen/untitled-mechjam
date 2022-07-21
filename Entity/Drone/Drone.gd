@@ -10,7 +10,8 @@ export var damage = 5
 export var damage_type := "ranged"
 
 onready var bullet_scene := preload("res://Entity/Weapon/DroneBullet.tscn")
-onready var nav = get_node("/root/Spatial/AStar")
+#onready var nav = get_node("/root/Spatial/AStar")
+onready var nav : Navigation = get_node("/root/Spatial/Navigation")
 onready var player = get_node("/root/Spatial/Player")
 onready var raycasts = $RayCasts
 onready var rng = RandomNumberGenerator.new()
@@ -113,13 +114,13 @@ func _on_IdleRotateTimer_timeout():
 
 func _on_pathfindTimer_timeout():
 	if(state == ALERT):
-		update_path(nav.find_path(global_transform.origin, player.global_transform.origin))
+		update_path(nav.get_simple_path(global_transform.origin, player.global_transform.origin))
 	elif (state == IDLE):
 		var new_waypoint = randi() % 4
 		rng.randomize()
 		var new_wait_time = rng.randf_range(3.0, 10.0)
 		$pathfindTimer.wait_time = new_wait_time
-		update_path(nav.find_path(global_transform.origin, waypoints[new_waypoint].global_transform.origin))
+		update_path(nav.get_simple_path(global_transform.origin, waypoints[new_waypoint].global_transform.origin))
 
 
 func _on_attackTimer_timeout():

@@ -1,5 +1,7 @@
 extends KinematicBody
 
+signal on_death
+
 onready var death_explosion_scene = preload("res://Entity/VFX/deathExplosion.tscn")
 
 export var health = 100.0
@@ -27,6 +29,7 @@ func damage_health(damage):
 
 func handle_death():
 	actions_blocked = true
+	emit_signal("on_death", self)
 	$AnimationTree.set("parameters/is_dead/current", true)
 
 func spawn_explosion():

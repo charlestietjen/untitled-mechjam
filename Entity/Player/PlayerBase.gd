@@ -89,9 +89,9 @@ func _process(_delta):
 	elif Input.is_action_just_pressed("attack") && !is_attacking && !is_blocking:
 		if !target:
 			pass
-#			is_attacking = true
-#			$AnimationTree.set("parameters/blocked_action/current", true)
-#			$AnimationTree.set("parameters/action_type/current", 2)
+			is_attacking = true
+			$AnimationTree.set("parameters/blocked_action/current", true)
+			$AnimationTree.set("parameters/action_type/current", 2)
 		else:
 			var distance_to_target = global_transform.origin.distance_to(target.global_transform.origin)
 			if distance_to_target < melee_range:
@@ -171,11 +171,11 @@ func _target_change(offset):
 		return
 	if !target:
 		return
-	for i in target_list.size():
-		if target == target_list[i - 1]:
-			new_target = target_list[(i - 1) + offset]
-		else:
-			pass
+	var i = target_list.find(target)
+	if i > -1:
+			new_target = target_list[wrapi((i) + offset, 0, target_list.size() - 1)]
+	else:
+		pass
 	if is_instance_valid(target_element):
 		target_element.queue_free()
 	target = new_target
@@ -183,22 +183,17 @@ func _target_change(offset):
 		target_element = target_element_scene.instance()
 		target.add_child(target_element)
 		
-func _on_hit(damage):
-	if !is_blocking:
-		$meleeHitSfx.play()
-		damage_health(damage)
-		emit_signal("health_changed", maxHealth, health)
-		$AnimationTree.set("parameters/on_hit/active", true)
-		$hitbox/hitboxCollider.disabled = true
-		$invulTimer.start()
-	else:
-		pass
+func _apply_knockback(knockback_velocity : Vector3):
+	velocity = knockback_velocity
 
 func shoot():
 	var bullet = bullet_scene.instance()
 #	var bullet_velocity = Vector3(0, 0, 5).rotated(rotation, 0)
 	$armatureMaterialTest/Skeleton/rightHandAttachments.add_child(bullet)
-	bullet.look_at(target.global_transform.origin, Vector3.FORWARD)
+	if is_instance_valid(target):
+		bullet.look_at(target.global_transform.origin, Vector3.FORWARD)
+	else:
+		bullet.rotation.y = -rotation.y * 1.5
 #	var bullet_direction = global_transform.basis.xform(Vector3.FORWARD)
 #	print(bullet_direction)
 #	bullet.rotation = bullet_direction
@@ -218,10 +213,26 @@ func _on_targetArea_body_exited(body):
 
 func _on_hitbox_area_entered(area):
 	if area.damage_type == "range":
-		_on_hit(area.damage)
+		if !is_blocking:
+			$meleeHitSfx.play()
+			damage_health(area.damage)
+			emit_signal("health_changed", maxHealth, health)
+			$AnimationTree.set("parameters/on_hit/active", true)
+			$hitbox/hitboxCollider.disabled = true
+			$invulTimer.start()
+		else:
+			pass
 		area.get_parent().queue_free()
 	elif area.damage_type == "melee":
-		_on_hit(area.damage)
+		if !is_blocking:
+			$meleeHitSfx.play()
+			damage_health(area.damage)
+			emit_signal("health_changed", maxHealth, health)
+			$AnimationTree.set("parameters/on_hit/active", true)
+			$hitbox/hitboxCollider.disabled = true
+			$invulTimer.start()
+		else:
+			pass
 
 
 func _on_invulTimer_timeout():

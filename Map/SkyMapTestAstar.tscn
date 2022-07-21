@@ -1,0 +1,201 @@
+[gd_scene load_steps=25 format=2]
+
+[ext_resource path="res://mapdata/environment.tres" type="Environment" id=1]
+[ext_resource path="res://Entity/System/AStar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Entity/System/Camera.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Entity/Player/PlayerBase.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Entity/System/PostProcess.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/zylann.hterrain/hterrain.gd" type="Script" id=6]
+[ext_resource path="res://addons/zylann.hterrain/hterrain_texture_set.gd" type="Script" id=7]
+[ext_resource path="res://data/data.hterrain" type="Resource" id=8]
+[ext_resource path="res://textures/grassterrain128_albedo.png" type="Texture" id=9]
+[ext_resource path="res://textures/grassterrain128_normal.png" type="Texture" id=10]
+[ext_resource path="res://Entity/CarrierShip/CarrierShip.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Entity/Valgr/Valgr.tscn" type="PackedScene" id=12]
+[ext_resource path="res://addons/zylann.hterrain/hterrain_detail_layer.gd" type="Script" id=13]
+[ext_resource path="res://textures/rockyterrain128_albedo.png" type="Texture" id=14]
+[ext_resource path="res://textures/rockyterrain128_normal.png" type="Texture" id=15]
+[ext_resource path="res://addons/zylann.hterrain/tools/icons/icon_detail_layer_node.svg" type="Texture" id=16]
+[ext_resource path="res://material/mapboundaryalpha.tres" type="Material" id=17]
+[ext_resource path="res://UI/HUDScene.tscn" type="PackedScene" id=18]
+[ext_resource path="res://UI/PauseGUI.tscn" type="PackedScene" id=19]
+[ext_resource path="res://sound/music/Battle.mp3" type="AudioStream" id=20]
+[ext_resource path="res://Entity/Drone/Drone.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Entity/System/EnemySpawner.tscn" type="PackedScene" id=22]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 7 )
+mode = 0
+textures = [ [ ExtResource( 9 ), ExtResource( 14 ) ], [ ExtResource( 10 ), ExtResource( 15 ) ] ]
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 200, 150, 1 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource( 1 )
+
+[node name="AStar" parent="." instance=ExtResource( 2 )]
+
+[node name="Camera" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -229.21, 214.441, 46.37 )
+far = 500.0
+
+[node name="postProcess" parent="Camera" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.573, -4.31897, -23.7063 )
+
+[node name="Player" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -242.053, 195.858, 0 )
+
+[node name="HTerrain" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0 )
+script = ExtResource( 6 )
+centered = true
+_terrain_data = ExtResource( 8 )
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource( 1 )
+render_layers = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = false
+shader_params/u_tile_reduction = Plane( 0, 0, 0, 0 )
+
+[node name="HTerrainDetailLayer" type="Spatial" parent="HTerrain"]
+script = ExtResource( 13 )
+__meta__ = {
+"_editor_icon": ExtResource( 16 )
+}
+texture = ExtResource( 9 )
+shader_params/u_globalmap_tint_bottom = null
+shader_params/u_globalmap_tint_top = null
+shader_params/u_bottom_ao = null
+shader_params/u_instance_scale = Vector3( 1, 1, 1 )
+
+[node name="CSGCombiner" type="CSGCombiner" parent="."]
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -60.3323, 251.441, -0.110783 )
+height = 154.085
+depth = 20.0
+material = ExtResource( 17 )
+
+[node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -260.203, 251.441, 0 )
+height = 154.085
+depth = 20.0
+material = ExtResource( 17 )
+
+[node name="CSGBox3" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -159.399, 326.287, 0 )
+height = 200.223
+depth = 20.0
+material = ExtResource( 17 )
+
+[node name="CSGBox4" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -159.491, 175.532, 0.0312691 )
+height = 201.431
+depth = 20.0
+material = ExtResource( 17 )
+
+[node name="carriership" parent="." instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, -47.3341, 362.448, -400.769 )
+
+[node name="pathGrid" type="MeshInstance" parent="." groups=["pathables"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -160.696, 251.522, -1.30175 )
+visible = false
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="HUD" parent="." instance=ExtResource( 18 )]
+
+[node name="pauseGUI" parent="." instance=ExtResource( 19 )]
+pause_mode = 2
+visible = false
+
+[node name="bgm" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 20 )
+volume_db = -10.666
+autoplay = true
+
+[node name="carrierShips" type="Spatial" parent="."]
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="carriership" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, -47.3341, 362.448, -410.575 )
+
+[node name="carriership2" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, -254.097, 362.448, -216.081 )
+
+[node name="carriership10" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, -593.258, 423.415, -216.081 )
+
+[node name="carriership3" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.941831, 1.1232, -7.86456, -0.133556, 7.92076, 1.11523, 7.94324, -8.9407e-08, 0.951253, 190.551, 362.448, -244.285 )
+
+[node name="carriership4" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.235458, 0.2808, -1.96614, -0.033389, 1.98019, 0.278808, 1.98581, 2.23517e-08, 0.237813, -462.325, 362.448, -282.206 )
+
+[node name="carriership5" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.235458, 0.2808, -1.96614, -0.033389, 1.98019, 0.278808, 1.98581, 2.23517e-08, 0.237813, -397.511, 370.471, -306.882 )
+
+[node name="carriership6" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.237513, -0.100559, -1.9833, 0.0119571, 1.99747, -0.0998452, 1.98581, 2.23517e-08, 0.237813, -392.319, 386.406, -254.912 )
+
+[node name="carriership7" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.235458, 0.2808, -1.96614, -0.033389, 1.98019, 0.278808, 1.98581, 2.23517e-08, 0.237813, -22.3671, 415.595, -229.025 )
+
+[node name="carriership8" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.235458, 0.2808, -1.96614, -0.033389, 1.98019, 0.278808, 1.98581, 2.23517e-08, 0.237813, 42.4459, 423.617, -253.701 )
+
+[node name="carriership9" parent="carrierShips" instance=ExtResource( 11 )]
+transform = Transform( 0.237513, -0.100559, -1.9833, 0.0119571, 1.99747, -0.0998452, 1.98581, 2.23517e-08, 0.237813, 47.6386, 439.553, -201.731 )
+
+[node name="droneSpawner" parent="." instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, -0.0406898, 0.999172, 0, -0.999172, -0.0406898, -235.007, 305.834, -243.233 )
+enemy_scene = ExtResource( 21 )
+wave_size = 2
+
+[node name="valgrSpawner" parent="." instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, -0.0406898, 0.999172, 0, -0.999172, -0.0406898, -239.95, 311.835, -226.175 )
+enemy_scene = ExtResource( 12 )
+wave_size = 2
+
+[node name="droneSpawner2" parent="." instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, -0.0406898, 0.999172, 0, -0.999172, -0.0406898, -79.3777, 305.834, -243.233 )
+enemy_scene = ExtResource( 21 )
+wave_size = 2
+
+[node name="valgrSpawner2" parent="." instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, -0.0406898, 0.999172, 0, -0.999172, -0.0406898, -84.3216, 311.835, -226.175 )
+enemy_scene = ExtResource( 12 )
+wave_size = 2
+
+[node name="patrolPoints" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -145.271, 230.811, 0 )
+
+[node name="patrol01" type="Position3D" parent="patrolPoints" groups=["waypoints"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 75.4279, -41.9352, 0 )
+
+[node name="patrol02" type="Position3D" parent="patrolPoints" groups=["waypoints"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 75.4279, 79.8212, 0 )
+
+[node name="patrol03" type="Position3D" parent="patrolPoints" groups=["waypoints"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -97.6672, 79.8212, 0 )
+
+[node name="patrol04" type="Position3D" parent="patrolPoints" groups=["waypoints"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -97.6672, -46.3805, 0 )
+
+[node name="Valgr" parent="." instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -195.39, 200.477, -212.492 )
+
+[connection signal="health_changed" from="Player" to="HUD" method="_on_Player_health_changed"]
