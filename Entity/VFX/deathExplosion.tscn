@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/mrminimal_flipbook_particles/assets/explosions/explosion_06/explosion_06.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Entity/VFX/vfxCleanup.gd" type="Script" id=2]
+
+[node name="Explosion_06" instance=ExtResource( 1 )]
+transform = Transform( 5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0 )
+script = ExtResource( 2 )

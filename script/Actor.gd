@@ -1,5 +1,7 @@
 extends KinematicBody
 
+onready var death_explosion_scene = preload("res://Entity/VFX/deathExplosion.tscn")
+
 export var health = 100.0
 export var maxHealth = 100.0
 export var speed = 10
@@ -26,3 +28,9 @@ func damage_health(damage):
 func handle_death():
 	actions_blocked = true
 	$AnimationTree.set("parameters/is_dead/current", true)
+
+func spawn_explosion():
+	pass
+#	var death_explosion = death_explosion_scene.instance()
+#	get_node("/root/Spatial/").add_child(death_explosion)
+#	death_explosion.global_transform.origin = global_transform.origin

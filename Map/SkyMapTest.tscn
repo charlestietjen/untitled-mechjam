@@ -115,10 +115,11 @@ material/0 = null
 [node name="valgr01" parent="." instance=ExtResource( 12 )]
 transform = Transform( 0.117729, 0.1404, -0.98307, -0.0166945, 0.990095, 0.139404, 0.992905, -1.49012e-08, 0.118907, -166.405, 264.381, -158.499 )
 health = 30.0
-maxHealth = 500.0
+maxHealth = 10.0
 
 [node name="valgr02" parent="." instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -181.197, 263.642, -238.734 )
+maxHealth = 10.0
 
 [node name="turtledrone" parent="." instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -97.363, 265.163, -156.383 )

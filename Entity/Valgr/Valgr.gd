@@ -9,6 +9,7 @@ enum {
 export var damage = 5
 export var damage_type := "melee"
 
+onready var impact_explosion_scene = preload("res://Entity/VFX/impactExplosion.tscn")
 onready var nav = get_node("/root/Spatial/AStar")
 onready var player = get_node("/root/Spatial/Player")
 onready var raycasts = $RayCasts

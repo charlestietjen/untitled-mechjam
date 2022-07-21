@@ -212,7 +212,8 @@ func _on_targetArea_body_entered(body):
 func _on_targetArea_body_exited(body):
 	if body != null:
 		for i in target_list.size():
-			if target_list[i - 1] == body:
+			if target_list[i] == body && i > 0:
+				print(i)
 				target_list.remove(i)
 
 

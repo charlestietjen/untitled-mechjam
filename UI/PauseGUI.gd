@@ -41,5 +41,5 @@ func _on_Control_visibility_changed():
 	if visible == visible:
 		$PauseBg/menu/resumeButton.grab_focus()
 
-func _on_gui_focus_changed(event):
+func _on_gui_focus_changed(_event):
 	$focusChange.play()
